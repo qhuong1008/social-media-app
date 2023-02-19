@@ -1,0 +1,37 @@
+.mini-sidebar {
+  position: fixed;
+  width: 80px;
+  background-color: #ffff;
+  min-height: 100vh;
+  border-right: 0.5px solid rgb(230, 230, 230);
+  .top {
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    text-align: center;
+  }
+  .sidebar-item {
+    padding: 12px 25px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+    font-weight: 450;
+    img {
+      width: 24px;
+      height: 24px;
+      border-radius: 50px;
+    }
+  }
+  .bottom {
+    position: fixed;
+    bottom: 0;
+    padding: 23px 25px;
+    display: flex;
+    align-items: center;
+    transition: all 0.5s ease;
+    font-weight: 450;
+  }
+}

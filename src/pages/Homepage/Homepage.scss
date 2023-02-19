@@ -1,0 +1,31 @@
+.home {
+  display: flex;
+}
+.post-list {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 70px;
+}
+
+@media screen and (min-width: 1200px) {
+  .common-sidebar {
+    display: block;
+  }
+  .mini-sidebar {
+    display: none;
+  }
+  .home-container {
+    margin-left: 244px;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .common-sidebar {
+    display: none;
+  }
+  .mini-sidebar {
+    display: block;
+  }
+  .home-container {
+    margin-left: 80px;
+  }
+}

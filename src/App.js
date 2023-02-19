@@ -7,7 +7,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="*" element={<ModalExample />}></Route>
+          <Route path="*" element={<Homepage />}></Route>
         </Routes>
       </BrowserRouter>
     </>
