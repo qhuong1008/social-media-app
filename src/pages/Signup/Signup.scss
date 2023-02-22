@@ -1,8 +1,8 @@
-.loginHome {
+.signUpHome {
   width: 350px;
   margin: auto;
   padding: 100px 10%;
-  .inputLogin {
+  .inputSignUp {
     border: 1px solid rgb(234, 234, 234);
     border-radius: 5px;
     padding: 40px 30px 10px;
@@ -17,12 +17,32 @@
       line-height: 0.65;
       font-family: "Lobster", cursive;
       text-align: center;
-      padding: 30px 0 50px 0;
+      padding: 30px 0 30px 0;
+    }
+
+    p {
+      text-align: center;
+      color: #9b9b9b;
+      font-weight: 500;
+    }
+
+    div a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 35px;
+      font-weight: 500;
+      font-size: 15px;
+      background-color: rgb(69 155 246);
+      border-radius: 10px;
+      color: white !important;
+      margin: 0 5px;
     }
     .input {
       display: block;
       text-align: center;
-      & > * {
+      & > input {
         width: 100%;
         margin-bottom: 0.5rem;
         height: 30px;
@@ -39,7 +59,11 @@
         color: white;
         background-color: rgb(121, 181, 244);
         border-radius: 10px;
-        margin: 10px 5px;
+        margin: 20px 5px 10px;
+      }
+      p {
+        font-size: 12px;
+        margin-top: 20px;
       }
     }
   }

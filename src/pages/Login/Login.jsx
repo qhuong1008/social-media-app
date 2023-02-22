@@ -11,7 +11,7 @@ function Login() {
 
   return (
     <>
-      <div className="home">
+      <div className="loginHome">
         <div className="inputLogin">
           <div className="logo">Social Media App</div>
           <div className="input">
@@ -64,7 +64,7 @@ function Login() {
           <div style={{ textAlign: "center" }}>
             <div style={{ marginBottom: "10px" }}>
               <Link
-                to=""
+                to="/"
                 style={{
                   fontWeight: "300",
                   fontSize: "15px",
@@ -75,7 +75,13 @@ function Login() {
               </Link>
             </div>
             <div>
-              <Link to="" style={{ fontWeight: "300", fontSize: "12px" }}>
+              <Link
+                to=""
+                style={{
+                  fontWeight: "300",
+                  fontSize: "12px",
+                }}
+              >
                 Forgot password?
               </Link>
             </div>
@@ -83,8 +89,8 @@ function Login() {
         </div>
         <div className="signUp">
           <div>Don't have an account?</div>
-          <div style={{ paddingLeft: "10px" }}>
-            <Link to="">Sign up</Link>
+          <div style={{ paddingLeft: "5px" }}>
+            <Link to="/signup">Sign up</Link>
           </div>
         </div>
       </div>
