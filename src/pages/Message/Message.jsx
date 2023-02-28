@@ -53,7 +53,7 @@ function Message() {
             <div className="message-box">
               <div id="user">
                 <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
-                <p>Ngoc giau ngo</p>
+                <p>Toan dep try hon</p>
                 <i>
                   <FontAwesomeIcon icon={faCircleInfo} className="icon" />
                 </i>

@@ -3,7 +3,7 @@ import style from "./MessageItem.scss";
 function MessageItem() {
   return (
     <>
-      <div className="message-item-home">Da ngoc giau ngo a</div>
+      <div className="message-item-home">Toan co dep trai khong ?</div>
     </>
   );
 }
