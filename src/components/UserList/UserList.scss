@@ -1,0 +1,99 @@
+.userlist-container {
+  width: 320px;
+  padding-top: 30px;
+  .top {
+    .user-account {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .userlist-action {
+        height: 100%;
+      }
+    }
+    .userlist-container {
+      display: flex;
+      flex-direction: row;
+      font-size: 14px;
+      align-items: center;
+      justify-content: space-between;
+      .user-main {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .avt {
+        margin-right: 20px;
+        img {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+        }
+      }
+      .name {
+        .username {
+          font-weight: 550;
+        }
+      }
+    }
+  }
+  .bottom {
+    margin-top: 20px;
+    font-size: 14px;
+    .title {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .suggest {
+        color: gray;
+      }
+      .all {
+        font-weight: 500;
+        font-size: 13px;
+      }
+    }
+    .account-item {
+      padding: 0;
+      margin: 0;
+    }
+    .user-account {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+
+      .userlist-action {
+        height: 100%;
+      }
+    }
+    .bottom-userlist-container {
+      font-size: 12px;
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      .user-main {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .avt {
+        margin-right: 20px;
+        img {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+        }
+      }
+      .name {
+        .username {
+          font-weight: 550;
+        }
+      }
+    }
+  }
+}

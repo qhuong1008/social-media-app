@@ -2,6 +2,7 @@ import style from "./Homepage.scss";
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import Post from "../../components/Post/Post";
+import UserList from "../../components/UserList/UserList";
 
 function Homepage() {
   return (
@@ -19,6 +20,7 @@ function Homepage() {
             <div className="ruler"></div>
           </div>
         </div>
+        <UserList />
       </div>
     </>
   );

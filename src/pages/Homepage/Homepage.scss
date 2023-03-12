@@ -29,3 +29,13 @@
     margin-left: 80px;
   }
 }
+@media screen and (max-width: 1000px) {
+  .userlist-container {
+    display: none;
+  }
+  .home-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

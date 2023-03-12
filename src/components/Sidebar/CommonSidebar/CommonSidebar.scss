@@ -82,6 +82,7 @@ li {
   }
 }
 .sidebar-item {
+  color: black;
   .icon {
     color: var(--black-color);
   }
@@ -158,6 +159,7 @@ a {
       }
     }
     a {
+      color: black !important;
       display: flex;
       flex-direction: row;
       justify-content: space-between;
