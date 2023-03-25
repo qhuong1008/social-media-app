@@ -1,0 +1,29 @@
+.switch {
+	height: 28px;
+	width: 44px;
+	border-radius: 100px;
+	background: #8e8e8e;
+	position: relative;
+	transition: all 0.2s ease-out;
+	&::after {
+		position: absolute;
+		content: '';
+
+		top: 50%;
+		left: 14px;
+
+		height: 20px;
+		width: 20px;
+		border-radius: 100px;
+		background: #fff;
+		transform: translate(-50%, -50%);
+		transition: all 0.2s ease-out;
+	}
+
+	&_on {
+		background: #0095f6;
+		&::after {
+			left: 30px;
+		}
+	}
+}

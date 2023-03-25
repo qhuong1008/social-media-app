@@ -7,7 +7,7 @@ function MessageUser() {
         <div className="avatar-box">
           <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
         </div>
-        <div class="user">
+        <div className="user">
           <div>Toan dep trial</div>
           <div className="info">
             <p className="last-message">Anh toan oi!!!</p>
