@@ -1,23 +1,22 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ModalExample from "./components/ModalExample/ModalExample";
-import Homepage from "./pages/Homepage/Homepage";
-import Login from "./pages/Login/Login";
-import Signup from "./pages/Signup/Signup";
-import Message from "./pages/Message/Message";
+import Routes from "./routes";
+import { createContext, useState } from "react";
+import Popup from "./components/Popup";
+
+export const PopupContext = createContext();
 
 function App() {
-  return (
-    <>
-      <BrowserRouter>
-        <Routes>
-          <Route path="*" element={<Homepage />}></Route>
-          <Route path="login" element={<Login />}></Route>
-          <Route path="signup" element={<Signup />}></Route>
-          <Route path="message" element={<Message />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </>
-  );
+    const [isPopupOpen, setPopupOpen] = useState(false);
+    const [popupContent, setPopupcontent] = useState(null);
+    const togglePopup = () => setPopupOpen(prev => !prev)
+
+    return (
+        <>
+            <PopupContext.Provider value={{ togglePopup, setPopupcontent }}>
+                {isPopupOpen && <Popup togglePopup={togglePopup} >{popupContent}</Popup>}
+                <Routes />
+            </PopupContext.Provider>
+        </>
+    );
 }
 
 export default App;
