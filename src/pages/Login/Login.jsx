@@ -18,13 +18,13 @@ function Login() {
             <input
               type={Text}
               placeholder="Phone number, username, or email"
-              onChange={(e) => setEmail(e)}
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
             ></input>
             <input
               type={Text}
               placeholder="Password"
-              onChange={(e) => setPassword(e)}
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
             <button>Log in</button>
