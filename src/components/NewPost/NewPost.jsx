@@ -9,28 +9,31 @@ import {
 import clx from "classnames";
 
 import $ from "./NewPost.module.scss";
-import { useId, useState, useEffect, useMemo } from "react";
+import { useId, useState, useEffect } from "react";
 import { Switch } from "../form/switch";
 import { PopupContext } from "../../App";
 
 import { uploadImg } from "../../api/common/Storage";
-import { createPost } from "../../api/admin/Post";
+import { createPost, updatePost } from "../../api/common/Post";
 
 const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
 
-function NewPost() {
+function NewPost(post) {
+  post = post.post;
+  const isCreated = post != null ? true : false;
   const { togglePopup } = useContext(PopupContext);
   const id = useId();
-  const [avt, setAvt] = useState(null);
-  const [caption, setCaption] = useState("");
   const [state, setState] = useState(STATE_VAR.upload_image);
   const [form, setForm] = useState({
-    isPublic: false,
-    content: { img: null, caption: "", tag: [] },
+    id: post != null ? post.id : null,
+    isPublic: post != null ? post.isPublic : false,
+    content: post != null ? post.content : { img: null, caption: "" },
   });
+  const [avt, setAvt] = useState(form.content.img);
+  const [caption, setCaption] = useState(form.content.caption);
 
   useEffect(() => {
     return () => avt && URL.revokeObjectURL(avt.previewURL);
@@ -57,9 +60,14 @@ function NewPost() {
    * Call when submit
    */
   const submit = () => {
+    console.log(isCreated);
     form.content.caption = caption;
     togglePopup();
-    createPost(form);
+    if (isCreated) {
+      updatePost(form);
+    } else {
+      createPost(form);
+    }
   };
 
   const formHandler = () => {

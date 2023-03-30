@@ -7,8 +7,23 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
-
-function Post() {
+import defaultAvatar from "../../images/default-avatar.jpg";
+function Post(post) {
+  post = post.post;
+  const content = JSON.parse(post.content);
+  const time = new Date() - new Date(post.createdAt);
+  let postedAgo = "";
+  const postedTime = Math.floor(time / 1000);
+  if (postedTime < 60) {
+    postedAgo = postedTime + "s";
+  } else if (postedTime < 3600) {
+    postedAgo = Math.floor(postedTime / 60) + "m";
+  } else if (postedTime < 86400) {
+    postedAgo = Math.floor(postedTime / 3600) + "h";
+  } else {
+    postedAgo = Math.floor(postedTime / 86400) + "d";
+  }
+  console.log();
   return (
     <>
       <div className="post-container">
@@ -16,14 +31,14 @@ function Post() {
           <div className="user">
             <div className="avt">
               <img
-                src="https://i.pinimg.com/474x/65/90/f7/6590f7a352330539d159602b1588dffc.jpg"
+                src={post.avatar != null ? post.avatar : defaultAvatar}
                 alt="username"
               />
             </div>
             <div className="info-wrapper">
               <div className="userInfo">
-                <div className="username">koyuki_chan01</div>
-                <div className="last-posted">• 1d</div>
+                <div className="username">{post.username}</div>
+                <div className="last-posted">• {postedAgo}</div>
               </div>
               <div className="song-src">Original Audio</div>
             </div>
@@ -46,10 +61,7 @@ function Post() {
           </div>
         </div>
         <div className="post-content">
-          <img
-            src="https://i.pinimg.com/564x/33/19/38/3319388f960765cacbc8c82658276531.jpg"
-            alt=""
-          />
+          <img src={content.img} alt="" />
         </div>
         <div className="post-actions">
           <div className="main-action">
@@ -70,20 +82,20 @@ function Post() {
         <div className="like-section">
           <div className="avt">
             <img
-              src="https://i.pinimg.com/564x/4c/e3/0e/4ce30ec33dc777e2e6d39ae259ee87c2.jpg"
+              src={post.avatar != null ? post.avatar : defaultAvatar}
               alt=""
             />
           </div>
           <div className="like-num">
             Liked by
-            <div className="person"> ryujin_itzy </div>
+            <div className="person"> {post.username} </div>
             and
             <div className="number"> 12,432 </div> others
           </div>
         </div>
         <div className="post-status">
-          <div className="username">koyuki_chan01</div>
-          <div className="status">2 3 con mực, anh yêu em cực 🖤</div>
+          <div className="username">{post.username}</div>
+          <div className="status">{content.caption}</div>
           <div className="view-comments">View all comments</div>
         </div>
         <div className="post-new-comment">

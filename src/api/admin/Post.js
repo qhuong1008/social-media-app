@@ -13,10 +13,10 @@ const createPost = async (post) => {
   const request = {
     content: JSON.stringify(post.content),
     privacy: post.isPublic ? "PUBLIC" : "PRIVATE",
-    authorId: 1,
   };
-  console.log(request);
-  return contextInstance.post(`admin/post`, request);
+  return contextInstance
+    .post(`admin/post`, request)
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -56,7 +56,11 @@ const getPostById = async (id) => {
  * - `authorId`: người đăng
  */
 const updatePost = async (post) => {
-  return contextInstance.put(`admin/post/${post.id}/update`, post);
+  const request = {
+    content: JSON.stringify(post.content),
+    privacy: post.isPublic ? "PUBLIC" : "PRIVATE",
+  };
+  return contextInstance.put(`admin/post/${post.id}/update`, request);
 };
 
 /**
