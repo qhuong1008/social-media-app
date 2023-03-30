@@ -7,8 +7,15 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { PopupContext } from "../../App";
+import { useState, useEffect, useContext } from "react";
+import PostModify from "../PostModify/PostModify";
 
 function Post() {
+  const { togglePopup, setPopupcontent } = useContext(PopupContext);
+  useEffect(() => {
+    setPopupcontent(<PostModify />);
+  }, []);
   return (
     <>
       <div className="post-container">
@@ -28,7 +35,7 @@ function Post() {
               <div className="song-src">Original Audio</div>
             </div>
           </div>
-          <div className="more">
+          <div className="more" onClick={() => togglePopup((p) => !p)}>
             <svg
               aria-label="More options"
               class="_ab6-"
