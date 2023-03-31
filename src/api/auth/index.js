@@ -25,4 +25,4 @@ const registerUser = async (user) => {
   return authInstance.post(`signup`, user);
 };
 
-export { authLogin };
+export { authLogin, registerUser };

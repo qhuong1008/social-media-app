@@ -14,16 +14,10 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  //TODO: not commit, hom truoc test thoi, cai nay no goi luc tao comp r/
-  //// may cai ham nay tui keu de test thoi chu k co gi
-
-  //TODO: remove this
-  const testFunc = () => {
-    AdminUserApi.listUsers().then((resp) => {
-      const rawListUsers = resp.data.data;
-      console.log(rawListUsers);
-    });
-  };
+  // AdminUserApi.listUsers().then((resp) => {
+  //   const rawListUsers = resp.data.data;
+  //   console.log(rawListUsers);
+  // });
 
   return (
     <>
@@ -65,7 +59,7 @@ function Login() {
             >
               Log in
             </button>
-            <button onClick={testFunc.bind(null)}>test</button>
+            {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div
             style={{

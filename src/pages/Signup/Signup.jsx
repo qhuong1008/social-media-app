@@ -3,12 +3,39 @@ import style from "./Signup.scss";
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { registerUser } from "../../api/auth/index";
 
 function Signup() {
-  const [email, setEmail] = useState();
-  const [fullName, setFullName] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [displayName, setDisplayName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const user = {
+    email: "",
+    displayName: "",
+    username: "",
+    password: "",
+  };
+  const handleSignup = () => {
+    if (
+      email === "" ||
+      displayName === "" ||
+      username === "" ||
+      password === ""
+    ) {
+      alert("Vui lòng nhập đủ thông tin!");
+    } else {
+      user.username = username;
+      user.displayName = displayName;
+      user.email = email;
+      user.password = password;
+      console.log(user);
+      registerUser(user)
+        .then(alert("Đăng kí người dùng thành công!"))
+        .catch((err) => console.log(err));
+    }
+  };
   return (
     <>
       <div className="signUpHome">
@@ -57,26 +84,26 @@ function Signup() {
           <div className="input">
             <input
               type={Text}
-              placeholder="Mobile Number or Email"
-              onChange={(e) => setEmail(e)}
+              placeholder="Email"
+              onChange={(e) => setEmail(e.target.value)}
               value={email}
             ></input>
             <input
               type={Text}
-              placeholder="Fullname"
-              onChange={(e) => setFullName(e)}
-              value={fullName}
+              placeholder="Display name"
+              onChange={(e) => setDisplayName(e.target.value)}
+              value={displayName}
             ></input>
             <input
               type={Text}
               placeholder="Username"
-              onChange={(e) => setUsername(e)}
+              onChange={(e) => setUsername(e.target.value)}
               value={username}
             ></input>
             <input
               type={Text}
               placeholder="Password"
-              onChange={(e) => setPassword(e)}
+              onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
             <div></div>
@@ -84,7 +111,9 @@ function Signup() {
               By signing up, you agree to our Terms , Privacy Policy and Cookies
               Policy .
             </p>
-            <button style={{ border: "0" }}>Sign up</button>
+            <button className="signup-btn" onClick={handleSignup}>
+              Sign up
+            </button>
           </div>
         </div>
 
