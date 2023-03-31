@@ -7,40 +7,43 @@ import { registerUser } from "../../api/auth/index";
 import {
   handleSuccessResponse,
   handleErrorResponse,
+  handleSuccessMessage,
+  handleErrorMessage,
 } from "../../api/toast/index";
+import { INTERFACE_SIGN_UP_FORM } from "./interfaces";
 
 function Signup() {
-  const [email, setEmail] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [signupFormData, setSignupFormData] = useState(INTERFACE_SIGN_UP_FORM);
 
-  const user = {
-    email: "",
-    displayName: "",
-    username: "",
-    password: "",
+  const handleInputchange = (e) => {
+    setSignupFormData(
+      (u) =>
+        (u = {
+          ...signupFormData,
+          [e.target.name]: e.target.value,
+        })
+    );
   };
-  const handleSignup = () => {
-    if (
-      email === "" ||
-      displayName === "" ||
-      username === "" ||
-      password === ""
-    ) {
-      alert("Vui lòng nhập đủ thông tin!");
+
+  const isAnyFieldEmpty = (formData) => {
+    for (const key in formData) {
+      if (formData[key] == "" || formData[key] == null) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    if (isAnyFieldEmpty(signupFormData)) {
+      handleErrorMessage("Thông tin không được trống (quên ghi sao rồi)");
     } else {
-      user.username = username;
-      user.displayName = displayName;
-      user.email = email;
-      user.password = password;
+      const user = { ...signupFormData };
       registerUser(user)
         .then((resp) => {
           handleSuccessResponse(resp);
-          setDisplayName("");
-          setEmail("");
-          setPassword("");
-          setUsername("");
         })
         .catch((err) => {
           handleErrorResponse(err);
@@ -92,40 +95,40 @@ function Signup() {
             ></div>
           </div> */}
 
-          <div className="input">
+          <form className="input" onSubmit={handleSignup} method="POST">
             <input
               type={Text}
               placeholder="Email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={handleInputchange}
+              name="email"
             ></input>
             <input
               type={Text}
               placeholder="Display name"
-              onChange={(e) => setDisplayName(e.target.value)}
-              value={displayName}
+              name="displayName"
+              onChange={handleInputchange}
             ></input>
             <input
               type={Text}
               placeholder="Username"
-              onChange={(e) => setUsername(e.target.value)}
-              value={username}
+              onChange={handleInputchange}
+              name="username"
             ></input>
             <input
               type="password"
               placeholder="Password"
-              onChange={(e) => setPassword(e.target.value)}
-              value={password}
+              onChange={handleInputchange}
+              name="password"
             ></input>
             <div></div>
             <p>
               By signing up, you agree to our Terms , Privacy Policy and Cookies
               Policy .
             </p>
-            <button className="signup-btn" onClick={handleSignup}>
+            <button className="signup-btn" type="submit">
               Sign up
             </button>
-          </div>
+          </form>
         </div>
 
         <div className="signUp">

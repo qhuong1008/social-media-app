@@ -1,14 +1,21 @@
 import { toast } from "react-toastify";
 
-//toan bo config o trong day nha
-//1 nguoi lam thoi, cung nhanh, set  cai display thanh abs chac la okie
+const handleSuccessMessage = (message) => {
+  toast.dismiss();
+  toast.success(message);
+};
+
+const handleErrorMessage = (message) => {
+  toast.dismiss();
+  toast.error(message);
+};
+
 const handleSuccessResponse = (response) => {
   const messages = response.data.messages;
   console.log(messages);
   for (const message of messages) {
     toast.dismiss();
     toast.success(message);
-    //alert("thanh cong " + message);
   }
 };
 
@@ -18,11 +25,15 @@ const handleErrorResponse = (error) => {
     toast.dismiss();
     for (const message of messages) {
       toast.error(message);
-      //alert("loi " + message);
     }
   } catch {
     console.log(error);
   }
 };
 
-export { handleSuccessResponse, handleErrorResponse };
+export {
+  handleSuccessResponse,
+  handleErrorResponse,
+  handleErrorMessage,
+  handleSuccessMessage,
+};
