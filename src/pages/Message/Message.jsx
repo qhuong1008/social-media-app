@@ -15,36 +15,13 @@ import {
   faImage,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 function Message() {
+  const messagesEndRef = useRef(null);
   const [currentUserId, setCurrentUserId] = useState(2);
   const [userMessage, setUserMessage] = useState("");
   const [newText, setNewText] = useState(1);
-  // const [listMessage, setListMessage] = useState([]);
-
-  // useEffect(() => {
-  //   const temp = [];
-  //   for (let i = 0; i < 100; ++i) {
-  //     if (i % 6 <= 2) {
-  //       temp.push({
-  //         senderId: 1,
-  //         receiverId: 2,
-  //         message: "msg " + i + "-th",
-  //         createdAt: "...",
-  //       });
-  //     } else {
-  //       temp.push({
-  //         senderId: 2,
-  //         receiverId: 1,
-  //         message: "msg " + i + "-th",
-  //         createdAt: "...",
-  //       });
-  //     }
-  //     setListMessage(temp);
-  //   }
-  //   return () => {};
-  // }, []);
 
   const [listMessage, setListMessage] = useState([]);
 
@@ -109,30 +86,13 @@ function Message() {
     }
   };
 
-  // const ListMessageComponent = () => {
-  //   let result = <></>;
-  //   for (let i = 0; i < listMessage.length; ++i) {
-  //     let elm = <></>;
-  //     if (listMessage[i].senderId == currentUserId) {
-  //       elm = (
-  //         <div className="my-messages">
-  //           <MyMessageItem
-  //             message={msgItem.message}
-  //             createdAt={msgItem.createdAt}
-  //           />
-  //         </div>
-  //       );
-  //     } else {
-  //     }
-  //     result = (
-  //       <>
-  //         {result}
-  //         {elm}
-  //       </>
-  //     );
-  //   }
-  //   return result;
-  // };
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [listMessage]);
 
   return (
     <>
@@ -214,6 +174,7 @@ function Message() {
                     );
                   }
                 })}
+                <div ref={messagesEndRef} />
               </div>
 
               <div id="message-input">
