@@ -81,7 +81,7 @@ const CommonSidebar = () => {
               Explore
             </li>
           </Link>
-          <Link>
+          <Link to="/message">
             <li className="sidebar-item">
               <div className="icon-container">
                 <FontAwesomeIcon icon={faMessage} className="icon" />
