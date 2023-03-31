@@ -46,55 +46,66 @@ function Message() {
   //   return () => {};
   // }, []);
 
-  const listMessage = [
-    {
-      senderId: 1,
-      receiverId: 2,
-      message: "hello",
-      createdAt: "2023-12-12 13:56:12",
-    },
-    {
-      senderId: 1,
-      receiverId: 2,
-      message: "hello222",
-      createdAt: "2023-12-12 13:56:12",
-    },
-    {
-      senderId: 2,
-      receiverId: 1,
-      message: "hi",
-      createdAt: "2023-12-12 13:56:12",
-    },
-    {
-      senderId: 1,
-      receiverId: 2,
-      message: "what ...",
-      createdAt: "2023-12-12 13:56:12",
-    },
-    {
-      senderId: 2,
-      receiverId: 1,
-      message: "Huong",
-      createdAt: "2023-12-12 13:56:12",
-    },
-    {
-      senderId: 1,
-      receiverId: 2,
-      message: "and u",
-      createdAt: "2023-12-12 13:56:12",
-    },
-  ];
+  const [listMessage, setListMessage] = useState([]);
+
+  useEffect(() => {
+    const temp = [
+      {
+        senderId: 1,
+        receiverId: 2,
+        message: "hello",
+        createdAt: "2023-12-12 13:56:12",
+      },
+      {
+        senderId: 1,
+        receiverId: 2,
+        message: "hello222",
+        createdAt: "2023-12-12 13:56:12",
+      },
+      {
+        senderId: 2,
+        receiverId: 1,
+        message: "hi",
+        createdAt: "2023-12-12 13:56:12",
+      },
+      {
+        senderId: 1,
+        receiverId: 2,
+        message: "what ...",
+        createdAt: "2023-12-12 13:56:12",
+      },
+      {
+        senderId: 2,
+        receiverId: 1,
+        message: "Huong",
+        createdAt: "2023-12-12 13:56:12",
+      },
+      {
+        senderId: 1,
+        receiverId: 2,
+        message: "and u",
+        createdAt: "2023-12-12 13:56:12",
+      },
+    ];
+
+    setListMessage([...temp]);
+  }, []);
+
+  const addMessage = (message) => {
+    setListMessage([...listMessage, message]);
+  };
+
   const handleSendNewText = (e) => {
     if (e.key === "Enter") {
       console.log(e.target.value);
-      setUserMessage("");
-      listMessage.push({
+      const newMessage = {
         senderId: 1,
         receiverId: 2,
-        message: userMessage,
+        message: e.target.value,
         createdAt: "2023-12-12 13:56:12",
-      });
-      console.log(listMessage);
+      };
+      addMessage(newMessage);
+      setUserMessage("");
     }
   };
 
