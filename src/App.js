@@ -40,6 +40,8 @@ function App() {
     setPopupOpenArray((value) => (value = copiedPopupOpenArray));
   };
 
+  useFe;
+
   const GetPopupStackRender = () => {
     const ITERATOR_ARRAY = new Array(MAX_DEPTH_POPUP_STACK).fill(0);
     return (

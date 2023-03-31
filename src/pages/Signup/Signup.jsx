@@ -4,6 +4,10 @@ import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { registerUser } from "../../api/auth/index";
+import {
+  handleSuccessResponse,
+  handleErrorResponse,
+} from "../../api/toast/index";
 
 function Signup() {
   const [email, setEmail] = useState("");
@@ -30,10 +34,17 @@ function Signup() {
       user.displayName = displayName;
       user.email = email;
       user.password = password;
-      console.log(user);
       registerUser(user)
-        .then(alert("Đăng kí người dùng thành công!"))
-        .catch((err) => console.log(err));
+        .then((resp) => {
+          handleSuccessResponse(resp);
+          setDisplayName("");
+          setEmail("");
+          setPassword("");
+          setUsername("");
+        })
+        .catch((err) => {
+          handleErrorResponse(err);
+        });
     }
   };
   return (
@@ -44,7 +55,7 @@ function Signup() {
 
           <p>Sign up to see photos and videos from your friends.</p>
 
-          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          {/* <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <Link to="/">Log in with Facebook</Link>
           </div>
 
@@ -79,7 +90,7 @@ function Signup() {
                 marginLeft: "0.5rem",
               }}
             ></div>
-          </div>
+          </div> */}
 
           <div className="input">
             <input
@@ -101,7 +112,7 @@ function Signup() {
               value={username}
             ></input>
             <input
-              type={Text}
+              type="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}

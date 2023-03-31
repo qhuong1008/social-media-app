@@ -1,23 +1,40 @@
 // eslint-disable-next-line
 import style from "./Login.scss";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AdminUserApi } from "../../api/admin";
 import { authLogin } from "../../api/auth";
-import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
-import { ACCESS_TOKEN_KEY_NAME } from "../../types";
+import { ACCESS_TOKEN_KEY_NAME, USER_KEY_NAME } from "../../types";
+import {
+  handleSuccessResponse,
+  handleErrorResponse,
+} from "../../api/toast/index";
 
 //TODO:convert to init-style
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  // AdminUserApi.listUsers().then((resp) => {
-  //   const rawListUsers = resp.data.data;
-  //   console.log(rawListUsers);
-  // });
+  const handleLogin = () => {
+    const preparedUserAuth = { username: email, password };
+    console.log(preparedUserAuth);
+    authLogin(preparedUserAuth)
+      .then((resp) => {
+        const { user, accessToken } = resp.data.data;
+        localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
+        localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
+        handleSuccessResponse(resp);
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        handleErrorResponse(err);
+      });
+  };
 
   return (
     <>
@@ -32,33 +49,12 @@ function Login() {
               value={email}
             ></input>
             <input
-              type={Text}
+              type="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button
-              onClick={() => {
-                const preparedUserAuth = { username: email, password };
-                console.log(preparedUserAuth);
-                authLogin(preparedUserAuth)
-                  .then((resp) => {
-                    const { user, accessToken } = resp.data.data;
-
-                    //TODO: luu cai nay lai vao cho nao do (redux, localStorage, .. bla bla) de hien len navbar, sidebar, ...
-                    console.log("user dang dang nhap hien tai: ", user);
-
-                    //TODO: dem cuc nay di cho khac, redux hay gi do bla bla, khong set truc tiep
-                    localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
-                    handleSuccessResponse(resp);
-                  })
-                  .catch((err) => {
-                    handleErrorResponse(err);
-                  });
-              }}
-            >
-              Log in
-            </button>
+            <button onClick={handleLogin}>Log in</button>
             {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div
