@@ -26,7 +26,17 @@ import { PopupContext } from "../../../App";
 import NewPost from "../../NewPost/NewPost";
 
 const CommonSidebar = () => {
-  const { togglePopup, setPopupcontent } = useContext(PopupContext);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
   useEffect(() => {
     setPopupcontent(<NewPost />);
   }, []);

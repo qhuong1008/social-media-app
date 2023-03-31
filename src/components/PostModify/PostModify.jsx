@@ -4,8 +4,6 @@ import { PopupContext } from "../../App";
 import styles from "./PostModify.scss";
 
 function PostModify() {
-  const { togglePopup, setPopupcontent } = useContext(PopupContext);
-
   return (
     <div className="post-modify-wrapper">
       <ul>

@@ -11,7 +11,20 @@ import { useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
 function UserPost() {
-  const { togglePopup, setPopupcontent } = useContext(PopupContext);
+  const {
+    togglePopupContentLevel,
+    setPopupContentLevel,
+    hidePopupContentLevel,
+  } = useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
   // useEffect(() => {
   //   setPopupcontent(<UserPostModify />);
   // }, []);
@@ -32,7 +45,16 @@ function UserPost() {
             />
             <div className="post-account-username">koyukichan_01</div>
           </div>
-          <div className="more" onClick={() => togglePopup((p) => !p)}>
+          <div
+            className="more"
+            onClick={() => {
+              setPopupContentLevel(
+                1,
+                <UserPostModify onCancel={() => hidePopupContentLevel(1)} />
+              );
+              togglePopupContentLevel(1);
+            }}
+          >
             <svg
               aria-label="More options"
               class="_ab6-"

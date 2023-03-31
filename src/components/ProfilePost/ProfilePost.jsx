@@ -16,7 +16,17 @@ import { useEffect, useContext } from "react";
 import UserPost from "../../components/UserPost/UserPost";
 
 function ProfilePost({ postId }) {
-  const { togglePopup, setPopupcontent } = useContext(PopupContext);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
   useEffect(() => {
     setPopupcontent(<UserPost postId={postId} />);
   }, []);

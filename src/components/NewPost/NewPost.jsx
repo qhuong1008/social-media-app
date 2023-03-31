@@ -22,7 +22,17 @@ const STATE_VAR = {
 };
 
 function NewPost() {
-  const { togglePopup } = useContext(PopupContext);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
   const id = useId();
   const [avt, setAvt] = useState(null);
   const [caption, setCaption] = useState("");
