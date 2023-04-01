@@ -7,33 +7,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AdminUserApi } from "../../api/admin";
 import { authLogin } from "../../api/auth";
 import { ACCESS_TOKEN_KEY_NAME, USER_KEY_NAME } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
 import {
   handleSuccessResponse,
   handleErrorResponse,
 } from "../../api/toast/index";
+import { handleLogin } from "../../redux/actions/authAction";
 
 //TODO:convert to init-style
 function Login() {
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    const preparedUserAuth = { username: email, password };
-    console.log(preparedUserAuth);
-    authLogin(preparedUserAuth)
-      .then((resp) => {
-        const { user, accessToken } = resp.data.data;
-        localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
-        localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
-        handleSuccessResponse(resp);
-      })
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        handleErrorResponse(err);
-      });
+  const handleLoginAccess = () => {
+    dispatch(handleLogin(username, password)).then(() => {
+      navigate("/");
+    });
   };
 
   return (
@@ -45,8 +36,8 @@ function Login() {
             <input
               type={Text}
               placeholder="Phone number, username, or email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
             ></input>
             <input
               type="password"
@@ -54,7 +45,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button onClick={handleLogin}>Log in</button>
+            <button onClick={handleLoginAccess}>Log in</button>
             {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div

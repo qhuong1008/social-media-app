@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import style from "./CommonSidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,8 +24,12 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
 import NewPost from "../../NewPost/NewPost";
+import { useDispatch } from "react-redux";
+import { handleLogout } from "../../../redux/actions/authAction";
 
 const CommonSidebar = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
 
@@ -37,6 +41,11 @@ const CommonSidebar = () => {
     togglePopupContentLevel(0);
   };
 
+  const handleLogoutAccount = () => {
+    dispatch(handleLogout);
+    navigate("/login");
+    console.log("log out");
+  };
   useEffect(() => {
     setPopupcontent(<NewPost />);
   }, []);
@@ -175,7 +184,7 @@ const CommonSidebar = () => {
                 </div>
                 <div className="ruler"></div>
 
-                <div className="dropdown-item">
+                <div className="dropdown-item" onClick={handleLogoutAccount}>
                   <Link>Log out</Link>
                 </div>
               </div>

@@ -3,7 +3,7 @@ import style from "./Signup.scss";
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { registerUser } from "../../api/auth/index";
+import { handleRegisterUser } from "../../redux/actions/authAction";
 import {
   handleSuccessResponse,
   handleErrorResponse,
@@ -11,8 +11,10 @@ import {
   handleErrorMessage,
 } from "../../api/toast/index";
 import { INTERFACE_SIGN_UP_FORM } from "./interfaces";
+import { useDispatch } from "react-redux";
 
 function Signup() {
+  const dispatch = useDispatch();
   const [signupFormData, setSignupFormData] = useState(INTERFACE_SIGN_UP_FORM);
 
   const handleInputchange = (e) => {
@@ -38,16 +40,10 @@ function Signup() {
     e.preventDefault();
 
     if (isAnyFieldEmpty(signupFormData)) {
-      handleErrorMessage("Thông tin không được trống (quên ghi sao rồi)");
+      handleErrorMessage("Thông tin không được trống!");
     } else {
       const user = { ...signupFormData };
-      registerUser(user)
-        .then((resp) => {
-          handleSuccessResponse(resp);
-        })
-        .catch((err) => {
-          handleErrorResponse(err);
-        });
+      dispatch(handleRegisterUser(user));
     }
   };
   return (
