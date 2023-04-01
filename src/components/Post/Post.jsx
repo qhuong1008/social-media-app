@@ -12,10 +12,10 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import defaultAvatar from "../../images/default-avatar.jpg";
 
-function Post() {
+function Post(post) {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
-  const post = post.post;
+  post = post.post;
   const content = JSON.parse(post.content);
   const time = new Date() - new Date(post.createdAt);
   let postedAgo = "";
