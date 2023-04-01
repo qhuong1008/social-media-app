@@ -15,7 +15,7 @@ import defaultAvatar from "../../images/default-avatar.jpg";
 function Post() {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
-  post = post.post;
+  const post = post.post;
   const content = JSON.parse(post.content);
   const time = new Date() - new Date(post.createdAt);
   let postedAgo = "";
