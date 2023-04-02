@@ -23,7 +23,7 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
-import NewPost from "../../NewPost/NewPost";
+import NewPost from "../../PostForm/PostForm";
 
 const CommonSidebar = () => {
   const { togglePopup, setPopupcontent } = useContext(PopupContext);

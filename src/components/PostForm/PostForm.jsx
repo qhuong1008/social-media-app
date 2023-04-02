@@ -8,7 +8,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import clx from "classnames";
 
-import $ from "./NewPost.module.scss";
+import $ from "./PostForm.module.scss";
 import { useId, useState, useEffect } from "react";
 import { Switch } from "../form/switch";
 import { PopupContext } from "../../App";
