@@ -3,12 +3,49 @@ import style from "./Signup.scss";
 import React from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { handleRegisterUser } from "../../redux/actions/authAction";
+import {
+  handleSuccessResponse,
+  handleErrorResponse,
+  handleSuccessMessage,
+  handleErrorMessage,
+} from "../../api/toast/index";
+import { INTERFACE_SIGN_UP_FORM } from "./interfaces";
+import { useDispatch } from "react-redux";
 
 function Signup() {
-  const [email, setEmail] = useState();
-  const [fullName, setFullName] = useState();
-  const [username, setUsername] = useState();
-  const [password, setPassword] = useState();
+  const dispatch = useDispatch();
+  const [signupFormData, setSignupFormData] = useState(INTERFACE_SIGN_UP_FORM);
+
+  const handleInputchange = (e) => {
+    setSignupFormData(
+      (u) =>
+        (u = {
+          ...signupFormData,
+          [e.target.name]: e.target.value,
+        })
+    );
+  };
+
+  const isAnyFieldEmpty = (formData) => {
+    for (const key in formData) {
+      if (formData[key] == "" || formData[key] == null) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+
+    if (isAnyFieldEmpty(signupFormData)) {
+      handleErrorMessage("Thông tin không được trống!");
+    } else {
+      const user = { ...signupFormData };
+      dispatch(handleRegisterUser(user));
+    }
+  };
   return (
     <>
       <div className="signUpHome">
@@ -17,7 +54,7 @@ function Signup() {
 
           <p>Sign up to see photos and videos from your friends.</p>
 
-          <div style={{ textAlign: "center", marginBottom: "20px" }}>
+          {/* <div style={{ textAlign: "center", marginBottom: "20px" }}>
             <Link to="/">Log in with Facebook</Link>
           </div>
 
@@ -52,40 +89,42 @@ function Signup() {
                 marginLeft: "0.5rem",
               }}
             ></div>
-          </div>
+          </div> */}
 
-          <div className="input">
+          <form className="input" onSubmit={handleSignup} method="POST">
             <input
               type={Text}
-              placeholder="Mobile Number or Email"
-              onChange={(e) => setEmail(e)}
-              value={email}
+              placeholder="Email"
+              onChange={handleInputchange}
+              name="email"
             ></input>
             <input
               type={Text}
-              placeholder="Fullname"
-              onChange={(e) => setFullName(e)}
-              value={fullName}
+              placeholder="Display name"
+              name="displayName"
+              onChange={handleInputchange}
             ></input>
             <input
               type={Text}
               placeholder="Username"
-              onChange={(e) => setUsername(e)}
-              value={username}
+              onChange={handleInputchange}
+              name="username"
             ></input>
             <input
-              type={Text}
+              type="password"
               placeholder="Password"
-              onChange={(e) => setPassword(e)}
-              value={password}
+              onChange={handleInputchange}
+              name="password"
             ></input>
             <div></div>
             <p>
               By signing up, you agree to our Terms , Privacy Policy and Cookies
               Policy .
             </p>
-            <button style={{ border: "0" }}>Sign up</button>
-          </div>
+            <button className="signup-btn" type="submit">
+              Sign up
+            </button>
+          </form>
         </div>
 
         <div className="signUp">

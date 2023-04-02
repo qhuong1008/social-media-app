@@ -11,4 +11,18 @@ const authLogin = async (user) => {
   return authInstance.post(`login`, user);
 };
 
-export { authLogin };
+/**
+ * @param User **đăng ký tài khoản**
+ *
+ * - `username`: tên người dùng
+ * - `password`: mật khẩu
+ * - `displayName`: họ và tên
+ * - `email`: email đăng ký
+ *
+ * > Note: xem validate dữ liệu tại: `useraggregate.services.UserServiceImpl.register()`
+ */
+const registerUser = async (user) => {
+  return authInstance.post(`signup`, user);
+};
+
+export { authLogin, registerUser };

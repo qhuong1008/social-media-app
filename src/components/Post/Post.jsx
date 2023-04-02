@@ -7,12 +7,34 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { PopupContext } from "../../App";
+import { useState, useEffect, useContext } from "react";
+import PostModify from "../PostModify/PostModify";
 import defaultAvatar from "../../images/default-avatar.jpg";
-function Post(post) {
-  post = post.post;
+
+function Post({ post }) {
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
   const content = JSON.parse(post.content);
+  let { images, contents } = content.data;
+  images = images || [];
+  contents = contents || [];
   const time = new Date() - new Date(post.createdAt);
   let postedAgo = "";
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
+  useEffect(() => {
+    setPopupcontent(<PostModify />);
+  }, []);
+
   const postedTime = Math.floor(time / 1000);
   if (postedTime < 60) {
     postedAgo = postedTime + "s";
@@ -43,7 +65,7 @@ function Post(post) {
               <div className="song-src">Original Audio</div>
             </div>
           </div>
-          <div className="more">
+          <div className="more" onClick={() => togglePopup((p) => !p)}>
             <svg
               aria-label="More options"
               class="_ab6-"
@@ -61,7 +83,10 @@ function Post(post) {
           </div>
         </div>
         <div className="post-content">
-          <img src={content.img} alt="" />
+          {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
+          {images.map((url) => {
+            return <img src={url}></img>;
+          })}
         </div>
         <div className="post-actions">
           <div className="main-action">
@@ -95,7 +120,10 @@ function Post(post) {
         </div>
         <div className="post-status">
           <div className="username">{post.username}</div>
-          <div className="status">{content.caption}</div>
+          {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
+          {contents.map((content) => {
+            return <div className="status">{content}</div>;
+          })}
           <div className="view-comments">View all comments</div>
         </div>
         <div className="post-new-comment">

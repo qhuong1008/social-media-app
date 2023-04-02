@@ -88,3 +88,11 @@
 a {
   color: #7d95eb !important;
 }
+.signup-btn {
+  background-color: #459bf6 !important;
+  &:hover {
+    cursor: pointer;
+    background-color: #298bf3 !important;
+    outline: none !important;
+  }
+}

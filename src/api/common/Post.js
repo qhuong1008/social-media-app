@@ -1,5 +1,29 @@
 import { contextInstance } from "../axios";
 
+const POST_PRIVACY_TYPE = {
+  PUBLIC: "PUBLIC",
+  PRIVATE: "PRIVATE",
+};
+
+const POST_CONTENT_TYPE = {
+  /**
+   * Text and image post content
+   */
+  TI_POST: "TI_POST",
+};
+
+const INTERFACE_TI_POST_CONTENT = {
+  meta: {
+    type: POST_CONTENT_TYPE.TI_POST,
+    version: "1.0.0",
+  },
+
+  data: {
+    images: [],
+    contents: [],
+  },
+};
+
 /**
  * Create new post
  * @param Post **Bài đăng**
@@ -12,7 +36,9 @@ import { contextInstance } from "../axios";
 const createPost = async (post) => {
   const request = {
     content: JSON.stringify(post.content),
-    privacy: post.isPublic ? "PUBLIC" : "PRIVATE",
+    privacy: post.isPublic
+      ? POST_PRIVACY_TYPE.PUBLIC
+      : POST_PRIVACY_TYPE.PRIVATE,
   };
   return contextInstance
     .post(`common/post`, request)
@@ -71,4 +97,13 @@ const deletePost = async (post) => {
   return contextInstance.delete(`common/post/${post.id}/delete`, post);
 };
 
-export { createPost, updatePost, getPostById, listPosts, deletePost };
+export {
+  createPost,
+  updatePost,
+  getPostById,
+  listPosts,
+  deletePost,
+  POST_PRIVACY_TYPE,
+  POST_CONTENT_TYPE,
+  INTERFACE_TI_POST_CONTENT,
+};

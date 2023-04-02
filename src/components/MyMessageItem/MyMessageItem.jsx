@@ -1,9 +1,9 @@
 import style from "./MyMessageItem.scss";
 
-function MyMessageItem() {
+function MyMessageItem({ message, createdAt }) {
   return (
     <>
-      <div className="my-message-item-home">Qua dep trai lun !</div>
+      <div className="my-message-item-home">{message}</div>
     </>
   );
 }

@@ -4,19 +4,81 @@ import Popup from "./components/Popup";
 
 export const PopupContext = createContext();
 
-function App() {
-    const [isPopupOpen, setPopupOpen] = useState(false);
-    const [popupContent, setPopupcontent] = useState(null);
-    const togglePopup = () => setPopupOpen(prev => !prev)
+const MAX_DEPTH_POPUP_STACK = 10;
 
-    return (
-        <>
-            <PopupContext.Provider value={{ togglePopup, setPopupcontent }}>
-                {isPopupOpen && <Popup togglePopup={togglePopup} >{popupContent}</Popup>}
-                <Routes />
-            </PopupContext.Provider>
-        </>
+function App() {
+  const [isPopupOpenArray, setPopupOpenArray] = useState(
+    new Array(MAX_DEPTH_POPUP_STACK).fill(false)
+  );
+
+  const [popupContentArray, setPopupContentArray] = useState(
+    new Array(MAX_DEPTH_POPUP_STACK).fill(null)
+  );
+
+  const setPopupContentLevel = (level, content) => {
+    //0 <= level < MAX_DEPTH
+    const copiedPopupContentArray = [...popupContentArray];
+    copiedPopupContentArray[level] = content;
+    setPopupContentArray(copiedPopupContentArray);
+  };
+
+  const togglePopupContentLevel = (level) => {
+    let copiedPopupOpenArray = [...isPopupOpenArray];
+    console.log(copiedPopupOpenArray);
+    console.log(isPopupOpenArray);
+    copiedPopupOpenArray[level] = copiedPopupOpenArray[level] ? false : true;
+    console.log(
+      "%c set " + level + " to " + copiedPopupOpenArray[level],
+      "color: red; font-size: 17px;"
     );
+    setPopupOpenArray((value) => (value = copiedPopupOpenArray));
+  };
+
+  const hidePopupContentLevel = (level) => {
+    let copiedPopupOpenArray = [...isPopupOpenArray];
+    copiedPopupOpenArray[level] = false;
+    setPopupOpenArray((value) => (value = copiedPopupOpenArray));
+  };
+
+  const GetPopupStackRender = () => {
+    const ITERATOR_ARRAY = new Array(MAX_DEPTH_POPUP_STACK).fill(0);
+    return (
+      <>
+        {ITERATOR_ARRAY.map((_, i) => {
+          return (
+            <>
+              {isPopupOpenArray[i] ? (
+                <Popup
+                  togglePopup={() => {
+                    togglePopupContentLevel(i);
+                  }}
+                >
+                  {popupContentArray[i]}
+                </Popup>
+              ) : (
+                <></>
+              )}
+            </>
+          );
+        })}
+      </>
+    );
+  };
+
+  return (
+    <>
+      <PopupContext.Provider
+        value={{
+          setPopupContentLevel,
+          togglePopupContentLevel,
+          hidePopupContentLevel,
+        }}
+      >
+        {<GetPopupStackRender />}
+        <Routes />
+      </PopupContext.Provider>
+    </>
+  );
 }
 
 export default App;

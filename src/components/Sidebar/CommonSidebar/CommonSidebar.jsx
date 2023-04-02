@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
 import style from "./CommonSidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -23,12 +23,31 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
-import NewPost from "../../PostForm/PostForm";
+import NewPost from "../../NewPost/NewPost";
+import { useDispatch } from "react-redux";
+import { handleLogout } from "../../../redux/actions/authAction";
 
 const CommonSidebar = () => {
-  const { togglePopup, setPopupcontent } = useContext(PopupContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
+  const handleLogoutAccount = () => {
+    dispatch(handleLogout);
+    navigate("/login");
+    console.log("log out");
+  };
   useEffect(() => {
-    setPopupcontent(<NewPost post={null} />);
+    setPopupcontent(<NewPost />);
   }, []);
 
   const [open, setOpen] = useState(false);
@@ -71,7 +90,7 @@ const CommonSidebar = () => {
               Explore
             </li>
           </Link>
-          <Link>
+          <Link to="/message">
             <li className="sidebar-item">
               <div className="icon-container">
                 <FontAwesomeIcon icon={faMessage} className="icon" />
@@ -95,7 +114,7 @@ const CommonSidebar = () => {
               Create
             </li>
           </Link>
-          <Link>
+          <Link to="/profile">
             <li className="sidebar-item">
               <img
                 className="profile-pic"
@@ -165,7 +184,7 @@ const CommonSidebar = () => {
                 </div>
                 <div className="ruler"></div>
 
-                <div className="dropdown-item">
+                <div className="dropdown-item" onClick={handleLogoutAccount}>
                   <Link>Log out</Link>
                 </div>
               </div>

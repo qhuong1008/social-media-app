@@ -1,27 +1,29 @@
 // eslint-disable-next-line
 import style from "./Login.scss";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AdminUserApi } from "../../api/admin";
 import { authLogin } from "../../api/auth";
-import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
-import { ACCESS_TOKEN_KEY_NAME } from "../../types";
+import { ACCESS_TOKEN_KEY_NAME, USER_KEY_NAME } from "../../types";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  handleSuccessResponse,
+  handleErrorResponse,
+} from "../../api/toast/index";
+import { handleLogin } from "../../redux/actions/authAction";
 
 //TODO:convert to init-style
 function Login() {
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch();
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  //TODO: not commit, hom truoc test thoi, cai nay no goi luc tao comp r/
-  //// may cai ham nay tui keu de test thoi chu k co gi
-
-  //TODO: remove this
-  const testFunc = () => {
-    AdminUserApi.listUsers().then((resp) => {
-      const rawListUsers = resp.data.data;
-      console.log(rawListUsers);
+  const handleLoginAccess = () => {
+    dispatch(handleLogin(username, password)).then(() => {
+      navigate("/");
     });
   };
 
@@ -34,38 +36,17 @@ function Login() {
             <input
               type={Text}
               placeholder="Phone number, username, or email"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
+              onChange={(e) => setUsername(e.target.value)}
+              value={username}
             ></input>
             <input
-              type={Text}
+              type="password"
               placeholder="Password"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button
-              onClick={() => {
-                const preparedUserAuth = { username: email, password };
-                console.log(preparedUserAuth);
-                authLogin(preparedUserAuth)
-                  .then((resp) => {
-                    const { user, accessToken } = resp.data.data;
-
-                    //TODO: luu cai nay lai vao cho nao do (redux, localStorage, .. bla bla) de hien len navbar, sidebar, ...
-                    console.log("user dang dang nhap hien tai: ", user);
-
-                    //TODO: dem cuc nay di cho khac, redux hay gi do bla bla, khong set truc tiep
-                    localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
-                    handleSuccessResponse(resp);
-                  })
-                  .catch((err) => {
-                    handleErrorResponse(err);
-                  });
-              }}
-            >
-              Log in
-            </button>
-            <button onClick={testFunc.bind(null)}>test</button>
+            <button onClick={handleLoginAccess}>Log in</button>
+            {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div
             style={{
