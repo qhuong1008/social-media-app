@@ -23,7 +23,7 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
-import NewPost from "../../NewPost/NewPost";
+import NewPost from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 

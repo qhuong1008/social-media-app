@@ -14,17 +14,30 @@ import { Switch } from "../form/switch";
 import { PopupContext } from "../../App";
 
 import { uploadImg } from "../../api/common/Storage";
-import { createPost, updatePost } from "../../api/common/Post";
+import {
+  INTERFACE_TI_POST_CONTENT,
+  createPost,
+  updatePost,
+} from "../../api/common/Post";
+import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
 
 const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
-
-function NewPost(post) {
-  post = post.post;
+function NewPost({ post }) {
   const isCreated = post != null ? true : false;
-  const { togglePopup } = useContext(PopupContext);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
   const id = useId();
   const [state, setState] = useState(STATE_VAR.upload_image);
   const [form, setForm] = useState({
@@ -49,11 +62,13 @@ function NewPost(post) {
    */
   function handleUploadImage(e) {
     const file = e.target.files[0];
-    file.previewURL = URL.createObjectURL(file);
-    setAvt(file);
-    uploadImg(file).then((res) => {
-      form.content.img = res.data.data;
-    });
+    uploadImg(file)
+      .then((res) => {
+        form.content.img = res.data.data;
+        file.previewURL = res.data.data;
+        setAvt(file);
+      })
+      .catch((err) => handleErrorResponse(err));
   }
 
   /**
@@ -66,7 +81,13 @@ function NewPost(post) {
     if (isCreated) {
       updatePost(form);
     } else {
-      createPost(form);
+      const preparedFormContent = { ...INTERFACE_TI_POST_CONTENT };
+      preparedFormContent.data.images = [form.content.img];
+      preparedFormContent.data.contents = form.content.caption.split("\n");
+      form.content = { ...preparedFormContent };
+      createPost(form)
+        .then((resp) => handleSuccessResponse(resp))
+        .catch((err) => handleErrorResponse(err));
     }
   };
 

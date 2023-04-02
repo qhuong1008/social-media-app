@@ -40,6 +40,7 @@ const createPost = async (post) => {
       ? POST_PRIVACY_TYPE.PUBLIC
       : POST_PRIVACY_TYPE.PRIVATE,
   };
+  console.log(request);
   return contextInstance
     .post(`common/post`, request)
     .catch((err) => console.log(err));
@@ -59,6 +60,19 @@ const listPosts = async () => {
 };
 
 /**
+ * Get all posts from a user
+ * @return
+ *
+ * - `content`: Nội dung bài đăng
+ * - `privacy`: Quyền riêng tư
+ *
+ * - `authorId`: người đăng
+ */
+const listPostsFromUser = async (uid) => {
+  return contextInstance.get(`common/post?author.equal=${uid}`);
+};
+
+/**
  * Get post by `id`
  * @param id id Bài đăng
  * @return
@@ -69,7 +83,9 @@ const listPosts = async () => {
  * - `authorId`: người đăng
  */
 const getPostById = async (id) => {
-  return contextInstance.get(`common/post/${id}`);
+  return contextInstance
+    .get(`common/post/${id}`)
+    .catch((err) => console.log(err));
 };
 
 /**
@@ -102,6 +118,7 @@ export {
   updatePost,
   getPostById,
   listPosts,
+  listPostsFromUser,
   deletePost,
   POST_PRIVACY_TYPE,
   POST_CONTENT_TYPE,

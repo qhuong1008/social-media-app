@@ -15,9 +15,9 @@ import defaultAvatar from "../../images/default-avatar.jpg";
 function Post({ post }) {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
-
   const content = JSON.parse(post.content);
-  let { images, contents } = content.data;
+  let images = content.data.images;
+  let contents = content.data.contents;
   images = images || [];
   contents = contents || [];
   const time = new Date() - new Date(post.createdAt);
@@ -45,7 +45,6 @@ function Post({ post }) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
-  console.log();
   return (
     <>
       <div className="post-container">
