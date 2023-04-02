@@ -12,11 +12,14 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import defaultAvatar from "../../images/default-avatar.jpg";
 
-function Post(post) {
+function Post({post}) {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
-  post = post.post;
+
   const content = JSON.parse(post.content);
+  let { images, contents } = content.data;
+  images = images || [];
+  contents = contents || [];
   const time = new Date() - new Date(post.createdAt);
   let postedAgo = "";
 
@@ -80,7 +83,12 @@ function Post(post) {
           </div>
         </div>
         <div className="post-content">
-          <img src={content.img} alt="" />
+          {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
+          {images.map(url => {
+            return (
+              <img src={url}></img>
+            )
+          })}
         </div>
         <div className="post-actions">
           <div className="main-action">
@@ -114,7 +122,12 @@ function Post(post) {
         </div>
         <div className="post-status">
           <div className="username">{post.username}</div>
-          <div className="status">{content.caption}</div>
+          {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
+          {contents.map(content => {
+            return (
+              <div className="status">{content}</div>
+            )
+          })}
           <div className="view-comments">View all comments</div>
         </div>
         <div className="post-new-comment">

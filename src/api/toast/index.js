@@ -20,6 +20,7 @@ const handleSuccessResponse = (response) => {
 };
 
 const handleErrorResponse = (error) => {
+  console.log(error);
   try {
     const messages = error.response.data.messages;
     toast.dismiss();
