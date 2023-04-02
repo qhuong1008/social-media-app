@@ -20,7 +20,7 @@ const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
-function NewPost(post) {
+function NewPost({post}) {
   const isCreated = post != null ? true : false;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
