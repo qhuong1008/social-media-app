@@ -14,14 +14,20 @@ import { Switch } from "../form/switch";
 import { PopupContext } from "../../App";
 
 import { uploadImg } from "../../api/common/Storage";
-import { INTERFACE_TI_POST_CONTENT, createPost, updatePost } from "../../api/common/Post";
+import {
+  INTERFACE_TI_POST_CONTENT,
+  createPost,
+  updatePost,
+} from "../../api/common/Post";
 import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
+import TagModal from "../TagModal/TagModal";
 
 const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
-function NewPost({post}) {
+function NewPost({ post }) {
+  const [openTagModal, setOpenTagModal] = useState(false);
   const isCreated = post != null ? true : false;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
@@ -58,11 +64,13 @@ function NewPost({post}) {
    */
   function handleUploadImage(e) {
     const file = e.target.files[0];
-    uploadImg(file).then((res) => {
-      form.content.img = res.data.data;
-      file.previewURL = res.data.data;
-      setAvt(file);
-    }).catch(err => handleErrorResponse(err));
+    uploadImg(file)
+      .then((res) => {
+        form.content.img = res.data.data;
+        file.previewURL = res.data.data;
+        setAvt(file);
+      })
+      .catch((err) => handleErrorResponse(err));
   }
 
   /**
@@ -75,13 +83,13 @@ function NewPost({post}) {
     if (isCreated) {
       updatePost(form);
     } else {
-      const preparedFormContent = {...INTERFACE_TI_POST_CONTENT};
+      const preparedFormContent = { ...INTERFACE_TI_POST_CONTENT };
       preparedFormContent.data.images = [form.content.img];
       preparedFormContent.data.contents = [form.content.caption];
-      form.content = {...preparedFormContent};
+      form.content = { ...preparedFormContent };
       createPost(form)
-        .then(resp => handleSuccessResponse(resp))
-        .catch(err => handleErrorResponse(err));
+        .then((resp) => handleSuccessResponse(resp))
+        .catch((err) => handleErrorResponse(err));
     }
   };
 
@@ -102,6 +110,9 @@ function NewPost({post}) {
   const [currentHeaderTitle, setCurrentHeaderTitle] = useState(
     HEADER_TITLE_VALUE_TYPE.BTN_NEXT
   );
+  // useEffect(() => {
+  //   setPopupcontent(<TagModal />);
+  // }, []);
 
   return (
     <div className={$.container}>
@@ -130,7 +141,7 @@ function NewPost({post}) {
         })}
       >
         <div className={$.upload_wrap}>
-          <div className={$.upload}>
+          <div className={$.upload} onClick={() => setOpenTagModal((p) => !p)}>
             {avt ? (
               <>
                 <img src={avt.previewURL} alt="" />
@@ -191,6 +202,7 @@ function NewPost({post}) {
               </>
             )}
           </div>
+          {openTagModal && <TagModal />}
           <div
             className={clx($.form, {
               [$.form_show]: state === STATE_VAR.fill_form,
