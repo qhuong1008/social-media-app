@@ -9,13 +9,11 @@ import {
   faBookmark,
   faCircleExclamation,
   faCompass,
-  faExclamation,
   faGear,
   faHourglass,
   faHouse,
   faMagnifyingGlass,
   faMoon,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
