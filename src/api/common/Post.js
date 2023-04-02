@@ -36,7 +36,7 @@ const INTERFACE_TI_POST_CONTENT = {
 const createPost = async (post) => {
   const request = {
     content: JSON.stringify(post.content),
-    privacy: post.isPublic ? "PUBLIC" : "PRIVATE",
+    privacy: post.isPublic ? POST_PRIVACY_TYPE.PUBLIC : POST_PRIVACY_TYPE.PRIVATE,
   };
   return contextInstance
     .post(`common/post`, request)
