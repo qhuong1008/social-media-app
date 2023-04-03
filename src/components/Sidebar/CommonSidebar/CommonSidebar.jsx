@@ -24,6 +24,7 @@ import { PopupContext } from "../../../App";
 import NewPost from "../../NewPost/NewPost";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
+import NewPost from "../../PostForm/PostForm";
 
 const CommonSidebar = () => {
   const dispatch = useDispatch();
