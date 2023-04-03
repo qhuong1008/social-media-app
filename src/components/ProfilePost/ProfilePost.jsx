@@ -29,6 +29,7 @@ function ProfilePost({ post }) {
   };
 
   useEffect(() => {
+    console.log(post);
     setPopupcontent(<UserPost post={post} />);
   }, []);
   return (

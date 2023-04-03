@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { authLogin, registerUser } from "../../api/auth/index";
 import {
   handleSuccessResponse,
@@ -14,7 +14,7 @@ export const LOGOUT = "LOGOUT";
 
 export const handleLogin = (username, password) => async (dispatch) => {
   const preparedUserAuth = { username, password };
-  authLogin(preparedUserAuth)
+  return authLogin(preparedUserAuth)
     .then((resp) => {
       dispatch({
         type: LOGIN_SUCCESS,
@@ -24,6 +24,7 @@ export const handleLogin = (username, password) => async (dispatch) => {
       localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
       localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
       handleSuccessResponse(resp);
+      return true;
     })
     .catch((err) => {
       dispatch({
@@ -31,6 +32,7 @@ export const handleLogin = (username, password) => async (dispatch) => {
         payload: err,
       });
       handleErrorResponse(err);
+      return false;
     });
 };
 export const handleRegisterUser = (user) => async (dispatch) => {

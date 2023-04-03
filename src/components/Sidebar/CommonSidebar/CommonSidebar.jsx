@@ -23,7 +23,7 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
-import NewPost from "../../PostForm/PostForm";
+import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 
@@ -47,7 +47,7 @@ const CommonSidebar = () => {
     console.log("log out");
   };
   useEffect(() => {
-    setPopupcontent(<NewPost />);
+    setPopupcontent(<PostForm />);
   }, []);
 
   const [open, setOpen] = useState(false);

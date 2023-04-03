@@ -109,8 +109,8 @@ const updatePost = async (post) => {
  * Delete post by `post.id`
  * @param Post **Bài đăng**
  */
-const deletePost = async (post) => {
-  return contextInstance.delete(`common/post/${post.id}/delete`, post);
+const deletePost = async (id) => {
+  return contextInstance.delete(`common/post/${id}/delete`);
 };
 
 export {

@@ -48,7 +48,10 @@ function UserPost({ post }) {
             onClick={() => {
               setPopupContentLevel(
                 1,
-                <UserPostModify onCancel={() => hidePopupContentLevel(1)} />
+                <UserPostModify
+                  post={post}
+                  onCancel={() => hidePopupContentLevel(1)}
+                />
               );
               togglePopupContentLevel(1);
             }}
