@@ -98,6 +98,11 @@
           }
         }
       }
+      .profile-post-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-gap: 5px;
+      }
       .profile-post-list__col {
         display: flex;
         flex-direction: column;

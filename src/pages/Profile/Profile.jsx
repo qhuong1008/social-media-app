@@ -81,12 +81,13 @@ function Profile() {
               </div>
             </Link>
           </div>
-          <div className="profile-post-list__col">
-            <div className="profile-post-list__row">
-              <ProfilePost postId={postId} />
-              <ProfilePost postId={postId} />
-              <ProfilePost postId={postId} />
-            </div>
+          <div className="profile-post-list">
+            <ProfilePost postId={postId} />
+            <ProfilePost postId={postId} />
+            <ProfilePost postId={postId} />
+            <ProfilePost postId={postId} />
+            <ProfilePost postId={postId} />
+            <ProfilePost postId={postId} />
           </div>
         </div>
       </div>
