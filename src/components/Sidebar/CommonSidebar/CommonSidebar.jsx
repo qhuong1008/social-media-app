@@ -107,7 +107,10 @@ const CommonSidebar = () => {
             </li>
           </Link>
           <Link>
-            <li className="sidebar-item" onClick={() => togglePopup((p) => !p)}>
+            <li className="sidebar-item" onClick={() => {
+                setPopupcontent(<NewPost />);
+                togglePopup((p) => !p);
+              }}>
               <div className="icon-container">
                 <FontAwesomeIcon icon={faSquarePlus} className="icon" />
               </div>
