@@ -21,10 +21,9 @@ import {
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
 import { PopupContext } from "../../../App";
-// import NewPost from "../../NewPost/NewPost";
+import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
-import NewPost from "../../PostForm/PostForm";
 
 const CommonSidebar = () => {
   const dispatch = useDispatch();
@@ -46,7 +45,7 @@ const CommonSidebar = () => {
     console.log("log out");
   };
   useEffect(() => {
-    setPopupcontent(<NewPost />);
+    setPopupcontent(<PostForm />);
   }, []);
 
   const [open, setOpen] = useState(false);
@@ -106,7 +105,13 @@ const CommonSidebar = () => {
             </li>
           </Link>
           <Link>
-            <li className="sidebar-item" onClick={() => togglePopup((p) => !p)}>
+            <li
+              className="sidebar-item"
+              onClick={() => {
+                setPopupcontent(<NewPost />);
+                togglePopup((p) => !p);
+              }}
+            >
               <div className="icon-container">
                 <FontAwesomeIcon icon={faSquarePlus} className="icon" />
               </div>

@@ -99,7 +99,7 @@ function NewPost({ post }) {
     } else {
       const preparedFormContent = { ...INTERFACE_TI_POST_CONTENT };
       preparedFormContent.data.images = [form.content.img];
-      preparedFormContent.data.contents = [form.content.caption];
+      preparedFormContent.data.contents = form.content.caption.split("\n");
       form.content = { ...preparedFormContent };
       createPost(form)
         .then((resp) => handleSuccessResponse(resp))

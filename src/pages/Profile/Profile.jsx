@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import styles from "./Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,9 +12,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
+import { listPostsFromUser } from "../../api/common/Post";
 
 function Profile() {
-  const postId = "1";
+  const uid = 1;
+  const [posts, setPosts] = useState([]);
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const res = await listPostsFromUser(uid);
+      setPosts(res.data.data);
+    };
+    fetchPosts();
+  }, []);
   return (
     <div className="profile-container">
       <CommonSidebar />
@@ -81,13 +91,13 @@ function Profile() {
               </div>
             </Link>
           </div>
-          <div className="profile-post-list">
-            <ProfilePost postId={postId} />
-            <ProfilePost postId={postId} />
-            <ProfilePost postId={postId} />
-            <ProfilePost postId={postId} />
-            <ProfilePost postId={postId} />
-            <ProfilePost postId={postId} />
+
+          <div className="profile-post-list__col">
+            <div className="profile-post-list__row">
+              {posts.map((post) => {
+                return <ProfilePost post={post} />;
+              })}
+            </div>
           </div>
         </div>
       </div>

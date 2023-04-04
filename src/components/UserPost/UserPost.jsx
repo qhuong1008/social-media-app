@@ -10,7 +10,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
-function UserPost() {
+function UserPost({ post }) {
+  const content = JSON.parse(post.content).data;
   const {
     togglePopupContentLevel,
     setPopupContentLevel,
@@ -31,10 +32,7 @@ function UserPost() {
   return (
     <div className="user-post-wrapper">
       <div className="post-image">
-        <img
-          src="https://i.pinimg.com/564x/ee/2a/71/ee2a7149341c2b23ae2e9c7358ec247d.jpg"
-          alt="post image"
-        />
+        <img src={content.images[0]} alt="post image" />
       </div>
       <div className="post-info">
         <div className="post-info-header">
@@ -50,7 +48,10 @@ function UserPost() {
             onClick={() => {
               setPopupContentLevel(
                 1,
-                <UserPostModify onCancel={() => hidePopupContentLevel(1)} />
+                <UserPostModify
+                  post={post}
+                  onCancel={() => hidePopupContentLevel(1)}
+                />
               );
               togglePopupContentLevel(1);
             }}
@@ -83,20 +84,9 @@ function UserPost() {
             <div className="post-status-desc">
               <span>koyukichan_01:</span>
               <div className="post-desc">
-                2 3 con mực, anh yêu em cực 💕 —————————————————— ⚠️ I do not
-                own the video. ✉ All rights and credits belong to the owner(s)
-                DM for post removal if copyright infringed #catsofinstagram
-                #cats_of_instagram #catsofig #catsoftheday #catsoftoday
-                #catsofworld #catsoftheweek #catlover #catloversclub #catlovers
-                #catfeaturesdaily #catfeatures #catfeaturefriends #catfeature
-                #catvideos #cutecat #kitty #kittiesofinstagram #kittylove 2 3
-                con mực, anh yêu em cực 💕 —————————————————— ⚠️ I do not own
-                the video. ✉ All rights and credits belong to the owner(s) DM
-                for post removal if copyright infringed #catsofinstagram
-                #cats_of_instagram #catsofig #catsoftheday #catsoftoday
-                #catsofworld #catsoftheweek #catlover #catloversclub #catlovers
-                #catfeaturesdaily #catfeatures #catfeaturefriends #catfeature
-                #catvideos #cutecat #kitty #kittiesofinstagram #kittylove
+                {content.contents.map((content) => {
+                  return <div className="status">{content}</div>;
+                })}
               </div>
             </div>
           </div>

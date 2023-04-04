@@ -12,12 +12,12 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import defaultAvatar from "../../images/default-avatar.jpg";
 
-function Post({post}) {
+function Post({ post }) {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
-
   const content = JSON.parse(post.content);
-  let { images, contents } = content.data;
+  let images = content.data.images;
+  let contents = content.data.contents;
   images = images || [];
   contents = contents || [];
   const time = new Date() - new Date(post.createdAt);
@@ -45,7 +45,6 @@ function Post({post}) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
-  console.log();
   return (
     <>
       <div className="post-container">
@@ -84,10 +83,8 @@ function Post({post}) {
         </div>
         <div className="post-content">
           {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
-          {images.map(url => {
-            return (
-              <img src={url}></img>
-            )
+          {images.map((url) => {
+            return <img src={url}></img>;
           })}
         </div>
         <div className="post-actions">
@@ -123,10 +120,8 @@ function Post({post}) {
         <div className="post-status">
           <div className="username">{post.username}</div>
           {/* TODO: nhớ đây là danh sách ảnh, nhớ design lại */}
-          {contents.map(content => {
-            return (
-              <div className="status">{content}</div>
-            )
+          {contents.map((content) => {
+            return <div className="status">{content}</div>;
           })}
           <div className="view-comments">View all comments</div>
         </div>

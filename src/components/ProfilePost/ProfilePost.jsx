@@ -15,7 +15,8 @@ import { PopupContext } from "../../App";
 import { useEffect, useContext } from "react";
 import UserPost from "../../components/UserPost/UserPost";
 
-function ProfilePost({ postId }) {
+function ProfilePost({ post }) {
+  const content = JSON.parse(post.content).data;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
 
@@ -28,7 +29,8 @@ function ProfilePost({ postId }) {
   };
 
   useEffect(() => {
-    setPopupcontent(<UserPost postId={postId} />);
+    console.log(post);
+    setPopupcontent(<UserPost post={post} />);
   }, []);
   return (
     <div
@@ -36,10 +38,7 @@ function ProfilePost({ postId }) {
       onClick={() => togglePopup((p) => !p)}
     >
       <Link>
-        <img
-          src="https://i.pinimg.com/564x/ee/2a/71/ee2a7149341c2b23ae2e9c7358ec247d.jpg"
-          alt=""
-        />
+        <img src={content.images[0]} alt="" />
         <div className="profile-post-reactions">
           <div className="post-reaction-item">
             <FontAwesomeIcon icon={faHeart} className="icon" />

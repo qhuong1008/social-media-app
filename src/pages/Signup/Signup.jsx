@@ -43,6 +43,7 @@ function Signup() {
       handleErrorMessage("Thông tin không được trống!");
     } else {
       const user = { ...signupFormData };
+      console.log(user);
       dispatch(handleRegisterUser(user));
     }
   };

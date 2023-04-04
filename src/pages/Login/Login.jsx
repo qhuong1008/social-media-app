@@ -22,8 +22,10 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLoginAccess = () => {
-    dispatch(handleLogin(username, password)).then(() => {
-      navigate("/");
+    dispatch(handleLogin(username, password)).then((res) => {
+      if (res) {
+        navigate("/");
+      }
     });
   };
 
