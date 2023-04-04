@@ -1,6 +1,9 @@
 import style from "./UserList.scss";
 
 function UserList() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
+
   return (
     <div className="userlist-container">
       <div className="top">
@@ -14,8 +17,8 @@ function UserList() {
                 />
               </div>
               <div className="name">
-                <div className="username">koyuki_chan01</div>
-                <div className="full-name">Koyuki Chan</div>
+                <div className="username">{user.displayName}</div>
+                <div className="full-name">{user.username}</div>
               </div>
             </div>
             <div className="userlist-action">
@@ -41,8 +44,8 @@ function UserList() {
                     />
                   </div>
                   <div className="name">
-                    <div className="username">koyuki_chan01</div>
-                    <div className="full-name">Koyuki Chan</div>
+                    <div className="username">user</div>
+                    <div className="full-name">user</div>
                   </div>
                 </div>
                 <div className="userlist-action">
