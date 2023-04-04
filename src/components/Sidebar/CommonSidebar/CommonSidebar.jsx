@@ -9,13 +9,11 @@ import {
   faBookmark,
   faCircleExclamation,
   faCompass,
-  faExclamation,
   faGear,
   faHourglass,
   faHouse,
   faMagnifyingGlass,
   faMoon,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
@@ -26,6 +24,7 @@ import { PopupContext } from "../../../App";
 import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
+import NewPost from "../../PostForm/PostForm";
 
 const CommonSidebar = () => {
   const dispatch = useDispatch();
@@ -107,10 +106,13 @@ const CommonSidebar = () => {
             </li>
           </Link>
           <Link>
-            <li className="sidebar-item" onClick={() => {
+            <li
+              className="sidebar-item"
+              onClick={() => {
                 setPopupcontent(<NewPost />);
                 togglePopup((p) => !p);
-              }}>
+              }}
+            >
               <div className="icon-container">
                 <FontAwesomeIcon icon={faSquarePlus} className="icon" />
               </div>

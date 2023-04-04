@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useCallback, useContext } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -28,6 +29,19 @@ const STATE_VAR = {
 };
 function NewPost({ post }) {
   const [openTagModal, setOpenTagModal] = useState(false);
+  const [taggedList, setTaggedList] = useState([]);
+  const [count, setCount] = useState(0);
+
+  const [usertest, setUsertest] = useState("ban dau");
+  const callBackFunction = (childData) => {
+    setTaggedList(childData);
+    setCount(count + 1);
+    console.log("taggedList:", taggedList);
+  };
+
+  taggedList.map((user) => {
+    console.log(user.username);
+  });
   const isCreated = post != null ? true : false;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
@@ -141,7 +155,12 @@ function NewPost({ post }) {
         })}
       >
         <div className={$.upload_wrap}>
-          <div className={$.upload} onClick={() => setOpenTagModal((p) => !p)}>
+          <div
+            className={$.upload}
+            onClick={() => {
+              setOpenTagModal((p) => !p);
+            }}
+          >
             {avt ? (
               <>
                 <img src={avt.previewURL} alt="" />
@@ -202,7 +221,7 @@ function NewPost({ post }) {
               </>
             )}
           </div>
-          {openTagModal && <TagModal />}
+          {openTagModal && <TagModal callBackFunction={callBackFunction} />}
           <div
             className={clx($.form, {
               [$.form_show]: state === STATE_VAR.fill_form,
@@ -234,7 +253,23 @@ function NewPost({ post }) {
             </div>
             <div className={$.form__tag}>
               <FontAwesomeIcon icon={faTag} className="icon" />
-              <input type="text" />
+              <div className={$.form__taglist}>
+                {/* <div className={$.form__user}>hihi</div> */}
+                {taggedList.length === 0 ? (
+                  <>ko co user nao dau</>
+                ) : (
+                  <>co user ma ?</>
+                )}
+                {taggedList.map((user) => {
+                  return (
+                    <div className={$.form__user}>
+                      <a href={`/profile/${user.username}`}>
+                        <div>{user.username}</div>
+                      </a>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

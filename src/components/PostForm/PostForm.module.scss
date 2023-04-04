@@ -139,6 +139,7 @@
   &__tag {
     display: flex;
     align-items: center;
+    align-self: start;
     gap: 8px;
     & > svg {
       width: 12px;
@@ -148,6 +149,18 @@
       outline: none;
       border: none;
       flex: 1;
+    }
+    .form__taglist {
+      display: flex;
+      flex-wrap: wrap;
+      .form__user {
+        margin-right: 5px;
+        a {
+          padding: 0;
+          margin: 0;
+          display: block;
+        }
+      }
     }
   }
 
