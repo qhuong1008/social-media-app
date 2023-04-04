@@ -2,7 +2,6 @@ import style from "./UserList.scss";
 
 function UserList() {
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   return (
     <div className="userlist-container">

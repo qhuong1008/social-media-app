@@ -41,9 +41,8 @@ const CommonSidebar = () => {
   };
 
   const handleLogoutAccount = () => {
-    dispatch(handleLogout);
+    dispatch(handleLogout());
     navigate("/login");
-    console.log("log out");
   };
   useEffect(() => {
     setPopupcontent(<PostForm />);
