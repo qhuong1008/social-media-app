@@ -10,7 +10,7 @@ import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { PopupContext } from "../../App";
 import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
-import defaultAvatar from "../../images/default-avatar.jpg";
+import avatar from "../../assets/img/avt.jpg";
 
 function Post({ post }) {
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -52,7 +52,7 @@ function Post({ post }) {
           <div className="user">
             <div className="avt">
               <img
-                src={post.avatar != null ? post.avatar : defaultAvatar}
+                src={post.avatar != null ? post.avatar : avatar}
                 alt="username"
               />
             </div>
@@ -105,10 +105,7 @@ function Post({ post }) {
         </div>
         <div className="like-section">
           <div className="avt">
-            <img
-              src={post.avatar != null ? post.avatar : defaultAvatar}
-              alt=""
-            />
+            <img src={post.avatar != null ? post.avatar : avatar} alt="" />
           </div>
           <div className="like-num">
             Liked by

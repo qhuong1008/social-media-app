@@ -17,6 +17,7 @@ import PostForm from "../../components/PostForm/PostForm";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
+import avatar from "../../assets/img/avt.jpg";
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
@@ -53,10 +54,7 @@ function Profile() {
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img
-              src="https://i.pinimg.com/564x/54/ed/49/54ed49c020089b61eb388ce7af27c564.jpg"
-              alt="avatar"
-            />
+            <img src={avatar} alt="avatar" />
           </div>
           <div className="profile-info">
             <section className="user-profile">

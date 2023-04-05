@@ -1,4 +1,5 @@
 import style from "./UserList.scss";
+import avatar from "../../assets/img/avt.jpg";
 
 function UserList() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
@@ -15,7 +16,7 @@ function UserList() {
             <div className="user-main">
               <div className="avt">
                 <img
-                  src="https://i.pinimg.com/474x/65/90/f7/6590f7a352330539d159602b1588dffc.jpg"
+                  src={user.avatar != null ? user.avatar : avatar}
                   alt="avatar"
                 />
               </div>
