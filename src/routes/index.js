@@ -16,7 +16,7 @@ export default memo(function () {
         <Route path="/login" element={<Login />}></Route>
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/message" element={<Message />}></Route>
-        <Route path="/profile" element={<Profile />}></Route>
+        <Route path={`/profile/:username`} element={<Profile />}></Route>
         <Route path="/peopleprofile" element={<PeopleProfile />}></Route>
       </Routes>
     </BrowserRouter>

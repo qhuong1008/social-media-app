@@ -25,8 +25,10 @@ import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 import NewPost from "../../PostForm/PostForm";
+import avatar from "../../../assets/img/avt.jpg";
 
 const CommonSidebar = () => {
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -118,11 +120,11 @@ const CommonSidebar = () => {
               Create
             </li>
           </Link>
-          <Link to="/profile">
+          <Link to={`/profile/${user.username}`}>
             <li className="sidebar-item">
               <img
                 className="profile-pic"
-                src="https://i.pinimg.com/564x/79/f0/d8/79f0d8d5a4834074c370f5ee61476cc0.jpg"
+                src={user.avatar != null ? user.avatar : avatar}
                 alt="cutecatsfyp"
               />
               Profile
