@@ -49,10 +49,20 @@ const deleteMessage = async (message) => {
   return contextInstance.delete(`common/message/${message.id}`);
 };
 
+/**
+ * Lấy danh sách toàn bộ tin nhắn giữa mình và người dùng có id là **friendId**
+ */
+const getListMessageWithAnotherPerson = async(friendId) => {
+  return contextInstance.post(`common/message/list-message`, {
+    friendId
+  });
+}
+
 export {
   createMessage,
   updateMessage,
   getMessageById,
   listMessages,
   deleteMessage,
+  getListMessageWithAnotherPerson
 };

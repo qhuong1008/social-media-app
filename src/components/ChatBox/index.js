@@ -21,6 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import SockJsClient from 'react-stomp';
 import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
+import { getListMessageWithAnotherPerson } from "../../api/common/Message";
 
 /**
  * Chatbox giữa 2 người với nhau
@@ -122,7 +123,13 @@ function ChatBox(props) {
   useEffect(() => {
     if (props.friend) {
       setListMessageData([]);
-      console.log('reload');
+
+      //Lấy lại toàn bộ tin nhắn giữa mình là người dùng mới (người mới click)
+      getListMessageWithAnotherPerson(props.friend.id)
+        .then(resp => {
+          const messages = resp.data.data;
+          setListMessageData([...messages]);
+        });
     }
   }, [props.friend]);
 
