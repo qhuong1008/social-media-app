@@ -2,7 +2,7 @@ import styles from "./FollowingModal.scss";
 function FollowingModal() {
   return (
     <div className="follower-modal-wrapper">
-      <div className="follower-modal-header">Followers</div>
+      <div className="follower-modal-header">Following</div>
       <div className="ruler"></div>
       <div className="follower-list">
         <div className="follower-item">
