@@ -1,7 +1,8 @@
 import style from "./UserList.scss";
 
 function UserList() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+
   if (user === null) {
     window.location.href = "/login";
   }

@@ -19,7 +19,8 @@ import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem("user"));
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+
   const uid = 1;
   const [posts, setPosts] = useState([]);
   const { togglePopupContentLevel, setPopupContentLevel } =
