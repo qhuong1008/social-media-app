@@ -2,6 +2,9 @@ import style from "./UserList.scss";
 
 function UserList() {
   const user = JSON.parse(localStorage.getItem("user"));
+  if (user === null) {
+    window.location.href = "/login";
+  }
 
   return (
     <div className="userlist-container">
