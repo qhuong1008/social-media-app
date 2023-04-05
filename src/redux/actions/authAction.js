@@ -25,8 +25,8 @@ export const handleLogin = (username, password) => async (dispatch) => {
       // localStorage.setItem("hihi", "hihi");
       localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
       localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
-      localStorage.setItem("user", JSON.stringify(resp.data.data.user));
-      localStorage.setItem("accessToken", resp.data.data.accessToken);
+      // localStorage.setItem("user", JSON.stringify(resp.data.data.user));
+      // localStorage.setItem("accessToken", resp.data.data.accessToken);
       handleSuccessResponse(resp);
       return true;
     })
@@ -56,8 +56,9 @@ export const handleRegisterUser = (user) => async (dispatch) => {
     });
 };
 export const handleLogout = () => (dispatch) => {
-  localStorage.removeItem("user");
-  localStorage.removeItem("accessToken");
+  localStorage.removeItem("ACCESS_TOKEN_JWT");
+  localStorage.removeItem("USER_INFO");
+  // localStorage.clear();
   dispatch({
     type: LOGOUT,
   });

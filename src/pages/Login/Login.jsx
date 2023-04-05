@@ -22,9 +22,9 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLoginAccess = () => {
-    console.log("login roi");
-    dispatch(handleLogin(username, password)).then((res) => {
-      if (res) {
+    dispatch(handleLogin(username, password)).then(() => {
+      const user = JSON.parse(localStorage.getItem("USER_INFO"));
+      if (user) {
         navigate("/");
       }
     });
