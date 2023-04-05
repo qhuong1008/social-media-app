@@ -6,13 +6,16 @@ import App from "./App";
 import "./index.scss";
 import { Provider } from "react-redux";
 import store from "./redux/store";
+import { DarkModeContextProvider } from "./context/darkModeContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
-      <ToastContainer />
+      <DarkModeContextProvider>
+        <App />
+        <ToastContainer />
+      </DarkModeContextProvider>
     </Provider>
   </React.StrictMode>
 );
