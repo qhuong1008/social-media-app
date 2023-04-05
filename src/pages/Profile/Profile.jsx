@@ -128,12 +128,10 @@ function Profile() {
             </Link>
           </div>
 
-          <div className="profile-post-list__col">
-            <div className="profile-post-list__row">
-              {posts.map((post) => {
-                return <ProfilePost post={post} />;
-              })}
-            </div>
+          <div className="profile-post-list">
+            {posts.map((post) => {
+              return <ProfilePost post={post} />;
+            })}
           </div>
         </div>
       </div>
