@@ -147,6 +147,12 @@ html {
       }
     }
   }
+  .user-wrapper {
+    cursor: pointer;
+    &:hover {
+      background-color: rgb(247, 247, 247);
+    }
+  }
 }
 
 @media screen and (min-width: 1200px) {
