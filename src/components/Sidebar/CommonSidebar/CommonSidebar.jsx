@@ -26,11 +26,15 @@ import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 import NewPost from "../../PostForm/PostForm";
 import avatar from "../../../assets/img/avt.jpg";
+import { DarkModeContext } from "../../../context/darkModeContext";
 
 const CommonSidebar = () => {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { darkModeDispatch } = useContext(DarkModeContext);
+
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
 
@@ -59,7 +63,7 @@ const CommonSidebar = () => {
   return (
     <div className="common-sidebar">
       <div className="top">
-        <Link to="/">
+        <Link to="/" className="logo-header">
           <div className="logo">Social Media</div>
         </Link>
       </div>
@@ -157,7 +161,10 @@ const CommonSidebar = () => {
                 </div>
                 <div className="ruler"></div>
 
-                <div className="dropdown-item">
+                <div
+                  className="dropdown-item"
+                  onClick={() => darkModeDispatch({ type: "TOGGLE" })}
+                >
                   <Link>
                     Switch Appearance
                     <FontAwesomeIcon icon={faMoon} className="icon" />

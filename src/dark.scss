@@ -1,0 +1,37 @@
+* {
+  background-color: #292929;
+  color: rgb(210, 210, 210);
+  .common-sidebar {
+    background-color: #292929;
+    .logo-header {
+      color: rgb(210, 210, 210) !important;
+    }
+    li {
+      &:hover {
+        background-color: #4a4a4a;
+      }
+      svg {
+        color: white;
+      }
+    }
+    .sidebar-item {
+      color: rgb(210, 210, 210);
+    }
+    .menu {
+      background-color: #292929;
+      .menu-item,
+      .dropdown-item {
+        a {
+          color: rgb(210, 210, 210);
+        }
+        background-color: #292929;
+      }
+      &:hover {
+        background-color: #4a4a4a;
+        .menu-item {
+          background-color: #4a4a4a;
+        }
+      }
+    }
+  }
+}
