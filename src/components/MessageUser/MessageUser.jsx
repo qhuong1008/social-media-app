@@ -1,6 +1,9 @@
+import { useState } from "react";
 import style from "./MessageUser.scss";
 
-function MessageUser({ user }) {
+function MessageUser({ user, lastMessage }) {
+  const [isNewMessage, setIsNewMessage] = useState(false);
+
   return (
     <>
       <div className="message-user-home">
@@ -8,9 +11,14 @@ function MessageUser({ user }) {
           <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
         </div>
         <div className="user">
-          <div>{user.username}</div>
+          <div style={{
+            fontWeight: isNewMessage ? 'bold' : 'normal',
+            color: isNewMessage ? 'red' : 'black'
+          }}>{user.username}</div>
           <div className="info">
-            <p className="last-message">Anh toan oi!!!</p>
+            <p className="last-message" style={{
+              fontWeight: isNewMessage ? 'bold' : 'normal',
+            }}>{lastMessage?.message}</p>
             <p>.</p>
             <p>2d</p>
           </div>
