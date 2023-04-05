@@ -1,4 +1,4 @@
-const BACKEND_URL = "http://192.168.23.91:8080";
+const BACKEND_URL = "http://localhost:8080";
 const ACCESS_TOKEN_KEY_NAME = "ACCESS_TOKEN_JWT";
 const USER_KEY_NAME = "USER_INFO";
 
