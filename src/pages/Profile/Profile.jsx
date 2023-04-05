@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import styles from "./Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,16 +13,37 @@ import {
 import { Link } from "react-router-dom";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
 import { listPostsFromUser } from "../../api/common/Post";
+import PostForm from "../../components/PostForm/PostForm";
+import { PopupContext } from "../../App";
+import FollowerModal from "../../components/FollowerModal/FollowerModal";
+import FollowingModal from "../../components/FollowingModal/FollowingModal";
 
 function Profile() {
   const uid = 1;
   const [posts, setPosts] = useState([]);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupFollowercontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+  const setPopupFollowingcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await listPostsFromUser(uid);
       setPosts(res.data.data);
     };
     fetchPosts();
+  }, []);
+  useEffect(() => {
+    setPopupFollowercontent(<FollowerModal />);
+    setPopupFollowingcontent(<FollowingModal />);
   }, []);
   return (
     <div className="profile-container">
@@ -48,13 +69,27 @@ function Profile() {
                 <div className="number">279</div>
                 <div className="statistic-type">posts</div>
               </div>
-              <div className="statistic-item">
+              <div
+                className="statistic-item"
+                onClick={() => {
+                  setPopupFollowercontent(<FollowerModal />);
+                  togglePopup((p) => !p);
+                }}
+              >
                 <div className="number">1,392</div>
                 <div className="statistic-type">followers</div>
               </div>
               <div className="statistic-item">
                 <div className="number">3,240</div>
-                <div className="statistic-type">following </div>
+                <div
+                  className="statistic-type"
+                  onClick={() => {
+                    setPopupFollowingcontent(<FollowingModal />);
+                    togglePopup((p) => !p);
+                  }}
+                >
+                  following{" "}
+                </div>
               </div>
             </section>
             <section className="user-bio">
