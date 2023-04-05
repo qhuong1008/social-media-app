@@ -113,6 +113,23 @@
     color: rgb(210, 210, 210);
   }
 }
+.message-user-home .user .new-msg {
+  color: rgb(210, 210, 210);
+  font-weight: 600;
+  display: flex;
+  position: relative;
+  align-items: center;
+  &::after {
+    position: absolute;
+    display: block;
+    left: 0;
+    content: "";
+    background-color: rgb(138, 85, 85);
+    width: 10px;
+    height: 10px;
+    border-radius: 99px;
+  }
+}
 .ruler {
   background-color: #4a4a4a;
 }
