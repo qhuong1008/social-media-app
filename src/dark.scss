@@ -1,8 +1,11 @@
 .app.dark {
   background-color: #292929;
+  width: 100%;
+  height: 100%;
   color: rgb(210, 210, 210);
   .common-sidebar {
     background-color: #292929;
+    border-right: 0.5px solid #4a4a4a;
     .logo-header {
       color: rgb(210, 210, 210);
     }
@@ -22,9 +25,12 @@
       .menu-item,
       .dropdown-item {
         a {
-          color: rgb(210, 210, 210);
+          color: rgb(210, 210, 210) !important;
         }
         background-color: #292929;
+        &:hover {
+          background-color: #4a4a4a;
+        }
       }
       &:hover {
         background-color: #4a4a4a;
@@ -56,4 +62,57 @@
     background-color: #292929;
     border: 1px solid #4a4a4a;
   }
+  .profile-container .profile .profile-main .profile-main__header a {
+    color: rgb(210, 210, 210) !important;
+  }
+  .account-list {
+    .account-item {
+      &:hover {
+        background-color: #4a4a4a;
+      }
+    }
+  }
+  .my-message-item-home,
+  .message-item-home {
+    background-color: #292929;
+    border: 0.5px solid #808080;
+  }
+  .messageHome .user-wrapper {
+    &:hover {
+      background-color: #4a4a4a;
+    }
+  }
+  .messageHome .message-container .messages .message-box #message-input input {
+    background-color: #292929;
+    color: rgb(210, 210, 210) !important;
+  }
+}
+.Popup_popup_wrapper__yJ0Ws {
+  background: #393838;
+  color: rgb(210, 210, 210) !important;
+  .follower-modal-wrapper
+    .follower-list
+    .follower-item
+    .follower-left
+    .username {
+    color: rgb(210, 210, 210) !important;
+  }
+  .follower-modal-wrapper
+    .follower-list
+    .follower-item
+    .follower-right
+    .delete-btn {
+    background: #393838;
+    border: 0.5px solid #808080;
+    &:hover {
+      background: #424141;
+    }
+  }
+  .PostForm_form__content__A-YcB > textarea {
+    background-color: #393838;
+    color: rgb(210, 210, 210);
+  }
+}
+.ruler {
+  background-color: #4a4a4a;
 }
