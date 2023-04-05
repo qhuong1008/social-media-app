@@ -21,10 +21,10 @@ export const handleLogin = (username, password) => async (dispatch) => {
         payload: resp,
       });
       const { user, accessToken } = resp.data.data;
-      console.log(resp.data.data.user);
+      console.log(resp.data.data);
       // localStorage.setItem("hihi", "hihi");
-      // localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
-      // localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
+      localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
+      localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
       localStorage.setItem("user", JSON.stringify(resp.data.data.user));
       localStorage.setItem("accessToken", resp.data.data.accessToken);
       handleSuccessResponse(resp);
