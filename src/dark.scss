@@ -1,10 +1,10 @@
-* {
+.app.dark {
   background-color: #292929;
   color: rgb(210, 210, 210);
   .common-sidebar {
     background-color: #292929;
     .logo-header {
-      color: rgb(210, 210, 210) !important;
+      color: rgb(210, 210, 210);
     }
     li {
       &:hover {
@@ -33,5 +33,27 @@
         }
       }
     }
+  }
+  .messageHome {
+    .message-container {
+      background-color: #292929;
+      .messages {
+        background-color: #292929;
+        border: 1px solid rgb(69, 69, 69);
+        .message-box {
+          border-left: 1px solid rgb(69, 69, 69);
+        }
+      }
+    }
+  }
+  .post-new-comment {
+    input {
+      background-color: #292929;
+      color: rgb(210, 210, 210);
+    }
+  }
+  .profile-container .profile .profile-header .profile-info .edit-profile-btn {
+    background-color: #292929;
+    border: 1px solid #4a4a4a;
   }
 }
