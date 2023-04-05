@@ -42,7 +42,6 @@ function NewPost({ post }) {
   taggedList.map((user) => {
     console.log(user.username);
   });
-  const isCreated = post != null ? true : false;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
 
@@ -53,17 +52,24 @@ function NewPost({ post }) {
   const togglePopup = () => {
     togglePopupContentLevel(0);
   };
+  const isCreated = post != null ? true : false;
 
   const id = useId();
   const [state, setState] = useState(STATE_VAR.upload_image);
   const [form, setForm] = useState({
-    id: post != null ? post.id : null,
-    isPublic: post != null ? post.isPublic : false,
-    content: post != null ? post.content : { img: null, caption: "" },
+    id: null,
+    isPublic: false,
+    content: { img: null, caption: "" },
   });
-  const [avt, setAvt] = useState(form.content.img);
-  const [caption, setCaption] = useState(form.content.caption);
-
+  const [avt, setAvt] = useState();
+  const [caption, setCaption] = useState("");
+  if (isCreated) {
+    form.id = post.id;
+    form.isPublic = post.isPublic;
+    const content = JSON.parse(post.content).data;
+    setAvt(content.images);
+    setCaption(content.contents.join("\n"));
+  }
   useEffect(() => {
     return () => avt && URL.revokeObjectURL(avt.previewURL);
   }, [avt]);
@@ -83,6 +89,7 @@ function NewPost({ post }) {
         form.content.img = res.data.data;
         file.previewURL = res.data.data;
         setAvt(file);
+        console.log(avt);
       })
       .catch((err) => handleErrorResponse(err));
   }
@@ -127,7 +134,6 @@ function NewPost({ post }) {
   // useEffect(() => {
   //   setPopupcontent(<TagModal />);
   // }, []);
-
   return (
     <div className={$.container}>
       <div className={$.container__header}>

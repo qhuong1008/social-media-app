@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
+import { USER_KEY_NAME } from "../../types";
+import { Link } from "react-router-dom";
+
 import styles from "./Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,15 +12,18 @@ import {
   faTableList,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
 import { listPostsFromUser } from "../../api/common/Post";
 import PostForm from "../../components/PostForm/PostForm";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
+import defaultAvatar from "../../images/default-avatar.jpg";
 
 function Profile() {
+  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
+  const username = user.displayName != null ? user.displayName : user.username;
   const uid = 1;
   const [posts, setPosts] = useState([]);
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -52,13 +57,13 @@ function Profile() {
         <div className="profile-header">
           <div className="profile-img">
             <img
-              src="https://i.pinimg.com/564x/54/ed/49/54ed49c020089b61eb388ce7af27c564.jpg"
+              src={user.avatar != null ? user.avatar : defaultAvatar}
               alt="avatar"
             />
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">koyuki_chan01</div>
+              <div className="username">{username}</div>
               <div className="edit-profile-btn">Edit profile</div>
               <div>
                 <FontAwesomeIcon icon={faGear} className="icon" />

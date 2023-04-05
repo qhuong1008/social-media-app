@@ -1,9 +1,12 @@
 import style from "./Message.scss";
+import { USER_KEY_NAME } from "../../types";
+
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import MessageItem from "../../components/MessageItem/MessageItem";
 import MyMessageItem from "../../components/MyMessageItem/MyMessageItem";
 import MessageUser from "../../components/MessageUser/MessageUser";
+import defaultAvatar from "../../images/default-avatar.jpg";
 import {
   faChevronDown,
   faCircleInfo,
@@ -18,6 +21,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
 
 function Message() {
+  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
+  const username = user.displayName != null ? user.displayName : user.username;
   const messagesEndRef = useRef(null);
   const [currentUserId, setCurrentUserId] = useState(2);
   const [userMessage, setUserMessage] = useState("");
@@ -104,7 +109,7 @@ function Message() {
             <div className="users">
               <div id="message-header">
                 <div id="user-account">
-                  <p>Toandeptry</p>
+                  <p>{username}</p>
                   <i>
                     <FontAwesomeIcon icon={faChevronDown} className="icon" />
                   </i>
@@ -130,8 +135,8 @@ function Message() {
             </div>
             <div className="message-box">
               <div id="user">
-                <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
-                <p>Toan dep try hon</p>
+                <img src={user.avatar != null ? user.avatar : defaultAvatar} />
+                <p>{username}</p>
                 <i>
                   <FontAwesomeIcon icon={faCircleInfo} className="icon" />
                 </i>

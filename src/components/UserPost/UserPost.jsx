@@ -11,6 +11,7 @@ import { useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
 function UserPost({ post }) {
+  console.log(post);
   const content = JSON.parse(post.content).data;
   const {
     togglePopupContentLevel,

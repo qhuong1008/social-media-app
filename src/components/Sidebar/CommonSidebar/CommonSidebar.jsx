@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useState, useContext } from "react";
+import { USER_KEY_NAME } from "../../../types";
 import style from "./CommonSidebar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
@@ -25,8 +26,11 @@ import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 import NewPost from "../../PostForm/PostForm";
+import defaultAvatar from "../../../images/default-avatar.jpg";
 
 const CommonSidebar = () => {
+  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -123,7 +127,7 @@ const CommonSidebar = () => {
             <li className="sidebar-item">
               <img
                 className="profile-pic"
-                src="https://i.pinimg.com/564x/79/f0/d8/79f0d8d5a4834074c370f5ee61476cc0.jpg"
+                src={user.avatar != null ? user.avatar : defaultAvatar}
                 alt="cutecatsfyp"
               />
               Profile

@@ -1,6 +1,7 @@
 import style from "./UserList.scss";
 
-function UserList() {
+import defaultAvatar from "../../images/default-avatar.jpg";
+function UserList({ user }) {
   return (
     <div className="userlist-container">
       <div className="top">
@@ -9,13 +10,15 @@ function UserList() {
             <div className="user-main">
               <div className="avt">
                 <img
-                  src="https://i.pinimg.com/474x/65/90/f7/6590f7a352330539d159602b1588dffc.jpg"
+                  src={user.avatar != null ? user.avatar : defaultAvatar}
                   alt="avatar"
                 />
               </div>
               <div className="name">
-                <div className="username">koyuki_chan01</div>
-                <div className="full-name">Koyuki Chan</div>
+                <div className="username">
+                  {user.displayName != null ? user.displayName : user.username}
+                </div>
+                <div className="full-name">{user.username}</div>
               </div>
             </div>
             <div className="userlist-action">
