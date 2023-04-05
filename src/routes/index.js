@@ -6,6 +6,7 @@ import Signup from "../pages/Signup/Signup";
 import Message from "../pages/Message/Message";
 import Profile from "../pages/Profile/Profile";
 import UserPost from "../components/UserPost/UserPost";
+import PeopleProfile from "../pages/PeopleProfile/PeopleProfile";
 
 export default memo(function () {
   return (
@@ -16,6 +17,7 @@ export default memo(function () {
         <Route path="/signup" element={<Signup />}></Route>
         <Route path="/message" element={<Message />}></Route>
         <Route path="/profile" element={<Profile />}></Route>
+        <Route path="/peopleprofile" element={<PeopleProfile />}></Route>
       </Routes>
     </BrowserRouter>
   );

@@ -22,6 +22,7 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLoginAccess = () => {
+    console.log("login roi");
     dispatch(handleLogin(username, password)).then((res) => {
       if (res) {
         navigate("/");
@@ -47,7 +48,9 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button onClick={handleLoginAccess}>Log in</button>
+            <button className="login-btn" onClick={handleLoginAccess}>
+              Log in
+            </button>
             {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div
