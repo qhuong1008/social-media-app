@@ -110,7 +110,7 @@ const CommonSidebar = () => {
             <li
               className="sidebar-item"
               onClick={() => {
-                setPopupcontent(<NewPost />);
+                setPopupcontent(<PostForm />);
                 togglePopup((p) => !p);
               }}
             >
