@@ -148,8 +148,10 @@ function ChatBox(props) {
         onMessage={(msg) => {
           if (typeof(props.onReceiveMessage) === 'function')
             props.onReceiveMessage(msg);
-          if (msg.senderId == friendUserJsonInfo.id)
+          console.log(msg.senderId, friendUserJsonInfo.id);
+          if (msg.senderId == friendUserJsonInfo.id || msg.receiverId == friendUserJsonInfo.id) {
             addMessageToChatBox(msg);
+          }
         }}
         ref={sockJsClientRef}
       />
