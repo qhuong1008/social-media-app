@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useContext } from "react";
-import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
+import { USER_KEY_NAME } from "../../types";
+import { Link } from "react-router-dom";
+
 import styles from "./Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,7 +12,7 @@ import {
   faTableList,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
-import { Link } from "react-router-dom";
+import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
 import { listPostsFromUser } from "../../api/common/Post";
 import PostForm from "../../components/PostForm/PostForm";

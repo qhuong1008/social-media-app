@@ -22,27 +22,30 @@ function UserPostModify({ post }, props) {
           handleErrorResponse(err);
         });
   };
-  // const { togglePopupContentLevel, setPopupContentLevel } =
-  //   useContext(PopupContext);
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
 
-  // const setPopupcontent = (content) => {
-  //   setPopupContentLevel(0, content);
-  // };
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
 
-  // const togglePopup = () => {
-  //   togglePopupContentLevel(0);
-  // };
-
-  // useEffect(() => {
-  //   setPopupcontent(<PostForm />);
-  // }, []);
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
   return (
     <div className="post-modify-wrapper">
       <ul>
         <li className="red" onClick={deletePostHandle}>
           Delete
         </li>
-        <li>Edit</li>
+        <li
+          onClick={() => {
+            setPopupContentLevel(2, <PostForm post={post} />);
+            togglePopupContentLevel(2);
+          }}
+        >
+          Edit
+        </li>
         <li>Hide like account</li>
         <li>Turn off something</li>
         <li>Go to post</li>

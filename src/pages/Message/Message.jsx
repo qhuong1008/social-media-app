@@ -5,6 +5,7 @@ import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import MessageItem from "../../components/MessageItem/MessageItem";
 import MyMessageItem from "../../components/MyMessageItem/MyMessageItem";
 import MessageUser from "../../components/MessageUser/MessageUser";
+import defaultAvatar from "../../images/default-avatar.jpg";
 import {
   faChevronDown,
   faCircleInfo,

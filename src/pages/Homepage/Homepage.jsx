@@ -1,4 +1,6 @@
 import style from "./Homepage.scss";
+import { USER_KEY_NAME } from "../../types";
+
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import Post from "../../components/Post/Post";
@@ -7,6 +9,7 @@ import { PopupContext } from "../../App";
 import { useState, useEffect, useContext } from "react";
 import { listPosts } from "../../api/common/Post";
 function Homepage() {
+  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
   const [posts, setPosts] = useState([]);
   useEffect(() => {
     const fetchPosts = async () => {
@@ -18,7 +21,7 @@ function Homepage() {
   return (
     <>
       <div className="home">
-        <CommonSidebar />
+        <CommonSidebar user={user} />
         <MiniSidebar />
         <div className="home-container">
           <div className="post-list">
@@ -30,7 +33,7 @@ function Homepage() {
             ))}
           </div>
         </div>
-        <UserList />
+        <UserList user={user} />
       </div>
     </>
   );
