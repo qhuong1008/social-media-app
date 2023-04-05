@@ -1,29 +1,27 @@
 import React, { useState, useEffect, useContext } from "react";
-import { USER_KEY_NAME } from "../../types";
-import { Link } from "react-router-dom";
-
-import styles from "./Profile.scss";
+import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
+import styles from "./PeopleProfile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
+  faChevronDown,
   faDownload,
+  faEllipsis,
   faFilm,
   faGear,
   faTableList,
+  faUserPlus,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
-import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
+import { Link } from "react-router-dom";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
-import { listPostsFromUser } from "../../api/common/Post";
-import PostForm from "../../components/PostForm/PostForm";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
-import avatar from "../../assets/img/avt.jpg";
+import UserProfileActionModal from "../../components/UserProfileActionModal/UserProfileActionModal";
+import FollowingUserProfileAction from "../../components/FollowingUserProfileAction/FollowingUserProfileAction";
 
-function Profile() {
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));
-
+function PeopleProfile() {
   const uid = 1;
   const [posts, setPosts] = useState([]);
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -35,20 +33,23 @@ function Profile() {
   const setPopupFollowingcontent = (content) => {
     setPopupContentLevel(0, content);
   };
+  const setPopupActioncontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const setCurrentUserProfileContent = (content) => {
+    setPopupContentLevel(0, content);
+  };
 
   const togglePopup = () => {
     togglePopupContentLevel(0);
   };
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await listPostsFromUser(uid);
-      setPosts(res.data.data);
-    };
-    fetchPosts();
-  }, []);
+
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
     setPopupFollowingcontent(<FollowingModal />);
+    setPopupActioncontent(<UserProfileActionModal />);
+    setCurrentUserProfileContent(<FollowingUserProfileAction />);
   }, []);
   return (
     <div className="profile-container">
@@ -56,14 +57,36 @@ function Profile() {
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img src={avatar} alt="avatar" />
+            <img
+              src="https://i.pinimg.com/564x/54/ed/49/54ed49c020089b61eb388ce7af27c564.jpg"
+              alt="avatar"
+            />
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{user.displayName}</div>
-              <div className="edit-profile-btn">Edit profile</div>
-              <div>
-                <FontAwesomeIcon icon={faGear} className="icon" />
+              <div className="username">koyuki_chan01</div>
+              <div className="follow-profile-btn">Follow</div>
+              <div
+                className="following-btn"
+                onClick={() => {
+                  setPopupActioncontent(<FollowingUserProfileAction />);
+                  togglePopup((p) => !p);
+                }}
+              >
+                Following
+                <FontAwesomeIcon icon={faChevronDown} className="icon" />
+              </div>
+              <div className="suggest-btn">
+                <FontAwesomeIcon icon={faUserPlus} className="icon" />
+              </div>
+              <div
+                className="action-btn"
+                onClick={() => {
+                  setPopupActioncontent(<UserProfileActionModal />);
+                  togglePopup((p) => !p);
+                }}
+              >
+                <FontAwesomeIcon icon={faEllipsis} className="icon" />
               </div>
             </section>
             <section className="user-statistics">
@@ -142,4 +165,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default PeopleProfile;

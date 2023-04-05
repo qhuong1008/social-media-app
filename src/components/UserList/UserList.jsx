@@ -1,7 +1,13 @@
 import style from "./UserList.scss";
+import avatar from "../../assets/img/avt.jpg";
 
-import defaultAvatar from "../../images/default-avatar.jpg";
-function UserList({ user }) {
+function UserList() {
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+
+  if (user === null) {
+    window.location.href = "/login";
+  }
+
   return (
     <div className="userlist-container">
       <div className="top">
@@ -10,14 +16,12 @@ function UserList({ user }) {
             <div className="user-main">
               <div className="avt">
                 <img
-                  src={user.avatar != null ? user.avatar : defaultAvatar}
+                  src={user.avatar != null ? user.avatar : avatar}
                   alt="avatar"
                 />
               </div>
               <div className="name">
-                <div className="username">
-                  {user.displayName != null ? user.displayName : user.username}
-                </div>
+                <div className="username">{user.displayName}</div>
                 <div className="full-name">{user.username}</div>
               </div>
             </div>
@@ -44,8 +48,8 @@ function UserList({ user }) {
                     />
                   </div>
                   <div className="name">
-                    <div className="username">koyuki_chan01</div>
-                    <div className="full-name">Koyuki Chan</div>
+                    <div className="username">user</div>
+                    <div className="full-name">user</div>
                   </div>
                 </div>
                 <div className="userlist-action">

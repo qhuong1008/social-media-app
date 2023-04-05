@@ -22,8 +22,9 @@ function Login() {
   const navigate = useNavigate();
 
   const handleLoginAccess = () => {
-    dispatch(handleLogin(username, password)).then((res) => {
-      if (res) {
+    dispatch(handleLogin(username, password)).then(() => {
+      const user = JSON.parse(localStorage.getItem("USER_INFO"));
+      if (user) {
         navigate("/");
       }
     });
@@ -47,7 +48,9 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button onClick={handleLoginAccess}>Log in</button>
+            <button className="login-btn" onClick={handleLoginAccess}>
+              Log in
+            </button>
             {/* <button onClick={testFunc.bind(null)}>test</button> */}
           </div>
           <div

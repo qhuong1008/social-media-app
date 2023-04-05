@@ -21,8 +21,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
 
 function Message() {
-  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
-  const username = user.displayName != null ? user.displayName : user.username;
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const messagesEndRef = useRef(null);
   const [currentUserId, setCurrentUserId] = useState(2);
   const [userMessage, setUserMessage] = useState("");
@@ -109,7 +108,7 @@ function Message() {
             <div className="users">
               <div id="message-header">
                 <div id="user-account">
-                  <p>{username}</p>
+                  <p>{user.displayName}</p>
                   <i>
                     <FontAwesomeIcon icon={faChevronDown} className="icon" />
                   </i>
@@ -136,7 +135,7 @@ function Message() {
             <div className="message-box">
               <div id="user">
                 <img src={user.avatar != null ? user.avatar : defaultAvatar} />
-                <p>{username}</p>
+                <p>{user.displayName}</p>
                 <i>
                   <FontAwesomeIcon icon={faCircleInfo} className="icon" />
                 </i>

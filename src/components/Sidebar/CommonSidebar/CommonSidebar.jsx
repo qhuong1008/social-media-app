@@ -26,11 +26,10 @@ import PostForm from "../../PostForm/PostForm";
 import { useDispatch } from "react-redux";
 import { handleLogout } from "../../../redux/actions/authAction";
 import NewPost from "../../PostForm/PostForm";
-import defaultAvatar from "../../../images/default-avatar.jpg";
+import avatar from "../../../assets/img/avt.jpg";
 
 const CommonSidebar = () => {
-  const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
-
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -45,9 +44,8 @@ const CommonSidebar = () => {
   };
 
   const handleLogoutAccount = () => {
-    dispatch(handleLogout);
+    dispatch(handleLogout());
     navigate("/login");
-    console.log("log out");
   };
   useEffect(() => {
     setPopupcontent(<PostForm />);
@@ -113,7 +111,7 @@ const CommonSidebar = () => {
             <li
               className="sidebar-item"
               onClick={() => {
-                setPopupcontent(<NewPost />);
+                setPopupcontent(<PostForm />);
                 togglePopup((p) => !p);
               }}
             >
@@ -123,11 +121,11 @@ const CommonSidebar = () => {
               Create
             </li>
           </Link>
-          <Link to="/profile">
+          <Link to={`/profile/${user.username}`}>
             <li className="sidebar-item">
               <img
                 className="profile-pic"
-                src={user.avatar != null ? user.avatar : defaultAvatar}
+                src={user.avatar != null ? user.avatar : avatar}
                 alt="cutecatsfyp"
               />
               Profile
