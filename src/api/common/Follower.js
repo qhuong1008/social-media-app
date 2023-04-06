@@ -15,7 +15,16 @@ const createFollower = async (follower) => {
  *
  */
 const listFollowers = async () => {
-  return contextInstance.get(`common/follower`);
+  return contextInstance.get(`common/follower/followers`);
+};
+
+/**
+ * Get all followers
+ * @return
+ *
+ */
+const listFollowing = async () => {
+  return contextInstance.get(`common/follower/me`);
 };
 
 /**
@@ -45,10 +54,12 @@ const deleteFollower = async (follower) => {
   return contextInstance.delete(`common/follower/${follower.id}`);
 };
 
+
 export {
   createFollower,
   updateFollower,
   getFollowerById,
   listFollowers,
   deleteFollower,
+  listFollowing,
 };

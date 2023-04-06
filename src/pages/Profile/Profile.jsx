@@ -2,30 +2,35 @@ import React, { useState, useEffect, useContext } from "react";
 import { USER_KEY_NAME } from "../../types";
 import { Link } from "react-router-dom";
 
-import styles from "./Profile.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faBars,
+  faChevronDown,
   faDownload,
+  faEllipsis,
   faFilm,
   faGear,
   faTableList,
+  faUserPlus,
   faUserTag,
 } from "@fortawesome/free-solid-svg-icons";
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import ProfilePost from "../../components/ProfilePost/ProfilePost";
 import { listPostsFromUser } from "../../api/common/Post";
-import PostForm from "../../components/PostForm/PostForm";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
-import avatar from "../../assets/img/avt.jpg";
+import UserProfileActionModal from "../../components/UserProfileActionModal/UserProfileActionModal";
+import FollowingUserProfileAction from "../../components/FollowingUserProfileAction/FollowingUserProfileAction";
+import { CommonFollowerApi } from "../../api/common";
+import { CommonPostApi } from "../../api/common";
+
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));
-
-  const uid = 1;
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));  
+  const uid = user.id;
   const [posts, setPosts] = useState([]);
+
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
 
@@ -39,6 +44,54 @@ function Profile() {
   const togglePopup = () => {
     togglePopupContentLevel(0);
   };
+
+  const setPopupActioncontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const setCurrentUserProfileContent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const [listFollowers, setListFollowers] = useState([]);
+  const [listFollowing, setListFollowing] = useState([]);
+  const [listPosts, setListPosts] = useState([]);
+
+  function fetchListFollowing(){
+    CommonFollowerApi.listFollowing()
+    .then((res) => {
+      const fetchListFollowing = res.data.data.map((following, index) => {
+        const temp = { ...following };
+        return temp;
+      })
+      setListFollowing(fetchListFollowing);
+    })
+    .catch((err) => {});
+  }
+
+  function fetchListFollowers() {
+    return CommonFollowerApi.listFollowers()
+    .then ((response) => {
+        const fetchListFollowers = response.data.data.map((follower, index) => {
+            const temp = { ...follower };
+            return temp;
+        });
+        setListFollowers(fetchListFollowers);
+    })}
+
+  function fetchListPosts() {
+    return CommonPostApi.listPosts()
+    .then ((response) => {
+        const fetchListPosts = response.data.data.map((post, index) => {
+            const temp = { ...post };
+            return temp;
+        });
+        setListPosts(fetchListPosts);
+    })
+    .catch((error) => {});
+  }
+  
+
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await listPostsFromUser(uid);
@@ -46,29 +99,45 @@ function Profile() {
     };
     fetchPosts();
   }, []);
+
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
     setPopupFollowingcontent(<FollowingModal />);
+    setPopupActioncontent(<UserProfileActionModal />);
+    setCurrentUserProfileContent(<FollowingUserProfileAction />);
+    fetchListFollowing();
+    fetchListFollowers();
+    fetchListPosts();
   }, []);
+
+  
+  
   return (
     <div className="profile-container">
       <CommonSidebar />
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img src={avatar} alt="avatar" />
+            <img src={user.avatar} alt="avatar" />
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{user.displayName}</div>
-              <div className="edit-profile-btn">Edit profile</div>
-              <div>
-                <FontAwesomeIcon icon={faGear} className="icon" />
+              <div className="username">{user.username}</div>
+              <div className="follow-profile-btn">Edit Profile</div>
+             
+              <div
+                className="action-btn"
+                onClick={() => {
+                  setPopupActioncontent(<UserProfileActionModal />);
+                  togglePopup((p) => !p);
+                }}
+              >
+                <FontAwesomeIcon icon={faEllipsis} className="icon" />
               </div>
             </section>
             <section className="user-statistics">
               <div className="statistic-item">
-                <div className="number">279</div>
+                <div className="number">{listPosts.length}</div>
                 <div className="statistic-type">posts</div>
               </div>
               <div
@@ -78,11 +147,11 @@ function Profile() {
                   togglePopup((p) => !p);
                 }}
               >
-                <div className="number">1,392</div>
+                <div className="number">{listFollowers.length}</div>
                 <div className="statistic-type">followers</div>
               </div>
               <div className="statistic-item">
-                <div className="number">3,240</div>
+                <div className="number">{listFollowing.length}</div>
                 <div
                   className="statistic-type"
                   onClick={() => {
@@ -95,8 +164,7 @@ function Profile() {
               </div>
             </section>
             <section className="user-bio">
-              💕 Cat lover 💕 Cat lover 💕 Cat lover 💕 Cat lover 💕 Cat lover
-              HCMUTE
+              {user.profile}
             </section>
           </div>
         </div>
@@ -131,7 +199,7 @@ function Profile() {
 
           <div className="profile-post-list__col">
             <div className="profile-post-list__row">
-              {posts.map((post) => {
+              {listPosts.map((post) => {
                 return <ProfilePost post={post} />;
               })}
             </div>
