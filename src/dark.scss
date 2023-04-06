@@ -1,8 +1,19 @@
 .app.dark {
-  background-color: #292929;
+  background-color: black;
+  width: 100%;
+  height: 100%;
   color: rgb(210, 210, 210);
+  .mini-sidebar {
+    background-color: #393939;
+    border: none;
+    .sidebar-item {
+      color: rgb(210, 210, 210);
+    }
+  }
+
   .common-sidebar {
-    background-color: #292929;
+    background-color: #393939;
+    border-right: 0.5px solid #4a4a4a;
     .logo-header {
       color: rgb(210, 210, 210);
     }
@@ -22,9 +33,12 @@
       .menu-item,
       .dropdown-item {
         a {
-          color: rgb(210, 210, 210);
+          color: rgb(210, 210, 210) !important;
         }
         background-color: #292929;
+        &:hover {
+          background-color: #4a4a4a;
+        }
       }
       &:hover {
         background-color: #4a4a4a;
@@ -34,11 +48,26 @@
       }
     }
   }
+  .post-container,
+  .userlist-container-wrapper {
+    background-color: #393939;
+  }
+  .userlist-container-wrapper .top {
+    background-color: #393939;
+  }
+  .post-list,
+  .home {
+    background-color: #292929;
+  }
+  svg {
+    fill: rgb(210, 210, 210);
+  }
+
   .messageHome {
     .message-container {
       background-color: #292929;
       .messages {
-        background-color: #292929;
+        background-color: #393939;
         border: 1px solid rgb(69, 69, 69);
         .message-box {
           border-left: 1px solid rgb(69, 69, 69);
@@ -48,12 +77,87 @@
   }
   .post-new-comment {
     input {
-      background-color: #292929;
+      background-color: inherit;
+      border: 1px solid rgb(210, 210, 210);
       color: rgb(210, 210, 210);
+      padding: 10px 10px;
+      border-radius: 10px;
+      width: 95%;
     }
   }
   .profile-container .profile .profile-header .profile-info .edit-profile-btn {
     background-color: #292929;
     border: 1px solid #4a4a4a;
   }
+  .profile-container .profile .profile-main .profile-main__header a {
+    color: rgb(210, 210, 210) !important;
+  }
+  .account-list {
+    .account-item {
+      &:hover {
+        background-color: #4a4a4a;
+      }
+    }
+  }
+  .my-message-item-home,
+  .message-item-home {
+    background-color: #292929;
+    border: 0.5px solid #808080;
+  }
+  .messageHome .user-wrapper {
+    &:hover {
+      background-color: #4a4a4a;
+    }
+  }
+  .messageHome .message-container .messages .message-box #message-input input {
+    background-color: inherit;
+
+    color: rgb(210, 210, 210) !important;
+  }
+  // .Popup_popup_wrapper {
+  //   background: #393838;
+  //   color: rgb(210, 210, 210) !important;
+  //   .follower-modal-wrapper
+  //     .follower-list
+  //     .follower-item
+  //     .follower-left
+  //     .username {
+  //     color: rgb(210, 210, 210) !important;
+  //   }
+  //   .follower-modal-wrapper
+  //     .follower-list
+  //     .follower-item
+  //     .follower-right
+  //     .delete-btn {
+  //     background: #393838;
+  //     border: 0.5px solid #808080;
+  //     &:hover {
+  //       background: #424141;
+  //     }
+  //   }
+  //   .PostForm_form__content__A-YcB > textarea {
+  //     background-color: #393838;
+  //     color: rgb(210, 210, 210);
+  //   }
+  //   // .message-user-home .user .new-msg {
+  //   //   color: rgb(210, 210, 210);
+  //   //   font-weight: 600;
+  //   //   display: flex;
+  //   //   position: relative;
+  //   //   align-items: center;
+  //   //   &::after {
+  //   //     position: absolute;
+  //   //     display: block;
+  //   //     left: 0;
+  //   //     content: "";
+  //   //     background-color: rgb(138, 85, 85);
+  //   //     width: 10px;
+  //   //     height: 10px;
+  //   //     border-radius: 99px;
+  //   //   }
+  //   // }
+  // }
+}
+.ruler {
+  background-color: #4a4a4a;
 }

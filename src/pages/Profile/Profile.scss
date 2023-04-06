@@ -2,7 +2,7 @@
   display: flex;
   box-sizing: border-box;
   width: 100%;
-  height: auto;
+  // height: auto;
   flex-direction: row;
   .profile {
     margin-left: 300px;
@@ -116,5 +116,28 @@
         }
       }
     }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .common-sidebar {
+    display: none;
+  }
+  // .mini-sidebar {
+  //   position: absolute;
+  //   left: 0;
+  // }
+  .home-container {
+    margin-left: 80px;
+  }
+  .profile {
+    margin-left: 100px !important;
+  }
+}
+@media screen and (max-width: 1000px) {
+  .profile-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 }

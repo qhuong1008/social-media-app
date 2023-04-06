@@ -12,17 +12,20 @@ html {
 }
 .messageHome {
   display: flex;
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
+  background-color: #eeeeee;
   .message-container {
     width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
-    background-color: rgb(246, 246, 246);
+    // background-color: rgb(246, 246, 246);
 
     .messages {
-      width: 80%;
-      height: 90%;
+      width: 90%;
+      height: 90vh;
+
       margin: auto;
       display: flex;
       border: 1px solid rgb(183, 183, 183);
@@ -62,6 +65,7 @@ html {
       }
       .message-box {
         width: 60%;
+
         border-left: 1px solid rgb(183, 183, 183);
         display: flex;
         flex-direction: column;
@@ -70,7 +74,8 @@ html {
           flex-direction: row;
           align-items: center;
           height: 8%;
-          border-bottom: 1px solid rgb(183, 183, 183);
+          padding: 10px 0;
+          border-bottom: 1px solid rgb(120, 120, 120);
           padding-right: 40px;
           font-size: 16px;
           font-weight: 600;
@@ -87,6 +92,10 @@ html {
             float: right;
             margin-left: auto;
           }
+        }
+        .message-user-home .user .new-msg {
+          color: red;
+          font-weight: 600;
         }
         #messages {
           height: 82%;
@@ -123,7 +132,7 @@ html {
           margin: 0 auto 15px;
           border: 0.5px solid rgb(210, 209, 209);
           border-radius: 20px;
-          padding: 0 20px;
+          padding: 7px 20px;
           #icon {
             float: left;
             margin-right: auto;

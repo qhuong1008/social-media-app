@@ -15,8 +15,8 @@
     display: flex;
     align-items: center;
     img {
-      width: 70px;
-      height: 70px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
     }
   }
@@ -24,13 +24,42 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: flex-start;
+    margin-left: 10px;
     .info {
       display: inline-block;
+      width: 160px;
+      // padding-left: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+
       color: rgb(166, 166, 166);
       & > * {
         display: inline-block;
         margin-right: 5px;
       }
+    }
+    .new-msg {
+      color: black;
+      font-weight: 600;
+      display: flex;
+      position: relative;
+      align-items: center;
+      padding-right: 15px;
+      &::after {
+        position: absolute;
+        display: block;
+        right: 0;
+        content: "";
+        background-color: blue;
+        width: 10px;
+        height: 10px;
+        border-radius: 99px;
+      }
+    }
+    .last-message {
+      margin: 0;
     }
   }
 }
