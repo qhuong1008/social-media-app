@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import styles from "./FollowerModal.scss";
 import { CommonFollowerApi } from "../../api/common";
 import { useState } from "react";
-import { Table } from "antd";
 function FollowerModal() {
   const [listFollowers, setListFollowers] = useState([]);
 
