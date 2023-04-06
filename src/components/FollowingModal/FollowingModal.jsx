@@ -25,7 +25,7 @@ function FollowingModal() {
     <>
 
     <div className="follower-modal-wrapper">
-      <div className="follower-modal-header">Followeing</div>
+      <div className="follower-modal-header">Following</div>
       <div className="ruler"></div>
       <div className="follower-list">
       {Object.keys(listFollowing).map(key => {

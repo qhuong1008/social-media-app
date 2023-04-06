@@ -58,15 +58,17 @@ const CommonSidebar = () => {
   const [open, setOpen] = useState(false);
 
   const handleToggleMenu = () => {
-    console.log(open);
     setOpen(!open);
   };
   return (
     <div className="common-sidebar">
       <div className="top">
-        <Link to="/" className="logo-header">
+        <div
+          onClick={() => (window.location.href = "/")}
+          className="logo-header"
+        >
           <div className="logo">Social Media</div>
-        </Link>
+        </div>
       </div>
 
       <div className="center">

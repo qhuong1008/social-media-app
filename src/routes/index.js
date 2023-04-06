@@ -13,7 +13,7 @@ import "../dark.scss";
 export default memo(function () {
   const { darkMode } = useContext(DarkModeContext);
   return (
-    <div className={darkMode ? "dark" : "app"}>
+    <div className={darkMode ? "app dark" : "app"}>
       <BrowserRouter>
         <Routes>
           <Route path="*" element={<Homepage />}></Route>
