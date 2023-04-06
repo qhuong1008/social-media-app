@@ -9,7 +9,7 @@ function UserList() {
   }
 
   return (
-    <div className="userlist-container">
+    <div className="userlist-container-wrapper">
       <div className="top">
         <div className="user-account">
           <div className="userlist-container">

@@ -18,8 +18,12 @@ import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
 import avatar from "../../assets/img/avt.jpg";
+import { useParams } from "react-router-dom";
+import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 
 function Profile() {
+  const params = useParams();
+
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
 
   const uid = 1;
@@ -51,6 +55,7 @@ function Profile() {
   return (
     <div className="profile-container">
       <CommonSidebar />
+      <MiniSidebar />
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
@@ -58,7 +63,7 @@ function Profile() {
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{user.displayName}</div>
+              <div className="username">{params.username}</div>
               <div className="edit-profile-btn">Edit profile</div>
               <div>
                 <FontAwesomeIcon icon={faGear} className="icon" />

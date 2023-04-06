@@ -1,33 +1,63 @@
+import React, { useEffect } from "react";
+import { useState, useContext } from "react";
 import style from "./MiniSidebar.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
 import {
   faBars,
   faBookmark,
   faCircleExclamation,
   faCompass,
-  faExclamation,
   faGear,
   faHourglass,
   faHouse,
   faMagnifyingGlass,
   faMoon,
-  faPhone,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
   faMessage,
   faSquarePlus,
 } from "@fortawesome/free-regular-svg-icons";
+import { PopupContext } from "../../../App";
+import PostForm from "../../PostForm/PostForm";
+import { useDispatch } from "react-redux";
+import { handleLogout } from "../../../redux/actions/authAction";
+import NewPost from "../../PostForm/PostForm";
+import avatar from "../../../assets/img/avt.jpg";
+import { DarkModeContext } from "../../../context/darkModeContext";
 
 function MiniSidebar() {
   const [open, setOpen] = useState(false);
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { darkModeDispatch } = useContext(DarkModeContext);
 
   const handleToggleMenu = () => {
     console.log(open);
     setOpen(!open);
   };
+  const { togglePopupContentLevel, setPopupContentLevel } =
+    useContext(PopupContext);
+
+  const setPopupcontent = (content) => {
+    setPopupContentLevel(0, content);
+  };
+
+  const togglePopup = () => {
+    togglePopupContentLevel(0);
+  };
+
+  const handleLogoutAccount = () => {
+    dispatch(handleLogout());
+    navigate("/login");
+  };
+  useEffect(() => {
+    setPopupcontent(<PostForm />);
+  }, []);
+
   return (
     <>
       <div className="mini-sidebar">
@@ -66,7 +96,7 @@ function MiniSidebar() {
               </Link>
             </div>
             <div className="sidebar-item">
-              <Link>
+              <Link to="/message">
                 <FontAwesomeIcon icon={faMessage} className="icon" />
               </Link>
             </div>
@@ -75,13 +105,19 @@ function MiniSidebar() {
                 <FontAwesomeIcon icon={faHeart} className="icon" />
               </Link>
             </div>
-            <div className="sidebar-item">
+            <div
+              className="sidebar-item"
+              onClick={() => {
+                setPopupcontent(<PostForm />);
+                togglePopup((p) => !p);
+              }}
+            >
               <Link>
                 <FontAwesomeIcon icon={faSquarePlus} className="icon" />
               </Link>
             </div>
             <div className="sidebar-item">
-              <Link>
+              <Link to={`/profile/${user.username}`}>
                 <img
                   className="profile-pic"
                   src="https://i.pinimg.com/564x/79/f0/d8/79f0d8d5a4834074c370f5ee61476cc0.jpg"
@@ -113,7 +149,10 @@ function MiniSidebar() {
                 </div>
                 <div className="ruler"></div>
 
-                <div className="dropdown-item">
+                <div
+                  className="dropdown-item"
+                  onClick={() => darkModeDispatch({ type: "TOGGLE" })}
+                >
                   <Link>
                     Switch Appearance
                     <FontAwesomeIcon icon={faMoon} className="icon" />

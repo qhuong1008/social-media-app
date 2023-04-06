@@ -1,49 +1,50 @@
 .home {
-	display: flex;
-	box-sizing: border-box;
-	padding: 0 16px;
+  display: flex;
+  box-sizing: border-box;
+  padding: 0 16px;
+  background-color: rgb(238, 238, 238);
 }
 .post-list {
-	display: flex;
-	flex-direction: column;
-	padding: 20px 70px;
-	margin: 0 auto;
-	width: fit-content;
+  display: flex;
+  flex-direction: column;
+  // padding: 20px 70px;
+  margin: 0 auto;
+  width: fit-content;
 }
 
 .home-container {
-	flex: 1;
+  flex: 1;
 }
 
 @media screen and (min-width: 1200px) {
-	.common-sidebar {
-		display: block;
-	}
-	.mini-sidebar {
-		display: none;
-	}
-	.home-container {
-		margin-left: 244px;
-	}
+  .common-sidebar {
+    display: block;
+  }
+  .mini-sidebar {
+    display: none;
+  }
+  .home-container {
+    margin-left: 244px;
+  }
 }
 @media screen and (max-width: 1200px) {
-	.common-sidebar {
-		display: none;
-	}
-	.mini-sidebar {
-		display: block;
-	}
-	.home-container {
-		margin-left: 80px;
-	}
+  .common-sidebar {
+    display: none;
+  }
+  .mini-sidebar {
+    display: block;
+  }
+  .home-container {
+    margin-left: 80px;
+  }
 }
 @media screen and (max-width: 1000px) {
-	.userlist-container {
-		display: none;
-	}
-	.home-container {
-		width: 100%;
-		display: flex;
-		justify-content: center;
-	}
+  .userlist-container {
+    display: none;
+  }
+  .home-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 }

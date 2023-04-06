@@ -25,7 +25,6 @@ function Homepage() {
             {posts.map((post) => (
               <>
                 <Post key={post.id} post={post} />
-                <div className="ruler"></div>
               </>
             ))}
           </div>
