@@ -1,6 +1,9 @@
+import { useState } from "react";
 import style from "./MessageUser.scss";
 
-function MessageUser({ user }) {
+function MessageUser({ user, lastMessage }) {
+  const [isNewMessage, setIsNewMessage] = useState(false);
+
   return (
     <>
       <div className="message-user-home">
@@ -22,8 +25,26 @@ function MessageUser({ user }) {
               with desktop publishing software like Aldus PageMaker including
               versions of Lorem Ipsum
             </p>
-            <p>.</p>
-            <p>2d</p>
+            <div
+              style={{
+                fontWeight: isNewMessage ? "bold" : "normal",
+                color: isNewMessage ? "red" : "black",
+              }}
+            >
+              {user.username}
+            </div>
+            <div className="info">
+              <p
+                className="last-message"
+                style={{
+                  fontWeight: isNewMessage ? "bold" : "normal",
+                }}
+              >
+                {lastMessage?.message}
+              </p>
+              <p>.</p>
+              <p>2d</p>
+            </div>
           </div>
         </div>
       </div>

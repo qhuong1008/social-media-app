@@ -1,4 +1,5 @@
-import style from "./Message.scss";
+import './Message.scss'
+
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import MessageItem from "../../components/MessageItem/MessageItem";
@@ -16,101 +17,64 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllUser } from "../../redux/actions/userAction";
 import { CommonUserApi } from "../../api/common";
 
-function Message() {
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));
-  const dispatch = useDispatch();
+import ChatBoxMessengerOneToOne from '../../components/ChatBox';
+import { USER_KEY_NAME } from '../../types';
+
+/**
+ * Component message
+ * Bao gồm: Thanh Sidebar bên trái và phần nhắn tin bên trái
+ */
+function Message(props) {
   const messagesEndRef = useRef(null);
-  const [currentUserId, setCurrentUserId] = useState(2);
-  const [userMessage, setUserMessage] = useState("");
-  const [newText, setNewText] = useState(1);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [receiver, setReceiver] = useState(null);
-  console.log(userList);
+  const [selectedReceiverJSONInfo, setSelectedReceiverJSONInfo] = useState(null);
 
-  const [listMessage, setListMessage] = useState([]);
-
-  const addMessage = (message) => {
-    setListMessage([...listMessage, message]);
-  };
-
-  const handleSendNewText = (e) => {
-    if (e.key === "Enter") {
-      console.log(e.target.value);
-      const newMessage = {
-        senderId: 1,
-        receiverId: 2,
-        message: e.target.value,
-        createdAt: "2023-12-12 13:56:12",
-      };
-      addMessage(newMessage);
-      setUserMessage("");
+  /**
+   * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
+   * @returns user JSON
+   */
+  const getCurrentLogedInUser = () => {
+    if (localStorage.getItem(USER_KEY_NAME) == null)
+      return null;
+    try {
+      const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
+      return user;
+    } catch (e) {
+      return null;
     }
-  };
+  }
 
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  /**
+   * Thông tin user đang đăng nhập hiện tại:
+   *   - **id**: id người dùng
+   *   - **username**: tên đăng nhập
+   *   - **displayName**: tên hiển thị ra ngoài
+   */
+  const currentLoginedUser = getCurrentLogedInUser();
 
-  // const isLoading = useSelector((state) => state.allProducts.loading);
+  if (!currentLoginedUser) {
+    window.location.href = '/login';
+  }
 
+  /**
+   * onComponentDidMount()
+   */
   useEffect(() => {
-    const temp = [
-      {
-        senderId: 1,
-        receiverId: 2,
-        message: "hello",
-        createdAt: "2023-12-12 13:56:12",
-      },
-      {
-        senderId: 1,
-        receiverId: 2,
-        message: "hello222",
-        createdAt: "2023-12-12 13:56:12",
-      },
-      {
-        senderId: 2,
-        receiverId: 1,
-        message: "hi",
-        createdAt: "2023-12-12 13:56:12",
-      },
-      {
-        senderId: 1,
-        receiverId: 2,
-        message: "what ...",
-        createdAt: "2023-12-12 13:56:12",
-      },
-      {
-        senderId: 2,
-        receiverId: 1,
-        message: "Huong",
-        createdAt: "2023-12-12 13:56:12",
-      },
-      {
-        senderId: 1,
-        receiverId: 2,
-        message: "and u",
-        createdAt: "2023-12-12 13:56:12",
-      },
-    ];
 
-    setListMessage([...temp]);
   }, []);
-  useEffect(() => {
-    scrollToBottom();
-  }, [listMessage]);
 
   useEffect(() => {
-    setIsLoading(true);
     CommonUserApi.listUsers()
       .then((res) => {
-        setUserList(res.data.data);
+        const listUserExceptMe = res.data.data.filter(user => user.id != currentLoginedUser.id);
+        setUserList(listUserExceptMe);
+        if (listUserExceptMe.length > 0) {
+          setSelectedReceiverJSONInfo(listUserExceptMe[0]);
+        }
       })
-      .then(() => setIsLoading(false));
   }, []);
 
   if (isLoading) {
@@ -126,7 +90,7 @@ function Message() {
             <div className="users">
               <div id="message-header">
                 <div id="user-account">
-                  <p>{user.displayName}</p>
+                  <p>{currentLoginedUser.displayName}</p>
                   <i>
                     <FontAwesomeIcon icon={faChevronDown} className="icon" />
                   </i>
@@ -138,80 +102,44 @@ function Message() {
               <div id="user-list">
                 {!isLoading &&
                   userList.map((user) => {
+                    user.key = Math.random();
                     return (
                       <div
+                        key={Math.random()}
                         className="user-wrapper"
                         onClick={() => {
-                          setReceiver(user);
-                          console.log(receiver);
+                          setSelectedReceiverJSONInfo(user);
                         }}
                       >
-                        <MessageUser user={user} />
+                        <MessageUser
+                          user={user}
+                          lastMessage={user.lastMessage}
+                        />
                       </div>
                     );
                   })}
               </div>
             </div>
-            {receiver ? (
-              <div className="message-box">
-                <div id="user">
-                  <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
-                  <p>{receiver.username}</p>
-                  <i>
-                    <FontAwesomeIcon icon={faCircleInfo} className="icon" />
-                  </i>
-                </div>
+            {selectedReceiverJSONInfo
+              ?
+              <ChatBoxMessengerOneToOne
+                friend={selectedReceiverJSONInfo}
 
-                <div id="messages">
-                  {listMessage.map((msgItem) => {
-                    if (currentUserId === msgItem.receiverId) {
-                      return (
-                        <MyMessageItem
-                          message={msgItem.message}
-                          createdAt={msgItem.createdAt}
-                        />
-                      );
-                    } else {
-                      return (
-                        <div className="friend-messages">
-                          <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
-                          <div className="message-list">
-                            <MessageItem
-                              message={msgItem.message}
-                              createdAt={msgItem.createdAt}
-                            />
-                          </div>
-                        </div>
-                      );
+                /**
+                 * Mỗi khi có tin nhắn đến chatbox thì cũng về đây 1 tin
+                 */
+                onReceiveMessage={(msg) => {
+                  const temp = [...userList];
+                  for (const user of temp) {
+                    if (user.id == msg.receiverId || user.id == msg.senderId) {
+                      user.lastMessage = msg;
                     }
-                  })}
-                  <div ref={messagesEndRef} />
-                </div>
-
-                <div id="message-input">
-                  <i id="icon">
-                    <FontAwesomeIcon icon={faFaceSmile} className="icon" />
-                  </i>
-
-                  <input
-                    type={Text}
-                    placeholder="Message..."
-                    value={userMessage}
-                    onChange={(e) => setUserMessage(e.target.value)}
-                    onKeyDown={(e) => handleSendNewText(e)}
-                  />
-
-                  <i id="images">
-                    <FontAwesomeIcon icon={faImage} className="icon" />
-                  </i>
-                  <i id="like">
-                    <FontAwesomeIcon icon={faHeart} className="icon" />
-                  </i>
-                </div>
-              </div>
-            ) : (
-              <></>
-            )}
+                  }
+                  setUserList(temp);
+                  console.log(msg);
+                }}
+              /> : <></>
+            }
           </div>
         </div>
       </div>

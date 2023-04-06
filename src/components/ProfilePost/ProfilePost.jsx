@@ -28,14 +28,21 @@ function ProfilePost({ post }) {
     togglePopupContentLevel(0);
   };
 
+  const setProfilePopupContent = () => {
+    setPopupcontent(<UserPost post={post} />);
+  }
+
   useEffect(() => {
     console.log(post);
-    setPopupcontent(<UserPost post={post} />);
+    setProfilePopupContent();
   }, []);
   return (
     <div
       className="profile-post-wrapper"
-      onClick={() => togglePopup((p) => !p)}
+      onClick={() => {
+        setProfilePopupContent();
+        togglePopup((p) => !p)
+      }}
     >
       <Link>
         <img src={content.images[0]} alt="" />
