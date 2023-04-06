@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import style from "./Login.scss";
 import React from "react";
-import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
+import { Link, NavLink, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { AdminUserApi } from "../../api/admin";
@@ -13,19 +13,22 @@ import {
   handleErrorResponse,
 } from "../../api/toast/index";
 import { handleLogin } from "../../redux/actions/authAction";
+import { render } from "@testing-library/react";
 
 //TODO:convert to init-style
-function Login() {
+function Login(props) {
+
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleLoginAccess = () => {
+
     dispatch(handleLogin(username, password)).then(() => {
       const user = JSON.parse(localStorage.getItem("USER_INFO"));
       if (user) {
-        navigate("/");
+        navigate("/profile/" + user.username);
       }
     });
   };
@@ -38,7 +41,7 @@ function Login() {
           <div className="input">
             <input
               type={Text}
-              placeholder="Phone number, username, or email"
+              placeholder="Username"
               onChange={(e) => setUsername(e.target.value)}
               value={username}
             ></input>

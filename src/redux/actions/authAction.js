@@ -14,6 +14,7 @@ export const LOGOUT = "LOGOUT";
 
 export const handleLogin = (username, password) => async (dispatch) => {
   const preparedUserAuth = { username, password };
+  localStorage.removeItem(USER_KEY_NAME);
   return authLogin(preparedUserAuth)
     .then((resp) => {
       dispatch({
