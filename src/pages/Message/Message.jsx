@@ -1,4 +1,4 @@
-import './Message.scss'
+import "./Message.scss";
 
 import CommonSidebar from "../../components/Sidebar/CommonSidebar/CommonSidebar";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
@@ -19,8 +19,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
 import { CommonUserApi } from "../../api/common";
 
-import ChatBoxMessengerOneToOne from '../../components/ChatBox';
-import { USER_KEY_NAME } from '../../types';
+import ChatBoxMessengerOneToOne from "../../components/ChatBox";
+import { USER_KEY_NAME } from "../../types";
 
 /**
  * Component message
@@ -30,22 +30,22 @@ function Message(props) {
   const messagesEndRef = useRef(null);
   const [userList, setUserList] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [selectedReceiverJSONInfo, setSelectedReceiverJSONInfo] = useState(null);
+  const [selectedReceiverJSONInfo, setSelectedReceiverJSONInfo] =
+    useState(null);
 
   /**
    * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
    * @returns user JSON
    */
   const getCurrentLogedInUser = () => {
-    if (localStorage.getItem(USER_KEY_NAME) == null)
-      return null;
+    if (localStorage.getItem(USER_KEY_NAME) == null) return null;
     try {
       const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
       return user;
     } catch (e) {
       return null;
     }
-  }
+  };
 
   /**
    * Thông tin user đang đăng nhập hiện tại:
@@ -56,25 +56,24 @@ function Message(props) {
   const currentLoginedUser = getCurrentLogedInUser();
 
   if (!currentLoginedUser) {
-    window.location.href = '/login';
+    window.location.href = "/login";
   }
 
   /**
    * onComponentDidMount()
    */
-  useEffect(() => {
-
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
-    CommonUserApi.listUsers()
-      .then((res) => {
-        const listUserExceptMe = res.data.data.filter(user => user.id != currentLoginedUser.id);
-        setUserList(listUserExceptMe);
-        if (listUserExceptMe.length > 0) {
-          setSelectedReceiverJSONInfo(listUserExceptMe[0]);
-        }
-      })
+    CommonUserApi.listUsers().then((res) => {
+      const listUserExceptMe = res.data.data.filter(
+        (user) => user.id != currentLoginedUser.id
+      );
+      setUserList(listUserExceptMe);
+      if (listUserExceptMe.length > 0) {
+        setSelectedReceiverJSONInfo(listUserExceptMe[0]);
+      }
+    });
   }, []);
 
   if (isLoading) {
@@ -100,6 +99,7 @@ function Message(props) {
                 </i>
               </div>
               <div id="user-list">
+                {/* load list of users to send message with */}
                 {!isLoading &&
                   userList.map((user) => {
                     user.key = Math.random();
@@ -120,11 +120,10 @@ function Message(props) {
                   })}
               </div>
             </div>
-            {selectedReceiverJSONInfo
-              ?
+            {/* load khung chat */}
+            {selectedReceiverJSONInfo ? (
               <ChatBoxMessengerOneToOne
                 friend={selectedReceiverJSONInfo}
-
                 /**
                  * Mỗi khi có tin nhắn đến chatbox thì cũng về đây 1 tin
                  */
@@ -138,8 +137,10 @@ function Message(props) {
                   setUserList(temp);
                   console.log(msg);
                 }}
-              /> : <></>
-            }
+              />
+            ) : (
+              <></>
+            )}
           </div>
         </div>
       </div>

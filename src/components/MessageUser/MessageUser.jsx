@@ -11,16 +11,10 @@ function MessageUser({ user, lastMessage }) {
           <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
         </div>
         <div className="user">
-          <div style={{
-            fontWeight: isNewMessage ? 'bold' : 'normal',
-            color: isNewMessage ? 'red' : 'black'
-          }}>{user.username}</div>
-          <div className="info">
-            <p className="last-message" style={{
-              fontWeight: isNewMessage ? 'bold' : 'normal',
-            }}>{lastMessage?.message}</p>
-            <p>.</p>
-            <p>2d</p>
+          <div>{user.username}</div>
+          <div className={isNewMessage ? "info new-msg" : "info"}>
+            <p className="last-message">{lastMessage?.message}</p>
+            <div>{user.username}</div>
           </div>
         </div>
       </div>

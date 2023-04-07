@@ -73,7 +73,7 @@ const CommonSidebar = () => {
 
       <div className="center">
         <ul className="sidebar-list">
-          <Link>
+          <Link to="/">
             <li className="sidebar-item">
               <div className="icon-container">
                 <FontAwesomeIcon icon={faHouse} className="icon" />

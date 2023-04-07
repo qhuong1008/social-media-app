@@ -20,15 +20,16 @@ import { listPostsFromUser } from "../../api/common/Post";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
-import UserProfileActionModal from "../../components/UserProfileActionModal/UserProfileActionModal";
-import FollowingUserProfileAction from "../../components/FollowingUserProfileAction/FollowingUserProfileAction";
-import { CommonFollowerApi } from "../../api/common";
-import { CommonPostApi } from "../../api/common";
-
+import avatar from "../../assets/img/avt.jpg";
+import { useParams } from "react-router-dom";
+import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));  
-  const uid = user.id;
+  const params = useParams();
+
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+
+  const uid = 1;
   const [posts, setPosts] = useState([]);
 
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -115,6 +116,7 @@ function Profile() {
   return (
     <div className="profile-container">
       <CommonSidebar />
+      <MiniSidebar />
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
@@ -122,17 +124,10 @@ function Profile() {
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{user.username}</div>
-              <div className="follow-profile-btn">Edit Profile</div>
-             
-              <div
-                className="action-btn"
-                onClick={() => {
-                  setPopupActioncontent(<UserProfileActionModal />);
-                  togglePopup((p) => !p);
-                }}
-              >
-                <FontAwesomeIcon icon={faEllipsis} className="icon" />
+              <div className="username">{params.username}</div>
+              <div className="edit-profile-btn">Edit profile</div>
+              <div>
+                <FontAwesomeIcon icon={faGear} className="icon" />
               </div>
             </section>
             <section className="user-statistics">

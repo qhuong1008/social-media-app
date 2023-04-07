@@ -29,7 +29,7 @@
     .info {
       display: inline-block;
       width: 160px;
-      padding-left: 12px;
+      // padding-left: 12px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -46,16 +46,20 @@
       display: flex;
       position: relative;
       align-items: center;
+      padding-right: 15px;
       &::after {
         position: absolute;
         display: block;
-        left: 0;
+        right: 0;
         content: "";
         background-color: blue;
         width: 10px;
         height: 10px;
         border-radius: 99px;
       }
+    }
+    .last-message {
+      margin: 0;
     }
   }
 }

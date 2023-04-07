@@ -14,7 +14,7 @@ html {
   display: flex;
   height: 100vh;
   width: 100vw;
-
+  background-color: #eeeeee;
   .message-container {
     width: 100%;
     height: 100%;
@@ -23,7 +23,7 @@ html {
     // background-color: rgb(246, 246, 246);
 
     .messages {
-      width: 80%;
+      width: 90%;
       height: 90vh;
 
       margin: auto;
