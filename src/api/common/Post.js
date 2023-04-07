@@ -40,7 +40,6 @@ const createPost = async (post) => {
       ? POST_PRIVACY_TYPE.PUBLIC
       : POST_PRIVACY_TYPE.PRIVATE,
   };
-  console.log(request);
   return contextInstance
     .post(`common/post`, request)
     .catch((err) => console.log(err));
@@ -113,9 +112,13 @@ const getPostById = async (id) => {
 const updatePost = async (post) => {
   const request = {
     content: JSON.stringify(post.content),
-    privacy: post.isPublic ? "PUBLIC" : "PRIVATE",
+    privacy: post.isPublic
+      ? POST_PRIVACY_TYPE.PUBLIC
+      : POST_PRIVACY_TYPE.PRIVATE,
   };
-  return contextInstance.put(`common/post/${post.id}/update`, request);
+  return contextInstance
+    .put(`common/post/${post.id}/update`, request)
+    .catch((err) => console.log(err));
 };
 
 /**

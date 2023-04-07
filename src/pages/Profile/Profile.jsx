@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { USER_KEY_NAME } from "../../types";
 import { Link } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

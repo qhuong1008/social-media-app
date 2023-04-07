@@ -22,12 +22,14 @@ import {
 } from "../../api/common/Post";
 import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
 import TagModal from "../TagModal/TagModal";
-
+import avatar from "../../assets/img/avt.jpg";
 const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
 function NewPost({ post }) {
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
+
   const [openTagModal, setOpenTagModal] = useState(false);
   const [taggedList, setTaggedList] = useState([]);
   const [count, setCount] = useState(0);
@@ -50,7 +52,7 @@ function NewPost({ post }) {
   };
 
   const togglePopup = () => {
-    togglePopupContentLevel(0);
+    togglePopupContentLevel(post ? 2 : 0);
   };
   const isCreated = post != null ? true : false;
 
@@ -59,17 +61,32 @@ function NewPost({ post }) {
   const [form, setForm] = useState({
     id: null,
     isPublic: false,
-    content: { img: null, caption: "" },
+    content: { images: null, caption: "" },
   });
   const [avt, setAvt] = useState();
   const [caption, setCaption] = useState("");
-  if (isCreated) {
-    form.id = post.id;
-    form.isPublic = post.isPublic;
-    const content = JSON.parse(post.content).data;
-    setAvt(content.images);
-    setCaption(content.contents.join("\n"));
-  }
+
+  const POST_PRIVACY_TYPE = {
+    PUBLIC: "PUBLIC",
+    PRIVATE: "PRIVATE",
+  };
+
+  useEffect(() => {
+    if (isCreated) {
+      console.log("%c this form for upload ", "color: green; font-size: 20px;");
+      form.id = post.id;
+      form.isPublic = post.privacy === POST_PRIVACY_TYPE.PUBLIC ? true : false;
+      const content = JSON.parse(post.content).data;
+      form.content = content;
+      setAvt(content.images);
+      setCaption(content.contents.join("\n"));
+    } else {
+      console.log(
+        "%c this form for creeate ",
+        "color: green; font-size: 20px;"
+      );
+    }
+  }, []);
   useEffect(() => {
     return () => avt && URL.revokeObjectURL(avt.previewURL);
   }, [avt]);
@@ -86,10 +103,9 @@ function NewPost({ post }) {
     const file = e.target.files[0];
     uploadImg(file)
       .then((res) => {
-        form.content.img = res.data.data;
+        form.content.images = res.data.data;
         file.previewURL = res.data.data;
-        setAvt(file);
-        console.log(avt);
+        setAvt(file.previewURL);
       })
       .catch((err) => handleErrorResponse(err));
   }
@@ -98,16 +114,18 @@ function NewPost({ post }) {
    * Call when submit
    */
   const submit = () => {
-    console.log(isCreated);
     form.content.caption = caption;
-    togglePopup();
+    const preparedFormContent = { ...INTERFACE_TI_POST_CONTENT };
+    preparedFormContent.data.images = [form.content.images];
+    preparedFormContent.data.contents = form.content.caption.split("\n");
+    form.content = { ...preparedFormContent };
     if (isCreated) {
-      updatePost(form);
+      togglePopupContentLevel(2);
+      updatePost(form)
+        .then((resp) => handleSuccessResponse(resp))
+        .catch((err) => handleErrorResponse(err));
     } else {
-      const preparedFormContent = { ...INTERFACE_TI_POST_CONTENT };
-      preparedFormContent.data.images = [form.content.img];
-      preparedFormContent.data.contents = form.content.caption.split("\n");
-      form.content = { ...preparedFormContent };
+      togglePopup();
       createPost(form)
         .then((resp) => handleSuccessResponse(resp))
         .catch((err) => handleErrorResponse(err));
@@ -140,7 +158,7 @@ function NewPost({ post }) {
         <FontAwesomeIcon
           icon={faArrowLeft}
           className={clx("icon")}
-          onClick={togglePopup}
+          onClick={() => togglePopupContentLevel(post ? 2 : 0)}
         />
         <span>Image Upload</span>
         <button>
@@ -169,7 +187,7 @@ function NewPost({ post }) {
           >
             {avt ? (
               <>
-                <img src={avt.previewURL} alt="" />
+                <img src={avt} alt="" />
                 <label className={$.upload__input_overlay}>
                   <div>
                     <input
@@ -236,10 +254,12 @@ function NewPost({ post }) {
             <div className={$.user}>
               <img
                 className={$.avt}
-                src="https://i.pinimg.com/474x/65/90/f7/6590f7a352330539d159602b1588dffc.jpg"
+                src={user.avatar !== null ? user.avatar : avatar}
                 alt="username"
               />
-              <div className="username">koyuki_chan01</div>
+              <div className="username">
+                {user.displayName != null ? user.displayName : user.username}
+              </div>
             </div>
             <div className={$.form__content}>
               <textarea

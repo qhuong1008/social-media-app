@@ -30,10 +30,9 @@ function ProfilePost({ post }) {
 
   const setProfilePopupContent = () => {
     setPopupcontent(<UserPost post={post} />);
-  }
+  };
 
   useEffect(() => {
-    console.log(post);
     setProfilePopupContent();
   }, []);
   return (
@@ -41,7 +40,7 @@ function ProfilePost({ post }) {
       className="profile-post-wrapper"
       onClick={() => {
         setProfilePopupContent();
-        togglePopup((p) => !p)
+        togglePopup((p) => !p);
       }}
     >
       <Link>
