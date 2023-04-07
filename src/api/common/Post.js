@@ -1,4 +1,4 @@
-import { contextInstance } from "../axios";
+  import { contextInstance } from "../axios";
 
 const POST_PRIVACY_TYPE = {
   PUBLIC: "PUBLIC",
@@ -60,6 +60,19 @@ const listPosts = async () => {
 };
 
 /**
+ * Get all posts
+ * @return
+ *
+ * - `content`: Nội dung bài đăng
+ * - `privacy`: Quyền riêng tư
+ *
+ * - `authorId`: người đăng
+ */
+const getMyPosts = async () => {
+  return contextInstance.get(`common/post/me/list`);
+};
+
+/**
  * Get all posts from a user
  * @return
  *
@@ -118,6 +131,7 @@ export {
   updatePost,
   getPostById,
   listPosts,
+  getMyPosts,
   listPostsFromUser,
   deletePost,
   POST_PRIVACY_TYPE,

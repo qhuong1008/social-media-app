@@ -20,16 +20,20 @@ import { listPostsFromUser } from "../../api/common/Post";
 import { PopupContext } from "../../App";
 import FollowerModal from "../../components/FollowerModal/FollowerModal";
 import FollowingModal from "../../components/FollowingModal/FollowingModal";
+import UserProfileActionModal from "../../components/UserProfileActionModal/UserProfileActionModal";
+import FollowingUserProfileAction from "../../components/FollowingUserProfileAction/FollowingUserProfileAction";
+import { CommonFollowerApi } from "../../api/common";
+import { CommonPostApi } from "../../api/common";
 import avatar from "../../assets/img/avt.jpg";
 import { useParams } from "react-router-dom";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 
+
 function Profile() {
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));  
+  const uid = user.id;
   const params = useParams();
 
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));
-
-  const uid = 1;
   const [posts, setPosts] = useState([]);
 
   const { togglePopupContentLevel, setPopupContentLevel } =
@@ -81,7 +85,7 @@ function Profile() {
     })}
 
   function fetchListPosts() {
-    return CommonPostApi.listPosts()
+    return CommonPostApi.getMyPosts()
     .then ((response) => {
         const fetchListPosts = response.data.data.map((post, index) => {
             const temp = { ...post };
