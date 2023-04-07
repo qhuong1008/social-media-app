@@ -8,9 +8,7 @@ import { USER_KEY_NAME } from "../../types";
 import MessageItem from "../MessageItem/MessageItem";
 import MyMessageItem from "../MyMessageItem/MyMessageItem";
 
-import {
-  faCircleInfo,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
 
 import {
   faHeart,
@@ -19,32 +17,31 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import SockJsClient from 'react-stomp';
+import SockJsClient from "react-stomp";
 import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
 import { getListMessageWithAnotherPerson } from "../../api/common/Message";
 
 /**
  * Chatbox giữa 2 người với nhau
- * @param {dict} props 
- * @returns 
+ * @param {dict} props
+ * @returns
  */
 function ChatBox(props) {
   //TODO: đoạn này bị lặp code bên Message.jsx -> dùng redux fix lại hộ
 
   /**
-  * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
-  * @returns user JSON
-  */
+   * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
+   * @returns user JSON
+   */
   const getCurrentLogedInUser = () => {
-    if (localStorage.getItem(USER_KEY_NAME) == null)
-      return null;
+    if (localStorage.getItem(USER_KEY_NAME) == null) return null;
     try {
       const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
       return user;
     } catch (e) {
       return null;
     }
-  }
+  };
 
   /**
    * Thông tin user đang đăng nhập hiện tại:
@@ -58,7 +55,7 @@ function ChatBox(props) {
   const friendUserJsonInfo = props.friend;
 
   if (!friendUserJsonInfo) {
-    console.log("%c ChatBox error: missing props.friend", 'color: red;');
+    console.log("%c ChatBox error: missing props.friend", "color: red;");
   }
 
   const [listMessageData, setListMessageData] = useState([]);
@@ -71,11 +68,14 @@ function ChatBox(props) {
    * Xử lý các trường hợp:
    *   - Tin nhắn mình vừa gửi
    *   - Người ta gửi tin nhắn đến mình
-   * @param {JSON} message 
-   * @returns 
+   * @param {JSON} message
+   * @returns
    */
   const addMessageToChatBox = (message) => {
-    if (message.randomHash != null && listMessageData.some(u => u.randomHash == message.randomHash))
+    if (
+      message.randomHash != null &&
+      listMessageData.some((u) => u.randomHash == message.randomHash)
+    )
       return;
     setListMessageData([...listMessageData, message]);
     //scrollToBottom();
@@ -86,38 +86,42 @@ function ChatBox(props) {
    */
   const handleUserPressEnterChatBoxInput = (e) => {
     const content = e.target.value.trim();
-    if (!content)
-      return;
+    if (!content) return;
     const newMessage = {
       senderId: currentLoginedUser.id,
       receiverId: friendUserJsonInfo.id,
       message: content,
       createdAt: null,
-      type: 'MESSAGE',
-      randomHash: Math.random().toString()
+      type: "MESSAGE",
+      randomHash: Math.random().toString(),
     };
     addMessageToChatBox(newMessage);
-    e.target.value = '';
-    sockJsClientRef.current.client.send(`/ws/secured/messenger`, {}, JSON.stringify(newMessage));
+    e.target.value = "";
+    sockJsClientRef.current.client.send(
+      `/ws/secured/messenger`,
+      {},
+      JSON.stringify(newMessage)
+    );
   };
-
 
   /**
    * Khi sockJS đã kết nối tới server thì bắt đầu subscribe topic cho user đăng nhập hiện tại
    * Mục đích để **nhận** tin nhắn
    */
   useEffect(() => {
-    setSockJsTopics([`${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`]);
-    console.log('%c SockJS client has been init', 'color: green;');
+    setSockJsTopics([
+      `${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`,
+    ]);
+    console.log("%c SockJS client has been init", "color: green;");
 
     //onComponentDidUnmount()
     return () => {
-      console.log('%c SockJS client has been destroyed', 'color: red;');
+      console.log("%c SockJS client has been destroyed", "color: red;");
 
       //Khi nào component giải phóng bộ nhớ -> ngắt kết nối
       //Hoặc dùng trong React.StrickMode tránh kết nối đến server 2 lần
       sockJsClientRef.current.disconnect();
-    }
+    };
   }, [sockJsClientRef]);
 
   useEffect(() => {
@@ -125,24 +129,23 @@ function ChatBox(props) {
       setListMessageData([]);
 
       //Lấy lại toàn bộ tin nhắn giữa mình là người dùng mới (người mới click)
-      getListMessageWithAnotherPerson(props.friend.id)
-        .then(resp => {
-          const messages = resp.data.data;
-          setListMessageData([...messages]);
-        });
+      getListMessageWithAnotherPerson(props.friend.id).then((resp) => {
+        const messages = resp.data.data;
+        setListMessageData([...messages]);
+      });
     }
   }, [props.friend]);
 
   /**
- * Cuộn cửa sổ  nhắn tin về dòng cuối cùng
- */
+   * Cuộn cửa sổ  nhắn tin về dòng cuối cùng
+   */
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
-  
+
   /**
- * Khi nào có tin nhắn mới hoặc danh sách tin nhắn thay đổi thì cuộn danh sách tin nhắn
- */
+   * Khi nào có tin nhắn mới hoặc danh sách tin nhắn thay đổi thì cuộn danh sách tin nhắn
+   */
   useEffect(() => {
     scrollToBottom();
   }, [listMessageData]);
@@ -153,10 +156,13 @@ function ChatBox(props) {
         url={SOCKET_REGISTER_URL}
         topics={sockJsTopics}
         onMessage={(msg) => {
-          if (typeof(props.onReceiveMessage) === 'function')
+          if (typeof props.onReceiveMessage === "function")
             props.onReceiveMessage(msg);
           console.log(msg.senderId, friendUserJsonInfo.id);
-          if (msg.senderId == friendUserJsonInfo.id || msg.receiverId == friendUserJsonInfo.id) {
+          if (
+            msg.senderId == friendUserJsonInfo.id ||
+            msg.receiverId == friendUserJsonInfo.id
+          ) {
             addMessageToChatBox(msg);
           }
         }}
@@ -182,7 +188,6 @@ function ChatBox(props) {
                   createdAt={msgItem.createdAt}
                 />
               );
-
             } else {
               return (
                 <div className="friend-messages">
@@ -210,8 +215,8 @@ function ChatBox(props) {
             type={Text}
             placeholder="Message..."
             onKeyDown={(e) => {
-              if (e.key === 'Enter') {
-                handleUserPressEnterChatBoxInput(e)
+              if (e.key === "Enter") {
+                handleUserPressEnterChatBoxInput(e);
               }
             }}
           />
@@ -225,7 +230,7 @@ function ChatBox(props) {
         </div>
       </div>
     </>
-  )
+  );
 }
 
 export default ChatBox;
