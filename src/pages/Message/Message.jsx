@@ -19,7 +19,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useRef } from "react";
 import { CommonUserApi } from "../../api/common";
 
-import ChatBoxMessengerOneToOne from "../../components/ChatBox";
+import { ChatBoxWithUser } from "../../components/ChatBox";
 import { USER_KEY_NAME } from "../../types";
 
 /**
@@ -122,7 +122,7 @@ function Message(props) {
             </div>
             {/* load khung chat */}
             {selectedReceiverJSONInfo ? (
-              <ChatBoxMessengerOneToOne
+              <ChatBoxWithUser
                 friend={selectedReceiverJSONInfo}
                 /**
                  * Mỗi khi có tin nhắn đến chatbox thì cũng về đây 1 tin

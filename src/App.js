@@ -1,6 +1,10 @@
 import Routes from "./routes";
 import { createContext, useState } from "react";
 import Popup from "./components/Popup";
+import {
+  StompSessionProvider
+} from "react-stomp-hooks";
+import { SOCKET_REGISTER_URL } from "./types";
 
 export const PopupContext = createContext();
 
@@ -75,7 +79,11 @@ function App() {
         }}
       >
         {<GetPopupStackRender />}
-        <Routes />
+        <StompSessionProvider
+          url={SOCKET_REGISTER_URL}
+        >
+          <Routes />
+        </StompSessionProvider>
       </PopupContext.Provider>
     </>
   );
