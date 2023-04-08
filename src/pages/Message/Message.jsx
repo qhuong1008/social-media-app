@@ -21,6 +21,7 @@ import { CommonUserApi } from "../../api/common";
 
 import ChatBoxMessengerOneToOne from "../../components/ChatBox";
 import { USER_KEY_NAME } from "../../types";
+import ChatRoom from "../../components/ChatBox/ChatBoxClass";
 
 /**
  * Component message
@@ -62,7 +63,7 @@ function Message(props) {
   /**
    * onComponentDidMount()
    */
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   useEffect(() => {
     CommonUserApi.listUsers().then((res) => {
@@ -81,69 +82,25 @@ function Message(props) {
   }
   return (
     <>
-      <div className="messageHome">
+      {/* <div className="messageHome">
         <CommonSidebar />
         <MiniSidebar />
-        <div className="message-container">
-          <div className="messages">
-            <div className="users">
-              <div id="message-header">
-                <div id="user-account">
-                  <p>{currentLoginedUser.displayName}</p>
-                  <i>
-                    <FontAwesomeIcon icon={faChevronDown} className="icon" />
-                  </i>
-                </div>
-                <i>
-                  <FontAwesomeIcon icon={faPenToSquare} className="icon" />
-                </i>
-              </div>
-              <div id="user-list">
-                {/* load list of users to send message with */}
-                {!isLoading &&
-                  userList.map((user) => {
-                    user.key = Math.random();
-                    return (
-                      <div
-                        key={Math.random()}
-                        className="user-wrapper"
-                        onClick={() => {
-                          setSelectedReceiverJSONInfo(user);
-                        }}
-                      >
-                        <MessageUser
-                          user={user}
-                          lastMessage={user.lastMessage}
-                        />
-                      </div>
-                    );
-                  })}
-              </div>
-            </div>
-            {/* load khung chat */}
-            {selectedReceiverJSONInfo ? (
-              <ChatBoxMessengerOneToOne
-                friend={selectedReceiverJSONInfo}
-                /**
-                 * Mỗi khi có tin nhắn đến chatbox thì cũng về đây 1 tin
-                 */
-                onReceiveMessage={(msg) => {
-                  const temp = [...userList];
-                  for (const user of temp) {
-                    if (user.id == msg.receiverId || user.id == msg.senderId) {
-                      user.lastMessage = msg;
-                    }
-                  }
-                  setUserList(temp);
-                  console.log(msg);
-                }}
-              />
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-      </div>
+
+      </div> */}
+      <ChatRoom
+        /**
+         * Mỗi khi có tin nhắn đến chatbox thì cũng về đây 1 tin
+         */
+        onReceiveMessage={(msg) => {
+          const temp = [...userList];
+          for (const user of temp) {
+            if (user.id == msg.receiverId || user.id == msg.senderId) {
+              user.lastMessage = msg;
+            }
+          }
+          setUserList(temp);
+          console.log(msg);
+        }} />
     </>
   );
 }

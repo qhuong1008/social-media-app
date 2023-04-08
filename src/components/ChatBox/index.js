@@ -17,22 +17,23 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import SockJsClient from "react-stomp";
+// import SockJsClient from "react-stomp";
 import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
 import { getListMessageWithAnotherPerson } from "../../api/common/Message";
+import { over } from "stompjs";
+import SockJS from "sockjs-client";
+import { Client } from "@stomp/stompjs";
 
+var stompClient = null;
 /**
  * Chatbox giữa 2 người với nhau
  * @param {dict} props
  * @returns
  */
 function ChatBox(props) {
-  //TODO: đoạn này bị lặp code bên Message.jsx -> dùng redux fix lại hộ
-
-  /**
-   * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
-   * @returns user JSON
-   */
+  // * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
+  // * @returns user JSON
+  // */
   const getCurrentLogedInUser = () => {
     if (localStorage.getItem(USER_KEY_NAME) == null) return null;
     try {
@@ -44,24 +45,89 @@ function ChatBox(props) {
   };
 
   /**
-   * Thông tin user đang đăng nhập hiện tại:
-   *   - **id**: id người dùng
-   *   - **username**: tên đăng nhập
-   *   - **displayName**: tên hiển thị ra ngoài
+   * componentDidMount()
    */
-  const currentLoginedUser = getCurrentLogedInUser();
 
   //Thông tin người đang nhắn tin người người dùng đăng nhập hiện tại
+  const currentLoginedUser = getCurrentLogedInUser();
+  // console.log("currentLoginedUser:", currentLoginedUser);
   const friendUserJsonInfo = props.friend;
-
+  // console.log("friendUserJsonInfo:", friendUserJsonInfo);
   if (!friendUserJsonInfo) {
     console.log("%c ChatBox error: missing props.friend", "color: red;");
   }
+  const [userData, setUserData] = useState({
+    username: currentLoginedUser.username,
+    receivername: friendUserJsonInfo.username,
+    connected: false,
+    message: "",
+  });
+
+  const onConnected = () => {
+    setUserData({ ...userData, connected: true });
+    stompClient.subscribe(
+      `${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`,
+      privateMessage
+    );
+  };
+
+  const privateMessage = (response) => {
+    const body = JSON.parse(response.body);
+    addMessageToChatBox(body);
+  };
+  /**
+   * Xử lý sự kiện khi người dùng bấm phím enter vào ô chat
+   */
+  const handleUserPressEnterChatBoxInput = (e) => {
+    const content = e.target.value;
+    if (!content) return;
+
+    if (stompClient) {
+      const chatMessage = {
+        senderId: currentLoginedUser.id,
+        receiverId: friendUserJsonInfo.id,
+        message: content,
+        createdAt: null,
+        type: "MESSAGE",
+        randomHash: Math.random().toString(),
+      };
+      addMessageToChatBox(chatMessage);
+      e.target.value = "";
+      stompClient.send(
+        `/ws/secured/messenger`,
+        {},
+        JSON.stringify(chatMessage)
+      );
+
+      setUserData({ ...userData, message: "" });
+    }
+  };
+
+  const onError = (err) => {
+    console.log(err);
+  };
+
+  const connect = () => {
+    let Sock = new SockJS(SOCKET_REGISTER_URL);
+    stompClient = over(Sock);
+    stompClient.connect({}, onConnected, onError);
+  };
+
+  const registerUser = () => {
+    connect();
+  };
+  /**
+   * Khi sockJS đã kết nối tới server thì bắt đầu subscribe topic cho user đăng nhập hiện tại
+   * Mục đích để **nhận** tin nhắn
+   */
+  useEffect(() => {
+    registerUser();
+  }, []);
 
   const [listMessageData, setListMessageData] = useState([]);
-  const [sockJsTopics, setSockJsTopics] = useState([]);
+  // const [sockJsTopics, setSockJsTopics] = useState([]);
   const messagesEndRef = useRef();
-  const sockJsClientRef = useRef();
+  // const sockJsClientRef = useRef();
 
   /*
    * Thêm tin nhắn vào khung chat (bất kể là ai gửi kể cả mình - hàm này chỉ là handle xử lý thông thường)
@@ -77,57 +143,14 @@ function ChatBox(props) {
       listMessageData.some((u) => u.randomHash == message.randomHash)
     )
       return;
+    console.log("length = " + listMessageData.length);
     setListMessageData([...listMessageData, message]);
     //scrollToBottom();
   };
 
-  /**
-   * Xử lý sự kiện khi người dùng bấm phím enter vào ô chat
-   */
-  const handleUserPressEnterChatBoxInput = (e) => {
-    const content = e.target.value.trim();
-    if (!content) return;
-    const newMessage = {
-      senderId: currentLoginedUser.id,
-      receiverId: friendUserJsonInfo.id,
-      message: content,
-      createdAt: null,
-      type: "MESSAGE",
-      randomHash: Math.random().toString(),
-    };
-    addMessageToChatBox(newMessage);
-    e.target.value = "";
-    sockJsClientRef.current.client.send(
-      `/ws/secured/messenger`,
-      {},
-      JSON.stringify(newMessage)
-    );
-  };
-
-  /**
-   * Khi sockJS đã kết nối tới server thì bắt đầu subscribe topic cho user đăng nhập hiện tại
-   * Mục đích để **nhận** tin nhắn
-   */
-  useEffect(() => {
-    setSockJsTopics([
-      `${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`,
-    ]);
-    console.log("%c SockJS client has been init", "color: green;");
-
-    //onComponentDidUnmount()
-    return () => {
-      console.log("%c SockJS client has been destroyed", "color: red;");
-
-      //Khi nào component giải phóng bộ nhớ -> ngắt kết nối
-      //Hoặc dùng trong React.StrickMode tránh kết nối đến server 2 lần
-      sockJsClientRef.current.disconnect();
-    };
-  }, [sockJsClientRef]);
-
   useEffect(() => {
     if (props.friend) {
       setListMessageData([]);
-
       //Lấy lại toàn bộ tin nhắn giữa mình là người dùng mới (người mới click)
       getListMessageWithAnotherPerson(props.friend.id).then((resp) => {
         const messages = resp.data.data;
@@ -149,25 +172,8 @@ function ChatBox(props) {
   useEffect(() => {
     scrollToBottom();
   }, [listMessageData]);
-
   return (
     <>
-      <SockJsClient
-        url={SOCKET_REGISTER_URL}
-        topics={sockJsTopics}
-        onMessage={(msg) => {
-          if (typeof props.onReceiveMessage === "function")
-            props.onReceiveMessage(msg);
-          console.log(msg.senderId, friendUserJsonInfo.id);
-          if (
-            msg.senderId == friendUserJsonInfo.id ||
-            msg.receiverId == friendUserJsonInfo.id
-          ) {
-            addMessageToChatBox(msg);
-          }
-        }}
-        ref={sockJsClientRef}
-      />
       <div className="message-box">
         <div id="user">
           <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
