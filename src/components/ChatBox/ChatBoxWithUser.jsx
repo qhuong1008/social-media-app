@@ -64,6 +64,9 @@ function ChatBoxWithUser(props) {
   useSubscription(`${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`, (response) => {
     const message = JSON.parse(response.body);
     addMessageToChatBox(message);
+    if (typeof(props.onReceiveMessage) === 'function') {
+        props.onReceiveMessage(message);
+    }
   });
 
   /*
