@@ -23,8 +23,8 @@ function Login(props) {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLoginAccess = () => {
-
+  const handleLoginAccess = (e) => {
+    e.preventDefault();
     dispatch(handleLogin(username, password)).then(() => {
       const user = JSON.parse(localStorage.getItem("USER_INFO"));
       if (user) {
@@ -38,7 +38,7 @@ function Login(props) {
       <div className="loginHome">
         <div className="inputLogin">
           <div className="logo">Social Media App</div>
-          <div className="input">
+          <form className="input" onSubmit={handleLoginAccess}>
             <input
               type={Text}
               placeholder="Username"
@@ -51,11 +51,11 @@ function Login(props) {
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             ></input>
-            <button className="login-btn" onClick={handleLoginAccess}>
+            <button type="submit" className="login-btn" >
               Log in
             </button>
             {/* <button onClick={testFunc.bind(null)}>test</button> */}
-          </div>
+          </form>
           <div
             style={{
               display: "flex",
