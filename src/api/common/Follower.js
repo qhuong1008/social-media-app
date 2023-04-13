@@ -54,6 +54,11 @@ const deleteFollower = async (follower) => {
   return contextInstance.delete(`common/follower/${follower.id}`);
 };
 
+const toggleFollow = async (followerId) => {
+  return contextInstance.post(`common/follower/toggle`, {
+    followerId
+  });
+}
 
 export {
   createFollower,
@@ -62,4 +67,5 @@ export {
   listFollowers,
   deleteFollower,
   listFollowing,
+  toggleFollow,
 };

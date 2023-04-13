@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import "./Profile.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -28,6 +29,7 @@ import { useParams } from "react-router-dom";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import { getUserByUsername } from "../../api/common/User";
 import { handleErrorMessage } from "../../api/toast";
+import { toggleFollow } from "../../api/common/Follower";
 
 
 function Profile() {
@@ -36,6 +38,7 @@ function Profile() {
   const params = useParams();
   const [userView, setUserView] = useState({});
   const navigate = useNavigate();
+  const [isFollowed, setIsFollowed] = useState(false);
 
   useEffect(() => {
     let { username } = params;
@@ -50,13 +53,14 @@ function Profile() {
       }
       console.log(resp);
       setUserView(resp.data.data[0]);
+      setIsFollowed(resp.data.data[0].followed);
     });
   },[]);
  
 
   const [posts, setPosts] = useState([]);
 
-  const { togglePopupContentLevel, setPopupContentLevel } =
+  const { togglePopupContentLevel, setPopupContentLevel, hidePopupContentLevel } =
     useContext(PopupContext);
 
   const setPopupFollowercontent = (content) => {
@@ -130,6 +134,12 @@ function Profile() {
       .catch((error) => {});
     }
   }
+
+  const toggleFollowOnClick = () => {
+    toggleFollow(userView.id).then((resp) => {
+      setIsFollowed(!isFollowed);
+    });
+  }
   
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
@@ -159,10 +169,33 @@ function Profile() {
           <div className="profile-info">
             <section className="user-profile">
               <div className="username">{userView.username}</div>
-              <div className="edit-profile-btn">Edit profile</div>
-              <div>
-                <FontAwesomeIcon icon={faGear} className="icon" />
-              </div>
+              {userView.id == user.id ? (<>
+                <div className="edit-profile-btn">Edit profile</div>
+                <div>
+                  <FontAwesomeIcon icon={faGear} className="icon" />
+                </div>
+                </>
+                ) : (
+                  <>
+                    {isFollowed ? (
+                      <div
+                        className="following-btn"
+                        onClick={() => {
+                          setPopupActioncontent(<FollowingUserProfileAction onUnFollowClicked={() => {
+                            toggleFollowOnClick();
+                            hidePopupContentLevel(0);
+                          }} />);
+                          togglePopup();
+                        }}
+                      >
+                        Following
+                        <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                      </div>
+                    ) : (
+                      <div className="follow-profile-btn" onClick={toggleFollowOnClick}>Follow</div>
+                    )}
+                  </>
+                  )}
             </section>
             <section className="user-statistics">
               <div className="statistic-item">
