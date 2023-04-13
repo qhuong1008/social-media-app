@@ -53,6 +53,29 @@ const getUserById = async (id) => {
 };
 
 /**
+ * Get user by `username`
+ * @param username username
+ *  người dùng
+ * @return
+ *
+ * - `username`: tên người dùng
+ * - `password`: mật khẩu
+ * - `displayName`: tên hiển thị
+ * - `birthday`: ngày sinh
+ * - `avatar`: ảnh đại diện
+ * - `profile`: Thông tin cá nhân
+ * - `gender`: Giới tính
+ * - `role`: Vai trò
+ */
+const getUserByUsername = async (username) => {
+  return contextInstance.get(`common/user`, {
+    params: {
+      'username.equal': username
+    }
+  });
+};
+
+/**
  * Update user by `user.id`
  * @param User **người dùng**
  *
@@ -77,4 +100,4 @@ const deleteUser = async (user) => {
   return contextInstance.delete(`common/user/${user.id}`);
 };
 
-export { createUser, updateUser, getUserById, listUsers, deleteUser };
+export { createUser, updateUser, getUserById, listUsers, deleteUser, getUserByUsername };

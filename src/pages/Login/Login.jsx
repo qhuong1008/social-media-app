@@ -28,7 +28,7 @@ function Login(props) {
     dispatch(handleLogin(username, password)).then(() => {
       const user = JSON.parse(localStorage.getItem("USER_INFO"));
       if (user) {
-        navigate("/profile/" + user.username);
+        navigate("/profile");
       }
     });
   };

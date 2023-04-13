@@ -72,6 +72,19 @@ const getMyPosts = async () => {
 };
 
 /**
+ * Lấy danh sách bài đăng của người dùng theo id người dùng
+ * @return
+ *
+ * - `content`: Nội dung bài đăng
+ * - `privacy`: Quyền riêng tư
+ *
+ * - `authorId`: người đăng
+ */
+const getPostsByUserId = async (id) => {
+  return contextInstance.get(`common/post/${id}/list`);
+};
+
+/**
  * Get all posts from a user
  * @return
  *
@@ -137,6 +150,7 @@ export {
   getMyPosts,
   listPostsFromUser,
   deletePost,
+  getPostsByUserId,
   POST_PRIVACY_TYPE,
   POST_CONTENT_TYPE,
   INTERFACE_TI_POST_CONTENT,

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,12 +26,33 @@ import { CommonPostApi } from "../../api/common";
 import avatar from "../../assets/img/avt.jpg";
 import { useParams } from "react-router-dom";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
+import { getUserByUsername } from "../../api/common/User";
+import { handleErrorMessage } from "../../api/toast";
 
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));  
   const uid = user.id;
   const params = useParams();
+  const [userView, setUserView] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let { username } = params;
+    if (username == null) {
+      username = user.username;
+      setUserView(user);
+    }
+    getUserByUsername(username).then((resp) => {
+      if (resp.data.data.length === 0) {
+        handleErrorMessage('Không tìm thấy user này');
+        navigate("/");
+      }
+      console.log(resp);
+      setUserView(resp.data.data[0]);
+    });
+  },[]);
+ 
 
   const [posts, setPosts] = useState([]);
 
@@ -84,26 +105,32 @@ function Profile() {
     })}
 
   function fetchListPosts() {
-    return CommonPostApi.getMyPosts()
-    .then ((response) => {
-        const fetchListPosts = response.data.data.map((post, index) => {
-            const temp = { ...post };
-            return temp;
-        });
-        setListPosts(fetchListPosts);
-    })
-    .catch((error) => {});
+    if (userView.id == user.id) {
+      return CommonPostApi.getMyPosts()
+      .then ((response) => {
+        console.log(response);
+          const fetchListPosts = response.data.data.map((post, index) => {
+              const temp = { ...post };
+              return temp;
+          });
+          setListPosts(fetchListPosts);
+      })
+      .catch((error) => {});
+    } 
+    else {
+      return CommonPostApi.getPostsByUserId(userView.id)
+      .then ((response) => {
+        console.log(response);
+          const fetchListPosts = response.data.data.map((post, index) => {
+              const temp = { ...post };
+              return temp;
+          });
+          setListPosts(fetchListPosts);
+      })
+      .catch((error) => {});
+    }
   }
   
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await listPostsFromUser(uid);
-      setPosts(res.data.data);
-    };
-    fetchPosts();
-  }, []);
-
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
     setPopupFollowingcontent(<FollowingModal />);
@@ -111,10 +138,14 @@ function Profile() {
     setCurrentUserProfileContent(<FollowingUserProfileAction />);
     fetchListFollowing();
     fetchListFollowers();
-    fetchListPosts();
+
   }, []);
 
-  
+  useEffect(() => {
+    if (userView.id != null) {
+      fetchListPosts();
+    }
+  }, [userView]);
   
   return (
     <div className="profile-container">
@@ -123,11 +154,11 @@ function Profile() {
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img src={user.avatar} alt="avatar" />
+            <img src={userView.avatar} alt="avatar" />
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{params.username}</div>
+              <div className="username">{userView.username}</div>
               <div className="edit-profile-btn">Edit profile</div>
               <div>
                 <FontAwesomeIcon icon={faGear} className="icon" />
@@ -162,7 +193,7 @@ function Profile() {
               </div>
             </section>
             <section className="user-bio">
-              {user.profile}
+              {userView.profile}
             </section>
           </div>
         </div>
