@@ -7,19 +7,18 @@ import { useEffect, useInsertionEffect, useRef, useState } from "react";
 import { USER_KEY_NAME } from "../../types";
 import MessageItem from "../MessageItem/MessageItem";
 import MyMessageItem from "../MyMessageItem/MyMessageItem";
-
-import { faCircleInfo } from "@fortawesome/free-solid-svg-icons";
-
+import style from './ChatBoxWithUser.scss'
+import { faCircleInfo, faDotCircle, faForward, faLinesLeaning, faShare, faSmile } from "@fortawesome/free-solid-svg-icons";
 import {
   faHeart,
   faFaceSmile,
   faImage,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
 import { getListMessageWithAnotherPerson } from "../../api/common/Message";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
+import EmojiPicker from 'emoji-picker-react';
 
 /**
  * Chatbox giữa 2 người với nhau
@@ -27,6 +26,9 @@ import { useStompClient, useSubscription } from "react-stomp-hooks";
  * @returns
  */
 function ChatBoxWithUser(props) {
+  const [messageHover, setMessageHover] = useState(false)
+  const [selected, setSelected] = useState(null);
+  const [emoji, setEmoji] = useState(false)
   //TODO: đoạn này bị lặp code bên Message.jsx -> dùng redux fix lại hộ
 
   /**
@@ -64,8 +66,8 @@ function ChatBoxWithUser(props) {
   useSubscription(`${SOCKET_USER_TOPIC_PREFIX_URL}-${currentLoginedUser.id}`, (response) => {
     const message = JSON.parse(response.body);
     addMessageToChatBox(message);
-    if (typeof(props.onReceiveMessage) === 'function') {
-        props.onReceiveMessage(message);
+    if (typeof (props.onReceiveMessage) === 'function') {
+      props.onReceiveMessage(message);
     }
   });
 
@@ -104,8 +106,8 @@ function ChatBoxWithUser(props) {
     addMessageToChatBox(newMessage);
     e.target.value = "";
     stompClient.publish({
-        destination: `/ws/secured/messenger`,
-        body: JSON.stringify(newMessage)
+      destination: `/ws/secured/messenger`,
+      body: JSON.stringify(newMessage)
     });
   };
 
@@ -159,14 +161,19 @@ function ChatBoxWithUser(props) {
               );
             } else {
               return (
-                <div className="friend-messages">
+                <div className="friend-messages" >
+
                   <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
-                  <div className="message-list">
-                    <MessageItem
-                      key={Math.random()}
-                      message={msgItem.message}
-                      createdAt={msgItem.createdAt}
-                    />
+                  <div className="message-list" >
+                    <div className="msg-wrapper">
+
+                      <MessageItem
+                        key={Math.random()}
+                        message={msgItem.message}
+                        createdAt={msgItem.createdAt}
+                      />
+
+                    </div>
                   </div>
                 </div>
               );
@@ -174,10 +181,12 @@ function ChatBoxWithUser(props) {
           })}
           <div ref={messagesEndRef} />
         </div>
-
+        {emoji ?
+          <EmojiPicker height={500} width={400} className="emoji-wrapper" />
+          : <></>}
         <div id="message-input">
           <i id="icon">
-            <FontAwesomeIcon icon={faFaceSmile} className="icon" />
+            <FontAwesomeIcon icon={faFaceSmile} className="icon" onClick={() => setEmoji(!emoji)} />
           </i>
 
           <input
@@ -197,6 +206,7 @@ function ChatBoxWithUser(props) {
             <FontAwesomeIcon icon={faHeart} className="icon" />
           </i>
         </div>
+
       </div>
     </>
   );

@@ -11,6 +11,7 @@ html {
   font-size: 1.5rem;
 }
 .messageHome {
+  z-index: 1;
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -62,6 +63,7 @@ html {
         }
       }
       .message-box {
+        position: relative;
         width: 60%;
 
         border-left: 1px solid rgb(183, 183, 183);
@@ -113,7 +115,27 @@ html {
               margin-right: 10px;
             }
             .message-list {
-              width: 70%;
+              width: 50%;
+              .msg-wrapper {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                position: relative;
+
+                .icon-list {
+                  margin-left: 10px;
+                  position: relative;
+                  svg {
+                    margin-right: 10px;
+                    cursor: pointer;
+                    width: 19px;
+                  }
+                  .emoji-wrapper {
+                    position: fixed;
+                    z-index: 999 !important;
+                  }
+                }
+              }
             }
           }
           .my-messages {
@@ -185,3 +207,17 @@ html {
 //     margin-left: 80px;
 //   }
 // }
+.epr-emoji-category {
+  display: block !important;
+}
+.emoji-wrapper {
+  width: 500px !important;
+  height: 400px !important;
+  position: absolute !important;
+  top: -10px;
+  left: -10px;
+  z-index: 999 !important;
+}
+.EmojiPickerReact .Flex.FlexRow {
+  display: none;
+}

@@ -6,13 +6,14 @@ import {
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSave } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as HeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { PopupContext } from "../../App";
 import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import avatar from "../../assets/img/avt.jpg";
 
 function Post({ post }) {
+  const [hearted, setHearted] = useState(false);
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
   const content = JSON.parse(post.content);
@@ -89,8 +90,9 @@ function Post({ post }) {
         </div>
         <div className="post-actions">
           <div className="main-action">
-            <div className="action-item">
-              <FontAwesomeIcon icon={faHeart} className="icon" />
+            <div className="action-item" onClick={() => setHearted(!hearted)}>
+              {hearted ? <FontAwesomeIcon icon={faHeart} className="icon" /> :
+                <FontAwesomeIcon icon={HeartSolid} className="icon hearted-icon" />}
             </div>
             <div className="action-item">
               <FontAwesomeIcon icon={faComment} className="icon" />
