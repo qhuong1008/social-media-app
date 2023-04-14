@@ -27,7 +27,7 @@ const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
-function NewPost({ post }) {
+function NewPost({ post }, props) {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
 
   const [openTagModal, setOpenTagModal] = useState(false);
@@ -122,12 +122,22 @@ function NewPost({ post }) {
     if (isCreated) {
       togglePopupContentLevel(2);
       updatePost(form)
-        .then((resp) => handleSuccessResponse(resp))
+        .then((resp) => {
+          handleSuccessResponse(resp);
+          if (typeof (props.onPostUpdatedSuccess) === 'function') {
+            props.onPostUpdatedSuccess();
+          }
+        })
         .catch((err) => handleErrorResponse(err));
     } else {
       togglePopup();
       createPost(form)
-        .then((resp) => handleSuccessResponse(resp))
+        .then((resp) => {
+          handleSuccessResponse(resp);
+          if (typeof (props.onPostCreatedSuccess) === 'function') {
+            props.onPostCreatedSuccess();
+          }
+        })
         .catch((err) => handleErrorResponse(err));
     }
   };

@@ -16,6 +16,9 @@ function UserPostModify({ post }, props) {
       deletePost(post.id)
         .then((res) => {
           handleSuccessResponse(res);
+          if (typeof (props.onPostDeletedSuccess) === 'function') {
+            props.onPostDeletedSuccess();
+          }
           props.onCancel();
         })
         .catch((err) => {
