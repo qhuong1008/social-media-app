@@ -10,7 +10,8 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
-function UserPost({ post }) {
+function UserPost(props) {
+  const { post } = props;
   const content = JSON.parse(post.content).data;
   const {
     togglePopupContentLevel,
@@ -51,6 +52,13 @@ function UserPost({ post }) {
                 <UserPostModify
                   post={post}
                   onCancel={() => hidePopupContentLevel(1)}
+                  onPostDeletedSuccess={() => {
+                    if (typeof(props.onPostDeletedSuccess) === 'function') {
+                      hidePopupContentLevel(1);
+                      hidePopupContentLevel(0);
+                      props.onPostDeletedSuccess();
+                    }
+                  }}
                 />
               );
               togglePopupContentLevel(1);

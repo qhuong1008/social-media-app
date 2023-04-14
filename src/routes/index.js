@@ -9,6 +9,7 @@ import UserPost from "../components/UserPost/UserPost";
 import PeopleProfile from "../pages/PeopleProfile/PeopleProfile";
 import { DarkModeContext } from "../context/darkModeContext";
 import "../dark.scss";
+import EditProfile from "../pages/EditProfile/EditProfile";
 
 export default memo(function () {
   const { darkMode } = useContext(DarkModeContext);
@@ -22,6 +23,7 @@ export default memo(function () {
           <Route path="/message" element={<Message />}></Route>
           <Route path={`/profile/:username?`} element={<Profile />}></Route>
           <Route path="/peopleprofile" element={<PeopleProfile />}></Route>
+          <Route path="/profile/edit" element={<EditProfile />}></Route>
         </Routes>
       </BrowserRouter>
     </div>

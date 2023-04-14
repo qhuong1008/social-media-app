@@ -144,6 +144,10 @@ function Profile() {
     });
   }
 
+  const onEditProfileClicked = () => {
+    navigate("/profile/edit");
+  }
+
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
     setPopupFollowingcontent(<FollowingModal />);
@@ -167,7 +171,11 @@ function Profile() {
 
   return (
     <div className="profile-container">
-      <CommonSidebar />
+      <CommonSidebar
+        onPostCreatedSuccess={() => {
+          fetchListPosts();
+        }}
+      />
       <MiniSidebar />
       <div className="profile">
         <div className="profile-header">
@@ -178,7 +186,10 @@ function Profile() {
             <section className="user-profile">
               <div className="username">{userView.username}</div>
               {userView.id == user.id ? (<>
-                <div className="edit-profile-btn">Edit profile</div>
+                <div 
+                  className="edit-profile-btn"
+                  onClick={() => {onEditProfileClicked()}}
+                >Edit profile</div>
                 <div>
                   <FontAwesomeIcon icon={faGear} className="icon" />
                 </div>
@@ -269,7 +280,9 @@ function Profile() {
 
           <div className="profile-post-list">
             {listPosts.map((post) => {
-              return <ProfilePost post={post} />;
+              return <ProfilePost onPostDeletedSuccess={() => {
+                fetchListPosts();
+              }} post={post} />;
             })}
 
           </div>

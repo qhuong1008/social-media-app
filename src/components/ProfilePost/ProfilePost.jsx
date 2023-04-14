@@ -15,7 +15,9 @@ import { PopupContext } from "../../App";
 import { useEffect, useContext } from "react";
 import UserPost from "../../components/UserPost/UserPost";
 
-function ProfilePost({ post }) {
+function ProfilePost(props) {
+  const { post } = props;
+
   const content = JSON.parse(post.content).data;
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
@@ -29,7 +31,11 @@ function ProfilePost({ post }) {
   };
 
   const setProfilePopupContent = () => {
-    setPopupcontent(<UserPost post={post} />);
+    setPopupcontent(<UserPost onPostDeletedSuccess={() => {
+      if (typeof(props.onPostDeletedSuccess) === 'function') {
+        props.onPostDeletedSuccess();
+      }
+    }} post={post} />);
   };
 
   useEffect(() => {

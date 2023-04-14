@@ -29,7 +29,7 @@ import NewPost from "../../PostForm/PostForm";
 import avatar from "../../../assets/img/avt.jpg";
 import { DarkModeContext } from "../../../context/darkModeContext";
 
-const CommonSidebar = () => {
+const CommonSidebar = (props) => {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -117,7 +117,11 @@ const CommonSidebar = () => {
             <li
               className="sidebar-item"
               onClick={() => {
-                setPopupcontent(<PostForm />);
+                setPopupcontent(<PostForm onPostCreatedSuccess={() => {
+                  if (typeof(props.onPostCreatedSuccess) === 'function') {
+                    props.onPostCreatedSuccess();
+                  }
+                }} />);
                 togglePopup((p) => !p);
               }}
             >

@@ -10,14 +10,14 @@ import {
   handleErrorResponse,
 } from "../../api/toast/index";
 
-function UserPostModify({ post }, props) {
+function UserPostModify({ post, onPostDeletedSuccess }, props) {
   const deletePostHandle = () => {
     if (window.confirm("Are you sure you want to delete this post?"))
       deletePost(post.id)
         .then((res) => {
           handleSuccessResponse(res);
-          if (typeof (props.onPostDeletedSuccess) === 'function') {
-            props.onPostDeletedSuccess();
+          if (typeof (onPostDeletedSuccess) === 'function') {
+            onPostDeletedSuccess();
           }
           props.onCancel();
         })

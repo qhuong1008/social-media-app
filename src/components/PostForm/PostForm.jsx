@@ -27,7 +27,8 @@ const STATE_VAR = {
   upload_image: "UPLOAD_IMAGE",
   fill_form: "FILL_FORM",
 };
-function NewPost({ post }, props) {
+function NewPost(props) {
+  const { post } = props;
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
 
   const [openTagModal, setOpenTagModal] = useState(false);
