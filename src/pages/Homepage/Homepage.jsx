@@ -8,6 +8,8 @@ import UserList from "../../components/UserList/UserList";
 import { PopupContext } from "../../App";
 import { useState, useEffect, useContext } from "react";
 import { listPosts } from "../../api/common/Post";
+import BottomNavBar from "../../components/Sidebar/BottomNavBar/BottomNavBar";
+import TopNavBar from "../../components/Sidebar/TopNavBar/TopNavBar";
 function Homepage() {
   const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
   const [posts, setPosts] = useState([]);
@@ -23,6 +25,8 @@ function Homepage() {
       <div className="home">
         <CommonSidebar user={user} />
         <MiniSidebar />
+        <TopNavBar />
+        <BottomNavBar />
         <div className="home-container">
           <div className="post-list">
             {posts.map((post) => (

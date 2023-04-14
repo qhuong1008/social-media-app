@@ -4,15 +4,23 @@
   height: 100%;
   color: rgb(210, 210, 210);
   .mini-sidebar {
-    background-color: #393939;
+    background-color: #2d2d2d;
     border: none;
     .sidebar-item {
       color: rgb(210, 210, 210);
     }
   }
 
+  .top-navbar {
+    background-color: #2c2c2c;
+    color: rgb(210, 210, 210);
+  }
+  .bottom-navbar {
+    background-color: #2d2d2d;
+    color: rgb(210, 210, 210);
+  }
   .common-sidebar {
-    background-color: #393939;
+    background-color: #2d2d2d;
     border-right: 0.5px solid #4a4a4a;
     .logo-header {
       color: rgb(210, 210, 210);
@@ -50,14 +58,14 @@
   }
   .post-container,
   .userlist-container-wrapper {
-    background-color: #393939;
+    background-color: #2d2d2d;
   }
   .userlist-container-wrapper .top {
-    background-color: #393939;
+    background-color: #2d2d2d;
   }
   .post-list,
   .home {
-    background-color: #292929;
+    background-color: #191919;
   }
   svg {
     fill: rgb(210, 210, 210);
@@ -65,9 +73,9 @@
 
   .messageHome {
     .message-container {
-      background-color: #292929;
+      background-color: #181818;
       .messages {
-        background-color: #393939;
+        background-color: #303030;
         border: 1px solid rgb(69, 69, 69);
         .message-box {
           border-left: 1px solid rgb(69, 69, 69);

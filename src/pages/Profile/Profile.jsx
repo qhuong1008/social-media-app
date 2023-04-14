@@ -29,7 +29,7 @@ import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 
 
 function Profile() {
-  const user = JSON.parse(localStorage.getItem("USER_INFO"));  
+  const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const uid = user.id;
   const params = useParams();
 
@@ -61,40 +61,41 @@ function Profile() {
   const [listFollowing, setListFollowing] = useState([]);
   const [listPosts, setListPosts] = useState([]);
 
-  function fetchListFollowing(){
+  function fetchListFollowing() {
     CommonFollowerApi.listFollowing()
-    .then((res) => {
-      const fetchListFollowing = res.data.data.map((following, index) => {
-        const temp = { ...following };
-        return temp;
+      .then((res) => {
+        const fetchListFollowing = res.data.data.map((following, index) => {
+          const temp = { ...following };
+          return temp;
+        })
+        setListFollowing(fetchListFollowing);
       })
-      setListFollowing(fetchListFollowing);
-    })
-    .catch((err) => {});
+      .catch((err) => { });
   }
 
   function fetchListFollowers() {
     return CommonFollowerApi.listFollowers()
-    .then ((response) => {
+      .then((response) => {
         const fetchListFollowers = response.data.data.map((follower, index) => {
-            const temp = { ...follower };
-            return temp;
+          const temp = { ...follower };
+          return temp;
         });
         setListFollowers(fetchListFollowers);
-    })}
+      })
+  }
 
   function fetchListPosts() {
     return CommonPostApi.getMyPosts()
-    .then ((response) => {
+      .then((response) => {
         const fetchListPosts = response.data.data.map((post, index) => {
-            const temp = { ...post };
-            return temp;
+          const temp = { ...post };
+          return temp;
         });
         setListPosts(fetchListPosts);
-    })
-    .catch((error) => {});
+      })
+      .catch((error) => { });
   }
-  
+
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -114,8 +115,8 @@ function Profile() {
     fetchListPosts();
   }, []);
 
-  
-  
+
+
   return (
     <div className="profile-container">
       <CommonSidebar />
@@ -195,12 +196,11 @@ function Profile() {
             </Link>
           </div>
 
-          <div className="profile-post-list__col">
-            <div className="profile-post-list__row">
-              {listPosts.map((post) => {
-                return <ProfilePost post={post} />;
-              })}
-            </div>
+          <div className="profile-post-list">
+            {listPosts.map((post) => {
+              return <ProfilePost post={post} />;
+            })}
+
           </div>
         </div>
       </div>

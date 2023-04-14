@@ -1,7 +1,6 @@
 .home {
   display: flex;
   box-sizing: border-box;
-  padding: 0 16px;
   background-color: rgb(238, 238, 238);
 }
 .post-list {
@@ -9,14 +8,22 @@
   flex-direction: column;
   // padding: 20px 70px;
   margin: 0 auto;
-  width: fit-content;
+  // width: fit-content;
 }
-
+.top-navbar {
+  display: none !important;
+}
+.bottom-navbar {
+  display: none;
+}
 .home-container {
   flex: 1;
 }
 
 @media screen and (min-width: 1200px) {
+  .top-navbar {
+    display: none;
+  }
   .common-sidebar {
     display: block;
   }
@@ -27,24 +34,44 @@
     margin-left: 244px;
   }
 }
-@media screen and (max-width: 1200px) {
-  .common-sidebar {
+@media screen and (min-width: 1000px) {
+  .top-navbar {
     display: none;
   }
-  .mini-sidebar {
-    display: block;
+  .userlist-container {
+    display: none;
   }
   .home-container {
-    margin-left: 80px;
+    margin-left: 244px;
   }
-}
-@media screen and (max-width: 1000px) {
-  .userlist-container {
+  .mini-sidebar {
     display: none;
   }
   .home-container {
     width: 100%;
     display: flex;
     justify-content: center;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .top-navbar {
+    display: flex !important;
+  }
+  .bottom-navbar {
+    display: block;
+  }
+  .common-sidebar {
+    display: none;
+  }
+
+  .mini-sidebar {
+    display: none;
+  }
+  .userlist-container-wrapper {
+    display: none;
+  }
+  .post-list {
+    margin-top: 50px;
   }
 }

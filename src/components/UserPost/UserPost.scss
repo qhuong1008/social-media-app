@@ -3,8 +3,8 @@
   flex-direction: row;
   justify-content: space-between;
 
-  max-width: 800px;
-  min-width: 600px;
+  // max-width: 800px;
+  // min-width: 600px;
   height: 500px;
   border-radius: 10px;
   .post-image {
@@ -183,6 +183,38 @@
       cursor: pointer;
       color: rgb(83, 83, 234);
       font-size: 13px;
+    }
+  }
+}
+@media screen and (max-width: 480px) {
+  .user-post-wrapper {
+    // margin-top: 30px;
+    // margin: auto;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+
+    .post-image {
+      width: 100%;
+      aspect-ratio: 1/1;
+      margin-left: 18px;
+    }
+    .post-info .post-info-header {
+      padding: 13px 40px;
+    }
+    .post-status-wrapper,
+    .post-action-wrapper,
+    .account-comment {
+      padding: 13px 40px;
+    }
+    .post-statistic {
+      padding: 13px 40px;
+      .first-three-users {
+        margin: 0;
+      }
+      .post-likes {
+        margin-left: 10px;
+      }
     }
   }
 }

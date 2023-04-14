@@ -160,3 +160,35 @@
     }
   }
 }
+@media screen and (max-width: 480px) {
+  .common-sidebar {
+    display: none;
+  }
+  .profile-container {
+    .profile {
+      margin: 0;
+      .profile-header {
+        padding: 0;
+        font-size: 15px;
+        .profile-img {
+          margin-left: 10px;
+        }
+        .profile-info {
+          margin-left: 12px;
+        }
+      }
+      .profile-main {
+        width: 100%;
+        .profile-main__header {
+          .profile-main__header-item {
+            margin: 0;
+            padding: 10px 10px;
+          }
+        }
+      }
+      .profile-post-wrapper {
+        margin: 0;
+      }
+    }
+  }
+}
