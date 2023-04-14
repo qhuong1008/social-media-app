@@ -51,7 +51,6 @@ function Profile() {
         handleErrorMessage('Không tìm thấy user này');
         navigate("/");
       }
-      console.log(resp);
       setUserView(resp.data.data[0]);
       setIsFollowed(resp.data.data[0].followed);
     });
@@ -87,7 +86,7 @@ function Profile() {
   const [listPosts, setListPosts] = useState([]);
 
   function fetchListFollowing() {
-    CommonFollowerApi.listFollowing()
+    CommonFollowerApi.listFollowing(userView.id)
       .then((res) => {
         const fetchListFollowing = res.data.data.map((following, index) => {
           const temp = { ...following };
@@ -99,7 +98,8 @@ function Profile() {
   }
 
   function fetchListFollowers() {
-    return CommonFollowerApi.listFollowers()
+    
+    return CommonFollowerApi.listFollowers(userView.id)
       .then((response) => {
         const fetchListFollowers = response.data.data.map((follower, index) => {
           const temp = { ...follower };
@@ -113,7 +113,6 @@ function Profile() {
     if (userView.id == user.id) {
       return CommonPostApi.getMyPosts()
       .then ((response) => {
-        console.log(response);
           const fetchListPosts = response.data.data.map((post, index) => {
               const temp = { ...post };
               return temp;
@@ -139,6 +138,9 @@ function Profile() {
   const toggleFollowOnClick = () => {
     toggleFollow(userView.id).then((resp) => {
       setIsFollowed(!isFollowed);
+      
+      fetchListFollowers();
+      fetchListFollowing();
     });
   }
 
@@ -147,10 +149,15 @@ function Profile() {
     setPopupFollowingcontent(<FollowingModal />);
     setPopupActioncontent(<UserProfileActionModal />);
     setCurrentUserProfileContent(<FollowingUserProfileAction />);
-    fetchListFollowing();
-    fetchListFollowers();
 
   }, []);
+
+  useEffect(() => {
+    if (userView.id != null) {
+      fetchListFollowers();
+      fetchListFollowing();
+    }
+  }, [userView]);
 
   useEffect(() => {
     if (userView.id != null) {
@@ -206,7 +213,7 @@ function Profile() {
               <div
                 className="statistic-item"
                 onClick={() => {
-                  setPopupFollowercontent(<FollowerModal />);
+                  setPopupFollowercontent(<FollowerModal userid={userView.id}/>);
                   togglePopup((p) => !p);
                 }}
               >
@@ -218,7 +225,7 @@ function Profile() {
                 <div
                   className="statistic-type"
                   onClick={() => {
-                    setPopupFollowingcontent(<FollowingModal />);
+                    setPopupFollowingcontent(<FollowingModal userid={userView.id}/>);
                     togglePopup((p) => !p);
                   }}
                 >

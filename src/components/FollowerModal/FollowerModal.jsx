@@ -2,17 +2,19 @@ import { useEffect } from "react";
 import styles from "./FollowerModal.scss";
 import { CommonFollowerApi } from "../../api/common";
 import { useState } from "react";
-function FollowerModal() {
+function FollowerModal({userid}) {
+  const userIdGetFollower = userid;
   const [listFollowers, setListFollowers] = useState([]);
 
   function fetchListFollowers() {
-    return CommonFollowerApi.listFollowers()
+    return CommonFollowerApi.listFollowers(userIdGetFollower)
     .then ((response) => {
         const fetchListFollowers = response.data.data.map((follower, index) => {
             const temp = { ...follower };
             return temp;
         });
         setListFollowers(fetchListFollowers);
+        console.log(listFollowers);
     })
     .catch((error) => {});
   }

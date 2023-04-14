@@ -2,11 +2,12 @@ import styles from "./FollowingModal.scss";
 import { useState, useEffect } from "react";
 import { CommonFollowerApi } from "../../api/common";
 
-function FollowingModal() {
+function FollowingModal({userid}) {
+  const userIdGetFollowing = userid;
   const [listFollowing, setListFollowing] = useState([]);
 
   function fetchListFollowing(){
-    CommonFollowerApi.listFollowing()
+    CommonFollowerApi.listFollowing(userIdGetFollowing)
     .then((res) => {
       const fetchListFollowing = res.data.data.map((following, index) => {
         const temp = { ...following };
@@ -34,13 +35,11 @@ function FollowingModal() {
         <div className="follower-item">
           <div className="follower-left">
             <img
-              // src="https://i.pinimg.com/474x/ee/2a/71/ee2a7149341c2b23ae2e9c7358ec247d.jpg"
               src = {listFollowing[key].avatar}
               alt=""
             />
             <a href="/profile/catlmao1234">
               <div className="username">{listFollowing[key].username}</div>
-              {/* <div className="username">catlmao1234</div> */}
             </a>
             <div className="follow-btn">Follow</div>
           </div>

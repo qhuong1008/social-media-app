@@ -14,8 +14,8 @@ const createFollower = async (follower) => {
  * @return
  *
  */
-const listFollowers = async () => {
-  return contextInstance.get(`common/follower/followers`);
+const listFollowers = async (userid) => {
+  return contextInstance.get(`common/follower/${userid}/followers`);
 };
 
 /**
@@ -23,8 +23,8 @@ const listFollowers = async () => {
  * @return
  *
  */
-const listFollowing = async () => {
-  return contextInstance.get(`common/follower/me`);
+const listFollowing = async (userid) => {
+  return contextInstance.get(`common/follower/${userid}/following`);
 };
 
 /**
