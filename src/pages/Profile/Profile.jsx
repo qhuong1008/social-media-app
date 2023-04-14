@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./Profile.scss";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -26,16 +27,40 @@ import { CommonPostApi } from "../../api/common";
 import avatar from "../../assets/img/avt.jpg";
 import { useParams } from "react-router-dom";
 import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
+import { getUserByUsername } from "../../api/common/User";
+import { handleErrorMessage } from "../../api/toast";
+import { toggleFollow } from "../../api/common/Follower";
 
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const uid = user.id;
   const params = useParams();
+  const [userView, setUserView] = useState({});
+  const navigate = useNavigate();
+  const [isFollowed, setIsFollowed] = useState(false);
+
+  useEffect(() => {
+    let { username } = params;
+    if (username == null) {
+      username = user.username;
+      setUserView(user);
+    }
+    getUserByUsername(username).then((resp) => {
+      if (resp.data.data.length === 0) {
+        handleErrorMessage('Không tìm thấy user này');
+        navigate("/");
+      }
+      console.log(resp);
+      setUserView(resp.data.data[0]);
+      setIsFollowed(resp.data.data[0].followed);
+    });
+  }, []);
+
 
   const [posts, setPosts] = useState([]);
 
-  const { togglePopupContentLevel, setPopupContentLevel } =
+  const { togglePopupContentLevel, setPopupContentLevel, hidePopupContentLevel } =
     useContext(PopupContext);
 
   const setPopupFollowercontent = (content) => {
@@ -85,25 +110,37 @@ function Profile() {
   }
 
   function fetchListPosts() {
-    return CommonPostApi.getMyPosts()
-      .then((response) => {
-        const fetchListPosts = response.data.data.map((post, index) => {
-          const temp = { ...post };
-          return temp;
-        });
-        setListPosts(fetchListPosts);
+    if (userView.id == user.id) {
+      return CommonPostApi.getMyPosts()
+      .then ((response) => {
+        console.log(response);
+          const fetchListPosts = response.data.data.map((post, index) => {
+              const temp = { ...post };
+              return temp;
+          });
+          setListPosts(fetchListPosts);
       })
-      .catch((error) => { });
+      .catch((error) => {});
+    }
+    else {
+      return CommonPostApi.getPostsByUserId(userView.id)
+      .then ((response) => {
+        console.log(response);
+          const fetchListPosts = response.data.data.map((post, index) => {
+              const temp = { ...post };
+              return temp;
+          });
+          setListPosts(fetchListPosts);
+      })
+      .catch((error) => {});
+    }
   }
 
-
-  useEffect(() => {
-    const fetchPosts = async () => {
-      const res = await listPostsFromUser(uid);
-      setPosts(res.data.data);
-    };
-    fetchPosts();
-  }, []);
+  const toggleFollowOnClick = () => {
+    toggleFollow(userView.id).then((resp) => {
+      setIsFollowed(!isFollowed);
+    });
+  }
 
   useEffect(() => {
     setPopupFollowercontent(<FollowerModal />);
@@ -112,10 +149,14 @@ function Profile() {
     setCurrentUserProfileContent(<FollowingUserProfileAction />);
     fetchListFollowing();
     fetchListFollowers();
-    fetchListPosts();
+
   }, []);
 
-
+  useEffect(() => {
+    if (userView.id != null) {
+      fetchListPosts();
+    }
+  }, [userView]);
 
   return (
     <div className="profile-container">
@@ -124,15 +165,38 @@ function Profile() {
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img src={user.avatar} alt="avatar" />
+            <img src={userView.avatar} alt="avatar" />
           </div>
           <div className="profile-info">
             <section className="user-profile">
-              <div className="username">{params.username}</div>
-              <div className="edit-profile-btn">Edit profile</div>
-              <div>
-                <FontAwesomeIcon icon={faGear} className="icon" />
-              </div>
+              <div className="username">{userView.username}</div>
+              {userView.id == user.id ? (<>
+                <div className="edit-profile-btn">Edit profile</div>
+                <div>
+                  <FontAwesomeIcon icon={faGear} className="icon" />
+                </div>
+              </>
+              ) : (
+                <>
+                  {isFollowed ? (
+                    <div
+                      className="following-btn"
+                      onClick={() => {
+                        setPopupActioncontent(<FollowingUserProfileAction onUnFollowClicked={() => {
+                          toggleFollowOnClick();
+                          hidePopupContentLevel(0);
+                        }} />);
+                        togglePopup();
+                      }}
+                    >
+                      Following
+                      <FontAwesomeIcon icon={faChevronDown} className="icon" />
+                    </div>
+                  ) : (
+                    <div className="follow-profile-btn" onClick={toggleFollowOnClick}>Follow</div>
+                  )}
+                </>
+              )}
             </section>
             <section className="user-statistics">
               <div className="statistic-item">
@@ -163,7 +227,7 @@ function Profile() {
               </div>
             </section>
             <section className="user-bio">
-              {user.profile}
+              {userView.profile}
             </section>
           </div>
         </div>
