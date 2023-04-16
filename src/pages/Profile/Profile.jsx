@@ -30,6 +30,8 @@ import MiniSidebar from "../../components/Sidebar/MiniSidebar/MiniSidebar";
 import { getUserByUsername } from "../../api/common/User";
 import { handleErrorMessage } from "../../api/toast";
 import { toggleFollow } from "../../api/common/Follower";
+import TopNavBar from "../../components/Sidebar/TopNavBar/TopNavBar";
+import BottomNavBar from "../../components/Sidebar/BottomNavBar/BottomNavBar";
 
 
 function Profile() {
@@ -98,7 +100,7 @@ function Profile() {
   }
 
   function fetchListFollowers() {
-    
+
     return CommonFollowerApi.listFollowers(userView.id)
       .then((response) => {
         const fetchListFollowers = response.data.data.map((follower, index) => {
@@ -112,33 +114,33 @@ function Profile() {
   function fetchListPosts() {
     if (userView.id == user.id) {
       return CommonPostApi.getMyPosts()
-      .then ((response) => {
+        .then((response) => {
           const fetchListPosts = response.data.data.map((post, index) => {
-              const temp = { ...post };
-              return temp;
+            const temp = { ...post };
+            return temp;
           });
           setListPosts(fetchListPosts);
-      })
-      .catch((error) => {});
+        })
+        .catch((error) => { });
     }
     else {
       return CommonPostApi.getPostsByUserId(userView.id)
-      .then ((response) => {
-        console.log(response);
+        .then((response) => {
+          console.log(response);
           const fetchListPosts = response.data.data.map((post, index) => {
-              const temp = { ...post };
-              return temp;
+            const temp = { ...post };
+            return temp;
           });
           setListPosts(fetchListPosts);
-      })
-      .catch((error) => {});
+        })
+        .catch((error) => { });
     }
   }
 
   const toggleFollowOnClick = () => {
     toggleFollow(userView.id).then((resp) => {
       setIsFollowed(!isFollowed);
-      
+
       fetchListFollowers();
       fetchListFollowing();
     });
@@ -177,6 +179,7 @@ function Profile() {
         }}
       />
       <MiniSidebar />
+      <BottomNavBar />
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
@@ -186,9 +189,9 @@ function Profile() {
             <section className="user-profile">
               <div className="username">{userView.username}</div>
               {userView.id == user.id ? (<>
-                <div 
+                <div
                   className="edit-profile-btn"
-                  onClick={() => {onEditProfileClicked()}}
+                  onClick={() => { onEditProfileClicked() }}
                 >Edit profile</div>
                 <div>
                   <FontAwesomeIcon icon={faGear} className="icon" />
@@ -224,7 +227,7 @@ function Profile() {
               <div
                 className="statistic-item"
                 onClick={() => {
-                  setPopupFollowercontent(<FollowerModal userid={userView.id}/>);
+                  setPopupFollowercontent(<FollowerModal userid={userView.id} />);
                   togglePopup((p) => !p);
                 }}
               >
@@ -236,7 +239,7 @@ function Profile() {
                 <div
                   className="statistic-type"
                   onClick={() => {
-                    setPopupFollowingcontent(<FollowingModal userid={userView.id}/>);
+                    setPopupFollowingcontent(<FollowingModal userid={userView.id} />);
                     togglePopup((p) => !p);
                   }}
                 >

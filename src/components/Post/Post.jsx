@@ -11,6 +11,7 @@ import { PopupContext } from "../../App";
 import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import avatar from "../../assets/img/avt.jpg";
+import UserPost from "../UserPost/UserPost";
 
 function Post({ post }) {
   const [hearted, setHearted] = useState(false);
@@ -27,13 +28,20 @@ function Post({ post }) {
   const setPopupcontent = (content) => {
     setPopupContentLevel(0, content);
   };
-
+  const setUserPostModalContent = (content) => {
+    setPopupContentLevel(0, content);
+  };
   const togglePopup = () => {
     togglePopupContentLevel(0);
   };
+  const togglePopupUserPostModal = () => {
+    togglePopupContentLevel(0);
+
+  }
 
   useEffect(() => {
     setPopupcontent(<PostModify />);
+    setUserPostModalContent(<UserPost post={post} />);
   }, []);
 
   const postedTime = Math.floor(time / 1000);
@@ -65,7 +73,7 @@ function Post({ post }) {
               <div className="song-src">Original Audio</div>
             </div>
           </div>
-          <div className="more" onClick={() => togglePopup((p) => !p)}>
+          <div className="more" onClick={() => { setPopupcontent(<PostModify />); togglePopup() }}>
             <svg
               aria-label="More options"
               class="_ab6-"
@@ -122,7 +130,10 @@ function Post({ post }) {
           {contents.map((content) => {
             return <div className="status">{content}</div>;
           })}
-          <div className="view-comments">View all comments</div>
+          <div className="view-comments" onClick={() => {
+            setUserPostModalContent(<UserPost post={post} />)
+            togglePopup()
+          }}>View all comments</div>
         </div>
         <div className="post-new-comment">
           <input

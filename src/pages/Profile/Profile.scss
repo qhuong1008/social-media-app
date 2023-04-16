@@ -111,9 +111,9 @@
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (min-width: 1200px) {
   .common-sidebar {
-    display: none;
+    // display: none;
   }
   // .mini-sidebar {
   //   position: absolute;

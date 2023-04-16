@@ -10,9 +10,11 @@ import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
+import { useState } from "react";
 function UserPost(props) {
   const { post } = props;
   const content = JSON.parse(post.content).data;
+  const [viewReplies, steViewReplies] = useState(false)
   const {
     togglePopupContentLevel,
     setPopupContentLevel,
@@ -53,7 +55,7 @@ function UserPost(props) {
                   post={post}
                   onCancel={() => hidePopupContentLevel(1)}
                   onPostDeletedSuccess={() => {
-                    if (typeof(props.onPostDeletedSuccess) === 'function') {
+                    if (typeof (props.onPostDeletedSuccess) === 'function') {
                       hidePopupContentLevel(1);
                       hidePopupContentLevel(0);
                       props.onPostDeletedSuccess();
@@ -106,19 +108,59 @@ function UserPost(props) {
                   alt=""
                 />
               </div>
-              <div className="comment">
-                <div className="comment-desc">
-                  <div className="comment-desc-info">
-                    <span>cutecat</span> wow so cute
+              <div className="comment-wrapper">
+
+                <div className="comment">
+                  <div className="comment-desc">
+                    <div className="comment-desc-info">
+                      <span>cutecat</span> wow so cute
+                    </div>
+                    <div className="comment-sub">
+                      <div className="time">39w</div>
+                      <div className="likes">3 likes</div>
+                      <div className="reply">Reply</div>
+                    </div>
                   </div>
-                  <div className="comment-sub">
-                    <div className="time">39w</div>
-                    <div className="reply">Reply</div>
-                  </div>
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
                 </div>
-                <FontAwesomeIcon icon={faHeart} className="icon" />
+                <div className="replies-wrapper">
+                  <div className="view-reply">
+                    <span>_____</span>
+                    <span onClick={() => steViewReplies(!viewReplies)}>{viewReplies ? "Hide replies" : "View replies (1)"}</span>
+                  </div>
+                  {viewReplies ? <div className="reply-list">
+                    <div className="comment-reply">
+                      <div className="user-avt">
+                        <img src="https://i.pinimg.com/564x/bb/dd/4d/bbdd4d8bd0f2552e66ac6628010527d6.jpg" alt="" />
+                      </div>
+                      <div className="reply-comment-wrapper">
+                        <div className="flex">
+
+                          <div className="reply-comment">
+
+                            <div className="username">mango_old_pics</div>
+                            <div className="comment">
+                              What type of cat is mango??
+                            </div>
+                          </div>
+                          <div className="reply-comment-action">
+                            <FontAwesomeIcon icon={faHeart} className="icon" />
+                          </div>
+                        </div>
+                        <div className="reply-comment-info">
+                          <div className="time reply-comment-info-item">21h</div>
+                          <div className="likes reply-comment-info-item">11 likes</div>
+                          <div className="reply-btn reply-comment-info-item">Reply</div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div> : <></>}
+                </div>
               </div>
             </div>
+
+
           </div>
         </div>
         <div className="post-action-wrapper">
