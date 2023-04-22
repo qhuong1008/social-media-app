@@ -6,7 +6,11 @@ import {
   faArrowsRotate,
   faEarthAsia,
   faTag,
+  faXmark,
 } from "@fortawesome/free-solid-svg-icons";
+
+import {} from "@fortawesome/free-regular-svg-icons";
+
 import clx from "classnames";
 
 import $ from "./PostForm.module.scss";
@@ -41,6 +45,10 @@ function NewPost({ post }) {
     console.log("taggedList:", taggedList);
   };
 
+  const deleteTagHandler = (user) => {
+    setTaggedList(taggedList.filter((tag) => tag.id !== user.id));
+  };
+
   taggedList.map((user) => {
     console.log(user.username);
   });
@@ -62,6 +70,7 @@ function NewPost({ post }) {
     id: null,
     isPublic: false,
     content: { images: null, caption: "" },
+    tags: [],
   });
   const [avt, setAvt] = useState();
   const [caption, setCaption] = useState("");
@@ -119,6 +128,7 @@ function NewPost({ post }) {
     preparedFormContent.data.images = [form.content.images];
     preparedFormContent.data.contents = form.content.caption.split("\n");
     form.content = { ...preparedFormContent };
+    form.tags = taggedList.map((tag) => tag.id);
     if (isCreated) {
       togglePopupContentLevel(2);
       updatePost(form)
@@ -280,18 +290,19 @@ function NewPost({ post }) {
             <div className={$.form__tag}>
               <FontAwesomeIcon icon={faTag} className="icon" />
               <div className={$.form__taglist}>
-                {/* <div className={$.form__user}>hihi</div> */}
-                {taggedList.length === 0 ? (
-                  <>ko co user nao dau</>
-                ) : (
-                  <>co user ma ?</>
-                )}
                 {taggedList.map((user) => {
                   return (
-                    <div className={$.form__user}>
-                      <a href={`/profile/${user.username}`}>
-                        <div>{user.username}</div>
-                      </a>
+                    <div className="user-tag-box">
+                      <div className={$.form__user}>
+                        <a href={`/profile/${user.username}`}>
+                          <div>{user.username}</div>
+                        </a>
+                        <FontAwesomeIcon
+                          icon={faXmark}
+                          size="lg"
+                          onClick={() => deleteTagHandler(user)}
+                        />
+                      </div>
                     </div>
                   );
                 })}

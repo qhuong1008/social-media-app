@@ -5,6 +5,7 @@ import {
   faShareFromSquare,
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHearFull } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSave } from "@fortawesome/free-solid-svg-icons";
 import { PopupContext } from "../../App";
@@ -45,6 +46,7 @@ function Post({ post }) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
+
   return (
     <>
       <div className="post-container">
@@ -91,6 +93,11 @@ function Post({ post }) {
           <div className="main-action">
             <div className="action-item">
               <FontAwesomeIcon icon={faHeart} className="icon" />
+              <FontAwesomeIcon
+                icon={faHearFull}
+                className="icon"
+                style={{ color: "rgb(255, 99, 127)", display: "none" }}
+              />
             </div>
             <div className="action-item">
               <FontAwesomeIcon icon={faComment} className="icon" />

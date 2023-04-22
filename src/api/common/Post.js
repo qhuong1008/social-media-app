@@ -39,7 +39,9 @@ const createPost = async (post) => {
     privacy: post.isPublic
       ? POST_PRIVACY_TYPE.PUBLIC
       : POST_PRIVACY_TYPE.PRIVATE,
+    tags: post.tags,
   };
+  console.log(request);
   return contextInstance
     .post(`common/post`, request)
     .catch((err) => console.log(err));
@@ -102,7 +104,9 @@ const updatePost = async (post) => {
     privacy: post.isPublic
       ? POST_PRIVACY_TYPE.PUBLIC
       : POST_PRIVACY_TYPE.PRIVATE,
+    tags: post.tags,
   };
+  console.log(request);
   return contextInstance
     .put(`common/post/${post.id}/update`, request)
     .catch((err) => console.log(err));
