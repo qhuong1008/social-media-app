@@ -10,6 +10,11 @@ const createReaction = async (reaction) => {
   return contextInstance.post(`common/reaction`, reaction);
 };
 
+const toggleLike = async ({ id }) => {
+  console.log(id);
+  return contextInstance.put(`common/post/${id}/like/toggle`);
+};
+
 /**
  * Get all reactions
  * @return
@@ -55,4 +60,5 @@ export {
   getReactionById,
   listReactions,
   deleteReaction,
+  toggleLike,
 };

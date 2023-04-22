@@ -13,6 +13,8 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import avatar from "../../assets/img/avt.jpg";
 
+import { toggleLike } from "../../api/common/Reaction";
+
 function Post({ post }) {
   const { togglePopupContentLevel, setPopupContentLevel } =
     useContext(PopupContext);
@@ -46,7 +48,14 @@ function Post({ post }) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
-
+  const [like, setLike] = useState(false);
+  const reactHandler = () => {
+    setLike(!like);
+    toggleLike({
+      id: post.id,
+    });
+  };
+  console.log(post.id);
   return (
     <>
       <div className="post-container">
@@ -92,12 +101,17 @@ function Post({ post }) {
         <div className="post-actions">
           <div className="main-action">
             <div className="action-item">
-              <FontAwesomeIcon icon={faHeart} className="icon" />
-              <FontAwesomeIcon
-                icon={faHearFull}
-                className="icon"
-                style={{ color: "rgb(255, 99, 127)", display: "none" }}
-              />
+              <div onClick={() => reactHandler()}>
+                {like ? (
+                  <FontAwesomeIcon
+                    icon={faHearFull}
+                    className="icon"
+                    style={{ color: "rgb(255, 99, 127)" }}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                )}
+              </div>
             </div>
             <div className="action-item">
               <FontAwesomeIcon icon={faComment} className="icon" />
