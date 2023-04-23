@@ -48,14 +48,13 @@ function Post({ post }) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(post.isReacted);
   const reactHandler = () => {
     setLike(!like);
     toggleLike({
       id: post.id,
     });
   };
-  console.log(post.id);
   return (
     <>
       <div className="post-container">
@@ -132,7 +131,7 @@ function Post({ post }) {
             Liked by
             <div className="person"> {post.username} </div>
             and
-            <div className="number"> 12,432 </div> others
+            <div className="number"> {post.totalReact} </div> others
           </div>
         </div>
         <div className="post-status">
@@ -141,7 +140,11 @@ function Post({ post }) {
           {contents.map((content) => {
             return <div className="status">{content}</div>;
           })}
-          <div className="view-comments">View all comments</div>
+          <div className="view-comments">
+            {post.totalComment > 0
+              ? `View all ${post.totalComment} comments `
+              : ""}
+          </div>
         </div>
         <div className="post-new-comment">
           <input

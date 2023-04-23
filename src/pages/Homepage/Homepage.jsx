@@ -18,6 +18,7 @@ function Homepage() {
     };
     fetchPosts();
   }, []);
+  console.log(posts);
   return (
     <>
       <div className="home">

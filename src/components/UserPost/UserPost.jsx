@@ -7,9 +7,16 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { useEffect, useContext } from "react";
+import { faHeart as faHearFull } from "@fortawesome/free-solid-svg-icons";
+
+import { useState, useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
+
+import defaulAvatar from "../../assets/img/avt.jpg";
+
+import { toggleLike } from "../../api/common/Reaction";
+
 function UserPost({ post }) {
   const content = JSON.parse(post.content).data;
   const {
@@ -26,6 +33,14 @@ function UserPost({ post }) {
     togglePopupContentLevel(0);
   };
 
+  const [like, setLike] = useState(post.isReacted);
+  const reactHandler = () => {
+    setLike(!like);
+    toggleLike({
+      id: post.id,
+    });
+  };
+
   // useEffect(() => {
   //   setPopupcontent(<UserPostModify />);
   // }, []);
@@ -38,10 +53,10 @@ function UserPost({ post }) {
         <div className="post-info-header">
           <div className="post-account">
             <img
-              src="https://i.pinimg.com/236x/f2/b2/08/f2b2089eeef0335894ba6649aec02350.jpg"
+              src={post.avatar != null ? post.avatar : defaulAvatar}
               alt=""
             />
-            <div className="post-account-username">koyukichan_01</div>
+            <div className="post-account-username">{post.username}</div>
           </div>
           <div
             className="more"
@@ -77,12 +92,12 @@ function UserPost({ post }) {
           <div className="post-status">
             <div className="post-avt">
               <img
-                src="https://i.pinimg.com/236x/f2/b2/08/f2b2089eeef0335894ba6649aec02350.jpg"
+                src={post.avatar != null ? post.avatar : defaulAvatar}
                 alt=""
               />
             </div>
             <div className="post-status-desc">
-              <span>koyukichan_01:</span>
+              <span>{post.username}</span>
               <div className="post-desc">
                 {content.contents.map((content) => {
                   return <div className="status">{content}</div>;
@@ -115,8 +130,16 @@ function UserPost({ post }) {
         </div>
         <div className="post-action-wrapper">
           <div className="post-action-list">
-            <div className="post-action-item">
-              <FontAwesomeIcon icon={faHeart} className="icon" />
+            <div className="post-action-item" onClick={() => reactHandler()}>
+              {like ? (
+                <FontAwesomeIcon
+                  icon={faHearFull}
+                  className="icon"
+                  style={{ color: "rgb(255, 99, 127)" }}
+                />
+              ) : (
+                <FontAwesomeIcon icon={faHeart} className="icon" />
+              )}
             </div>
             <div className="post-action-item">
               <FontAwesomeIcon icon={faComment} className="icon" />
@@ -152,7 +175,8 @@ function UserPost({ post }) {
           </div>
           <div className="post-likes">
             <span>
-              Liked by <span className="username">pumpkin_purrs</span> and 66
+              Liked by <span className="username">pumpkin_purrs</span> and{" "}
+              {post.totalReact + " "}
               others
             </span>
           </div>

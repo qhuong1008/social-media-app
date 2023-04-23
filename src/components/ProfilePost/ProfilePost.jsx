@@ -48,11 +48,11 @@ function ProfilePost({ post }) {
         <div className="profile-post-reactions">
           <div className="post-reaction-item">
             <FontAwesomeIcon icon={faHeart} className="icon" />
-            <span>67</span>
+            <span>{post.totalReact}</span>
           </div>
           <div className="post-reaction-item">
             <FontAwesomeIcon icon={faComment} className="icon" />
-            <span>11</span>
+            <span>{post.totalComment}</span>
           </div>
         </div>
       </Link>
