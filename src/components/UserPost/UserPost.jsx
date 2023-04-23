@@ -175,8 +175,8 @@ function UserPost({ post }) {
           </div>
           <div className="post-likes">
             <span>
-              Liked by <span className="username">pumpkin_purrs</span> and{" "}
-              {post.totalReact + " "}
+              Liked by
+              {" " + post.totalReact + " "}
               others
             </span>
           </div>

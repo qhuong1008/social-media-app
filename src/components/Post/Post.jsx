@@ -129,9 +129,7 @@ function Post({ post }) {
           </div>
           <div className="like-num">
             Liked by
-            <div className="person"> {post.username} </div>
-            and
-            <div className="number"> {post.totalReact} </div> others
+            <div className="number"> {post.totalReact} </div> users
           </div>
         </div>
         <div className="post-status">
