@@ -114,4 +114,5 @@ export {
   listUsers,
   deleteUser,
   searchUserForPost,
+  getUserByUsername
 };
