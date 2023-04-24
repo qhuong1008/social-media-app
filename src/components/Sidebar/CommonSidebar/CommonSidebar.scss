@@ -96,7 +96,7 @@ a {
   display: flex;
   flex-direction: column;
   .menu {
-    position: fixed;
+    position: absolute;
     bottom: 0;
     padding: 12px 25px;
     font-weight: 450;

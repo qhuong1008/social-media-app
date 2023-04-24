@@ -6,6 +6,8 @@
   flex-direction: row;
   .profile {
     margin-left: 300px;
+    width: 100%;
+    margin-right: 40px;
 
     .profile-header {
       padding: 20px 20px;
@@ -111,30 +113,22 @@
   }
 }
 
-@media screen and (min-width: 1200px) {
-  .common-sidebar {
-    // display: none;
-  }
-  // .mini-sidebar {
-  //   position: absolute;
-  //   left: 0;
-  // }
-  .home-container {
-    margin-left: 80px;
-  }
-  .profile {
-    margin-left: 100px !important;
+@media screen and (max-width: 1200px) and (min-width: 1001px) {
+  .profile-container .profile {
+    margin-left: 100px;
   }
 }
-@media screen and (max-width: 1000px) {
+@media screen and (max-width: 1000px) and (min-width: 701px) {
+  .profile-container .profile {
+    margin-left: 100px;
+  }
+}
+@media screen and (min-width: 481px) and (max-width: 700px) {
   .profile-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-}
-@media screen and (max-width: 480px) {
-  .common-sidebar {
-    display: none;
+    width: 70%;
+    .profile {
+      padding-left: 100px !important;
+      margin-left: 0px !important;
+    }
   }
 }
