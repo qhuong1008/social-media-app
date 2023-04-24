@@ -6,9 +6,8 @@
 .post-list {
   display: flex;
   flex-direction: column;
-  // padding: 20px 70px;
   margin: 0 auto;
-  // width: fit-content;
+  width: 90%;
 }
 .top-navbar {
   display: none !important;
@@ -19,44 +18,62 @@
 .home-container {
   flex: 1;
 }
-
-@media screen and (min-width: 1200px) {
-  .top-navbar {
-    display: none;
-  }
-  .common-sidebar {
-    display: block;
-  }
-  .mini-sidebar {
-    display: none;
-  }
+@media screen and (min-width: 1201px) {
   .home-container {
-    margin-left: 244px !important;
+    margin-left: 224px;
   }
 }
-@media screen and (min-width: 1000px) {
+
+@media screen and (max-width: 1200px) and (min-width: 1001px) {
+  .top-navbar {
+    display: none;
+  }
   .common-sidebar {
+    display: none;
+  }
+  .mini-sidebar {
     display: block;
+  }
+  .home-container {
+    margin-left: 100px !important;
+  }
+}
+@media screen and (max-width: 1000px) and (min-width: 701px) {
+  .common-sidebar {
+    display: none;
   }
   .top-navbar {
     display: none;
   }
-  .userlist-container {
+  .userlist-container-wrapper {
     display: none;
   }
-  .home-container {
-    margin-left: 244px;
-  }
+
   .mini-sidebar {
-    display: none;
+    display: block;
   }
   .home-container {
-    width: 100%;
+    width: 100px;
+    margin-left: 77px;
     display: flex;
     justify-content: center;
   }
 }
 
+@media screen and (min-width: 481px) and (max-width: 700px) {
+  .userlist-container-wrapper {
+    display: none;
+  }
+  .mini-sidebar {
+    display: block;
+  }
+  .common-sidebar {
+    display: none;
+  }
+  .home-container {
+    margin-left: 70px;
+  }
+}
 @media screen and (max-width: 480px) {
   .top-navbar {
     display: flex !important;
