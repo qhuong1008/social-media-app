@@ -17,6 +17,13 @@ const createUser = async (user) => {
   return contextInstance.post(`common/user`, user);
 };
 
+/** Get friend for tag post */
+const searchUserForPost = async (search) => {
+  return contextInstance.get(
+    `common/user/search-users-for-post?username.contains=${search}`
+  );
+};
+
 /**
  * Get all users
  * @return
@@ -100,4 +107,12 @@ const deleteUser = async (user) => {
   return contextInstance.delete(`common/user/${user.id}`);
 };
 
-export { createUser, updateUser, getUserById, listUsers, deleteUser, getUserByUsername };
+export {
+  createUser,
+  updateUser,
+  getUserById,
+  listUsers,
+  deleteUser,
+  searchUserForPost,
+  getUserByUsername
+};

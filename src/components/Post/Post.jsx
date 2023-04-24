@@ -5,6 +5,7 @@ import {
   faShareFromSquare,
   faBookmark,
 } from "@fortawesome/free-regular-svg-icons";
+import { faHeart as faHearFull } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart as HeartSolid } from "@fortawesome/free-solid-svg-icons";
 import { PopupContext } from "../../App";
@@ -12,6 +13,8 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import avatar from "../../assets/img/avt.jpg";
 import UserPost from "../UserPost/UserPost";
+
+import { toggleLike } from "../../api/common/Reaction";
 
 function Post({ post }) {
   const [hearted, setHearted] = useState(false);
@@ -54,6 +57,14 @@ function Post({ post }) {
   } else {
     postedAgo = Math.floor(postedTime / 86400) + "d";
   }
+  const [like, setLike] = useState(false);
+  const reactHandler = () => {
+    setLike(!like);
+    toggleLike({
+      id: post.id,
+    });
+  };
+  console.log(post.id);
   return (
     <>
       <div className="post-container">
@@ -98,9 +109,18 @@ function Post({ post }) {
         </div>
         <div className="post-actions">
           <div className="main-action">
-            <div className="action-item" onClick={() => setHearted(!hearted)}>
-              {hearted ? <FontAwesomeIcon icon={faHeart} className="icon" /> :
-                <FontAwesomeIcon icon={HeartSolid} className="icon hearted-icon" />}
+            <div className="action-item">
+              <div onClick={() => reactHandler()}>
+                {like ? (
+                  <FontAwesomeIcon
+                    icon={faHearFull}
+                    className="icon"
+                    style={{ color: "rgb(255, 99, 127)" }}
+                  />
+                ) : (
+                  <FontAwesomeIcon icon={faHeart} className="icon" />
+                )}
+              </div>
             </div>
             <div className="action-item">
               <FontAwesomeIcon icon={faComment} className="icon" />

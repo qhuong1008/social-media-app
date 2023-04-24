@@ -1,4 +1,12 @@
-const BACKEND_URL = "http://localhost:8080";
+let BACKEND_URL = "http://localhost:8080";
+
+if (process.env.NODE_ENV === 'development') {
+    BACKEND_URL = 'http://localhost:8080'
+}
+else {
+    BACKEND_URL = 'http://api.instagram.uteoj.com'
+}
+
 const ACCESS_TOKEN_KEY_NAME = "ACCESS_TOKEN_JWT";
 const USER_KEY_NAME = "USER_INFO";
 
