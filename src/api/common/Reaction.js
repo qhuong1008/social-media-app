@@ -12,7 +12,7 @@ const createReaction = async (reaction) => {
 
 const toggleLike = async ({ id }) => {
   console.log(id);
-  return contextInstance.put(`common/post/${id}/like/toggle`);
+  return contextInstance.get(`common/post/${id}/like/toggle`);
 };
 
 /**
