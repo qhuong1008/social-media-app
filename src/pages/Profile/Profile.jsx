@@ -34,6 +34,7 @@ import TopNavBar from "../../components/Sidebar/TopNavBar/TopNavBar";
 import BottomNavBar from "../../components/Sidebar/BottomNavBar/BottomNavBar";
 
 
+
 function Profile() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const uid = user.id;
@@ -183,7 +184,8 @@ function Profile() {
       <div className="profile">
         <div className="profile-header">
           <div className="profile-img">
-            <img src={userView.avatar} alt="avatar" />
+
+            <img src={userView.avatar ? userView.avatar : avatar} alt="avatar" />
           </div>
           <div className="profile-info">
             <section className="user-profile">
