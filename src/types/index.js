@@ -4,7 +4,7 @@ if (process.env.NODE_ENV === 'development') {
     BACKEND_URL = 'http://localhost:8080'
 }
 else {
-    BACKEND_URL = 'http://api.instagram.uteoj.com'
+    BACKEND_URL = 'http://instagram.uteoj.com/api'
 }
 
 const ACCESS_TOKEN_KEY_NAME = "ACCESS_TOKEN_JWT";
