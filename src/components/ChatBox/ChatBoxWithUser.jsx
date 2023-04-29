@@ -149,7 +149,9 @@ function ChatBoxWithUser(props) {
         </div>
 
         <div id="messages">
-          {listMessageData.map((msgItem) => {
+          {listMessageData.map((msgItem, index) => {
+            let isLatestMessage = listMessageData.length - 1 === index;
+
             msgItem.key = Math.random();
             if (currentLoginedUser.id != msgItem.receiverId) {
               return (
@@ -157,6 +159,7 @@ function ChatBoxWithUser(props) {
                   key={Math.random()}
                   message={msgItem.message}
                   createdAt={msgItem.createdAt}
+                  isLatestMessage={isLatestMessage}
                 />
               );
             } else {
