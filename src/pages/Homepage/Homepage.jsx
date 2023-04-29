@@ -13,14 +13,20 @@ import TopNavBar from "../../components/Sidebar/TopNavBar/TopNavBar";
 function Homepage() {
   const user = JSON.parse(localStorage.getItem(USER_KEY_NAME));
   const [posts, setPosts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
   useEffect(() => {
+    setIsLoading(true)
     const fetchPosts = async () => {
       const res = await listPosts();
       setPosts(res.data.data);
     };
     fetchPosts();
+    setIsLoading(false)
   }, []);
-  console.log(posts);
+  if (isLoading) {
+    return <>loading</>
+  }
+  console.log(posts)
   return (
     <>
       <div className="home">
@@ -30,16 +36,17 @@ function Homepage() {
         <BottomNavBar />
         <div className="home-container">
           <div className="post-list">
-            {posts.map((post) => (
+            {posts.length > 0 ? posts.map((post) => (
               <>
                 <Post key={post.id} post={post} />
               </>
-            ))}
+            )) : <></>}
           </div>
         </div>
         <UserList user={user} />
       </div>
     </>
+
   );
 }
 
