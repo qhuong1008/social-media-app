@@ -18,7 +18,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
 import { getListMessageWithAnotherPerson } from "../../api/common/Message";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
-import EmojiPicker from 'emoji-picker-react';
+import InputEmoji from 'react-input-emoji'
+import EmojiPicker, {
+  EmojiStyle,
+  SkinTones,
+  Theme,
+  Categories,
+  EmojiClickData,
+  Emoji,
+  SuggestionMode,
+  SkinTonePickerLocation
+} from "emoji-picker-react";
 
 /**
  * Chatbox giữa 2 người với nhau
@@ -29,8 +39,18 @@ function ChatBoxWithUser(props) {
   const [messageHover, setMessageHover] = useState(false)
   const [selected, setSelected] = useState(null);
   const [emoji, setEmoji] = useState(false)
-  //TODO: đoạn này bị lặp code bên Message.jsx -> dùng redux fix lại hộ
 
+  const [text, setText] = useState('')
+
+  function handleOnEnter(text) {
+    console.log('enter', text)
+  }
+
+  const [selectedEmoji, setSelectedEmoji] = useState("");
+
+  function onClick(emojiData, e) {
+    setSelectedEmoji(emojiData.unified);
+  }
   /**
    * Lấy thông tin user đang đăng nhập hiện tại trong localStorage
    * @returns user JSON
@@ -92,8 +112,8 @@ function ChatBoxWithUser(props) {
   /**
    * Xử lý sự kiện khi người dùng bấm phím enter vào ô chat
    */
-  const handleUserPressEnterChatBoxInput = (e) => {
-    const content = e.target.value.trim();
+  const handleUserPressEnterChatBoxInput = (content) => {
+    // const content = e.target.value.trim();
     if (!content) return;
     const newMessage = {
       senderId: currentLoginedUser.id,
@@ -104,7 +124,7 @@ function ChatBoxWithUser(props) {
       randomHash: Math.random().toString(),
     };
     addMessageToChatBox(newMessage);
-    e.target.value = "";
+    setText("")
     stompClient.publish({
       destination: `/ws/secured/messenger`,
       body: JSON.stringify(newMessage)
@@ -184,24 +204,34 @@ function ChatBoxWithUser(props) {
           })}
           <div ref={messagesEndRef} />
         </div>
-        {emoji ?
-          <EmojiPicker height={500} width={400} className="emoji-wrapper" />
-          : <></>}
-        <div id="message-input">
-          <i id="icon">
-            <FontAwesomeIcon icon={faFaceSmile} className="icon" onClick={() => setEmoji(!emoji)} />
-          </i>
 
-          <input
+        {/* reaction for message */}
+        {/* {emoji ? <EmojiPicker onEmojiClick={onClick}
+          autoFocusSearch={false} /> : <></>}
+        <div className="show-emoji">
+          Your selected Emoji is:
+          {selectedEmoji ? (
+            <Emoji
+              unified={selectedEmoji}
+              emojiStyle={EmojiStyle.APPLE}
+              size={22}
+            />
+          ) : null}
+        </div> */}
+        <div id="message-input">
+          <InputEmoji
             type={Text}
-            placeholder="Message..."
             onKeyDown={(e) => {
               if (e.key === "Enter") {
-                handleUserPressEnterChatBoxInput(e);
+                handleUserPressEnterChatBoxInput(text);
               }
             }}
+            value={text}
+            onChange={setText}
+            cleanOnEnter
+            onEnter={handleOnEnter}
+            placeholder="Type a message"
           />
-
           <i id="images">
             <FontAwesomeIcon icon={faImage} className="icon" />
           </i>
