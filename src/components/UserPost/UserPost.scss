@@ -17,6 +17,7 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 10px 0 0 10px;
     }
   }
   .post-info {
@@ -81,9 +82,21 @@
       display: flex;
       flex-direction: column;
       .comment-item {
-        margin-top: 12px;
-        display: flex;
-        flex-direction: row;
+        .child-comment {
+          margin-top: 10px;
+          margin-left: 10px;
+          display: flex;
+          flex-direction: row;
+          .turn-arrow {
+            margin-top: 5px;
+            margin-right: 10px;
+          }
+        }
+        .parent-comment {
+          margin-top: 12px;
+          display: flex;
+          flex-direction: row;
+        }
         .user {
           width: 40px;
         }
@@ -178,6 +191,16 @@
     }
     .comment-icons {
       cursor: pointer;
+    }
+    .comment-input {
+      width: 80%;
+      display: flex;
+      align-items: center;
+      p {
+        width: 40px;
+        font-size: 12px;
+        text-overflow: ellipsis;
+      }
     }
     .post-btn {
       cursor: pointer;

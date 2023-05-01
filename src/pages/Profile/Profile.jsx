@@ -41,7 +41,7 @@ function Profile() {
   useEffect(() => {
     const fetchPosts = async () => {
       const res = await listPostsFromUser(uid);
-      setPosts(res.data.data);
+      setPosts(res.data.data.data);
     };
     fetchPosts();
   }, []);

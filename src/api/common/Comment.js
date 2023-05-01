@@ -16,8 +16,8 @@ const createComment = async (comment) => {
  *
  * - `content`: Nội dung
  */
-const listComments = async () => {
-  return contextInstance.get(`common/comment`);
+const listComments = async (id) => {
+  return contextInstance.get(`common/comment?post.id.equal=${id}`);
 };
 
 /**
