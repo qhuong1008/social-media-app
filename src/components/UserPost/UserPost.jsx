@@ -7,11 +7,15 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faHearFull } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as faHearFull,
+  faEllipsis,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useState, useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
+import UserCommentModify from "../UserCommentModify/UserCommentModify";
 
 import defaulAvatar from "../../assets/img/avt.jpg";
 import turnArrow from "../../assets/img/arrow.png";
@@ -183,6 +187,21 @@ function UserPost({ post }) {
                               >
                                 Reply
                               </div>
+                              <div
+                                className="more-btn"
+                                onClick={() => {
+                                  setPopupContentLevel(
+                                    1,
+                                    <UserCommentModify
+                                      comment={comment}
+                                      onCancel={() => hidePopupContentLevel(1)}
+                                    />
+                                  );
+                                  togglePopupContentLevel(1);
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </div>
                             </div>
                           </div>
                           <FontAwesomeIcon icon={faHeart} className="icon" />
@@ -218,6 +237,9 @@ function UserPost({ post }) {
                                     <div className="comment-sub">
                                       <div className="time">
                                         {calcTimeAgo(childComment.createdAt)}
+                                      </div>
+                                      <div className="more-btn">
+                                        <FontAwesomeIcon icon={faEllipsis} />
                                       </div>
                                     </div>
                                   </div>

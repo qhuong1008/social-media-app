@@ -38,15 +38,15 @@ const getCommentById = async (id) => {
  * - `content`: Nội dung
  */
 const updateComment = async (comment) => {
-  return contextInstance.put(`common/comment/${comment.id}`);
+  return contextInstance.put(`common/comment/${comment.id}/update`, comment);
 };
 
 /**
  * Delete comment by `comment.id`
  * @param Comment **Bình luận**
  */
-const deleteComment = async (comment) => {
-  return contextInstance.delete(`common/comment/${comment.id}`);
+const deleteComment = async (id) => {
+  return contextInstance.delete(`common/comment/${id}/delete`);
 };
 
 export {
