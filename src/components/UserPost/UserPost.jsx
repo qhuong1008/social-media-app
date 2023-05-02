@@ -7,16 +7,20 @@ import {
   faSave,
 } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import { faHeart as faHearFull } from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart as faHearFull,
+  faEllipsis,
+} from "@fortawesome/free-solid-svg-icons";
 
 import { useState, useEffect, useContext } from "react";
 import { PopupContext } from "../../App";
 import UserPostModify from "../../components/UserPostModify/UserPostModify";
+import UserCommentModify from "../UserCommentModify/UserCommentModify";
 
 import defaulAvatar from "../../assets/img/avt.jpg";
-
+import turnArrow from "../../assets/img/arrow.png";
 import { toggleLike } from "../../api/common/Reaction";
-
+import { createComment, listComments } from "../../api/common/Comment";
 function UserPost({ post }) {
   const content = JSON.parse(post.content).data;
   const {
@@ -40,14 +44,60 @@ function UserPost({ post }) {
       id: post.id,
     });
   };
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    const fetchComment = async () => {
+      const res = await listComments(post.id);
+      setComments(res.data.data);
+    };
+    fetchComment();
+  }, []);
+
+  function calcTimeAgo(createdAt) {
+    var postedAgo = "";
+    var time = new Date() - new Date(createdAt);
+    var postedTime = Math.floor(time / 1000);
+    if (postedTime < 60) {
+      postedAgo = postedTime + "s";
+    } else if (postedTime < 3600) {
+      postedAgo = Math.floor(postedTime / 60) + "m";
+    } else if (postedTime < 86400) {
+      postedAgo = Math.floor(postedTime / 3600) + "h";
+    } else {
+      postedAgo = Math.floor(postedTime / 86400) + "d";
+    }
+    return postedAgo;
+  }
+
+  const [parentComment, setParentComment] = useState({});
+
+  const [commentContent, setCommentContent] = useState("");
+
+  const submitCommentHandler = async (parentId) => {
+    if (commentContent !== "") {
+      const comment = {
+        content: commentContent,
+        postId: post.id,
+        parentId: parentComment.id,
+      };
+      const res = await createComment(comment);
+      if (res.data.status === "OK") setComments(comments.concat(res.data.data));
+    }
+    setCommentContent("");
+  };
+
+  const replyCommentHandler = (comment) => {
+    setParentComment(comment);
+  };
 
   // useEffect(() => {
   //   setPopupcontent(<UserPostModify />);
   // }, []);
+
   return (
     <div className="user-post-wrapper">
       <div className="post-image">
-        <img src={content.images[0]} alt="post image" />
+        <img src={content.images[0]} alt="" />
       </div>
       <div className="post-info">
         <div className="post-info-header">
@@ -106,26 +156,106 @@ function UserPost({ post }) {
             </div>
           </div>
           <div className="comment-list">
-            <div className="comment-item">
-              <div className="user">
-                <img
-                  src="https://i.pinimg.com/564x/e6/a4/08/e6a408fc2c6e78591bd084e27303bfaf.jpg"
-                  alt=""
-                />
-              </div>
-              <div className="comment">
-                <div className="comment-desc">
-                  <div className="comment-desc-info">
-                    <span>cutecat</span> wow so cute
-                  </div>
-                  <div className="comment-sub">
-                    <div className="time">39w</div>
-                    <div className="reply">Reply</div>
-                  </div>
-                </div>
-                <FontAwesomeIcon icon={faHeart} className="icon" />
-              </div>
-            </div>
+            {comments.map((comment) => {
+              if (comment.parentId === null)
+                return (
+                  <>
+                    <div className="comment-item">
+                      <div className="parent-comment">
+                        <div className="user">
+                          <img
+                            src={
+                              comment.avatar !== undefined
+                                ? comment.avatar
+                                : defaulAvatar
+                            }
+                            alt=""
+                          />
+                        </div>
+                        <div className="comment">
+                          <div className="comment-desc">
+                            <div className="comment-desc-info">
+                              <span>{comment.username}</span> {comment.content}
+                            </div>
+                            <div className="comment-sub">
+                              <div className="time">
+                                {calcTimeAgo(comment.createdAt)}
+                              </div>
+                              <div
+                                className="reply"
+                                onClick={() => replyCommentHandler(comment)}
+                              >
+                                Reply
+                              </div>
+                              <div
+                                className="more-btn"
+                                onClick={() => {
+                                  setPopupContentLevel(
+                                    1,
+                                    <UserCommentModify
+                                      comment={comment}
+                                      onCancel={() => hidePopupContentLevel(1)}
+                                    />
+                                  );
+                                  togglePopupContentLevel(1);
+                                }}
+                              >
+                                <FontAwesomeIcon icon={faEllipsis} />
+                              </div>
+                            </div>
+                          </div>
+                          <FontAwesomeIcon icon={faHeart} className="icon" />
+                        </div>
+                      </div>
+
+                      {comments.map((childComment) => {
+                        if (childComment.parentId === comment.id)
+                          return (
+                            <>
+                              <div className="child-comment">
+                                <img
+                                  className="turn-arrow"
+                                  src={turnArrow}
+                                  alt=""
+                                />
+                                <div className="user">
+                                  <img
+                                    src={
+                                      childComment.avatar !== undefined
+                                        ? childComment.avatar
+                                        : defaulAvatar
+                                    }
+                                    alt=""
+                                  />
+                                </div>
+                                <div className="comment">
+                                  <div className="comment-desc">
+                                    <div className="comment-desc-info">
+                                      <span>{childComment.username}</span>{" "}
+                                      {childComment.content}
+                                    </div>
+                                    <div className="comment-sub">
+                                      <div className="time">
+                                        {calcTimeAgo(childComment.createdAt)}
+                                      </div>
+                                      <div className="more-btn">
+                                        <FontAwesomeIcon icon={faEllipsis} />
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <FontAwesomeIcon
+                                    icon={faHeart}
+                                    className="icon"
+                                  />
+                                </div>
+                              </div>
+                            </>
+                          );
+                      })}
+                    </div>
+                  </>
+                );
+            })}
           </div>
         </div>
         <div className="post-action-wrapper">
@@ -154,24 +284,23 @@ function UserPost({ post }) {
         </div>
         <div className="post-statistic">
           <div className="first-three-users">
-            <div className="first-three-users-item">
-              <img
-                src="https://i.pinimg.com/564x/43/ff/a5/43ffa5a6e22e7fe13bea1036c23bb196.jpg"
-                alt=""
-              />
-            </div>
-            <div className="first-three-users-item">
-              <img
-                src="https://i.pinimg.com/564x/f7/c1/4f/f7c14f63ec04922b059eb965511cc89b.jpg"
-                alt=""
-              />
-            </div>
-            <div className="first-three-users-item">
-              <img
-                src="https://i.pinimg.com/564x/bd/73/9c/bd739c0d19e0ed209e151ccf7901ffc2.jpg"
-                alt=""
-              />
-            </div>
+            {[1, 2, 3].map((index) => {
+              if (comments[index] !== undefined)
+                return (
+                  <>
+                    <div className="first-three-users-item">
+                      <img
+                        src={
+                          comments[index].avatar !== null
+                            ? comments[index].avatar
+                            : defaulAvatar
+                        }
+                        alt=""
+                      />
+                    </div>
+                  </>
+                );
+            })}
           </div>
           <div className="post-likes">
             <span>
@@ -187,9 +316,24 @@ function UserPost({ post }) {
             <FontAwesomeIcon icon={faFaceSmile} className="icon" />
           </div>
           <div className="comment-input">
-            <input type="text" name="" placeholder="Add a comment..." />
+            <p>
+              {parentComment.username !== undefined
+                ? "@" + parentComment.username
+                : ""}
+            </p>
+            <input
+              type="text"
+              name=""
+              placeholder="Add a comment..."
+              value={commentContent}
+              onChange={(e) => {
+                setCommentContent(e.target.value);
+              }}
+            />
           </div>
-          <div className="post-btn">Post</div>
+          <div className="post-btn" onClick={() => submitCommentHandler()}>
+            Post
+          </div>
         </div>
       </div>
     </div>

@@ -18,7 +18,8 @@ function Homepage() {
     setIsLoading(true)
     const fetchPosts = async () => {
       const res = await listPosts();
-      setPosts(res.data.data);
+      console.log(res);
+      if (res.data.status === "OK") setPosts(res.data.data.data);
     };
     fetchPosts();
     setIsLoading(false)

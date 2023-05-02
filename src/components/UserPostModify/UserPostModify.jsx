@@ -12,7 +12,7 @@ import {
 
 function UserPostModify({ post, onPostDeletedSuccess }, props) {
   const deletePostHandle = () => {
-    if (window.confirm("Are you sure you want to delete this post?"))
+    if (window.confirm("Bạn có chắc muốn xóa bài viết này không ?"))
       deletePost(post.id)
         .then((res) => {
           handleSuccessResponse(res);

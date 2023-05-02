@@ -64,6 +64,7 @@ function Post({ post }) {
       id: post.id,
     });
   };
+
   return (
     <>
       <div className="post-container">

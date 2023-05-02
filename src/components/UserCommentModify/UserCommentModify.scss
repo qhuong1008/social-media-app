@@ -1,0 +1,22 @@
+.comment-modify-wrapper {
+  width: 383px;
+  border-radius: 10px;
+  background-color: white;
+  ul {
+    border-radius: 10px;
+    overflow: hidden;
+    li {
+      display: block;
+      border-bottom: 1px solid rgb(211, 210, 210);
+      text-align: center;
+      font-size: 15px;
+      transition: 0.2s;
+      &:hover {
+        background-color: rgb(239, 239, 239);
+      }
+    }
+    .red {
+      color: red;
+    }
+  }
+}
