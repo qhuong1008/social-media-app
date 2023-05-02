@@ -22,9 +22,10 @@ export const handleLogin = (username, password) => async (dispatch) => {
         payload: resp,
       });
       const { user, accessToken } = resp.data.data;
+      console.log("{ user, accessToken } :", { user, accessToken });
       localStorage.setItem(ACCESS_TOKEN_KEY_NAME, accessToken);
       localStorage.setItem(USER_KEY_NAME, JSON.stringify(user));
-    
+
       handleSuccessResponse(resp);
       return true;
     })

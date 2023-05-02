@@ -116,10 +116,11 @@ function Profile() {
     if (userView.id == user.id) {
       return CommonPostApi.getMyPosts()
         .then((response) => {
-          const fetchListPosts = response.data.data.map((post, index) => {
+          const fetchListPosts = response.data.data.data.map((post, index) => {
             const temp = { ...post };
             return temp;
           });
+          console.log("dong 123:", fetchListPosts)
           setListPosts(fetchListPosts);
         })
         .catch((error) => { });
@@ -292,6 +293,8 @@ function Profile() {
 
           <div className="profile-post-list">
             {listPosts.map((post) => {
+              console.log("hello")
+              console.log("post:", post)
               return <ProfilePost onPostDeletedSuccess={() => {
                 fetchListPosts();
               }} post={post} />;
