@@ -42,6 +42,13 @@ function Post({ post }) {
 
   }
 
+  const setProfilePopupContent = () => {
+    setPopupcontent(<UserPost post={post} />);
+  };
+
+  useEffect(() => {
+    setProfilePopupContent();
+  }, []);
   useEffect(() => {
     setPopupcontent(<PostModify />);
     setUserPostModalContent(<UserPost post={post} />);
@@ -122,7 +129,10 @@ function Post({ post }) {
                 )}
               </div>
             </div>
-            <div className="action-item">
+            <div className="action-item" onClick={() => {
+              setProfilePopupContent();
+              togglePopup((p) => !p);
+            }}>
               <FontAwesomeIcon icon={faComment} className="icon" />
             </div>
             <div className="action-item">
@@ -148,7 +158,12 @@ function Post({ post }) {
           {contents.map((content) => {
             return <div className="status">{content}</div>;
           })}
-          <div className="view-comments">
+          <div className="view-comments"
+            onClick={() => {
+              setProfilePopupContent();
+              togglePopup((p) => !p);
+            }}
+          >
             {post.totalComment > 0
               ? `View all ${post.totalComment} comments `
               : ""}
@@ -162,7 +177,7 @@ function Post({ post }) {
             placeholder="Add a comment..."
           />
         </div>
-      </div>
+      </div >
     </>
   );
 }

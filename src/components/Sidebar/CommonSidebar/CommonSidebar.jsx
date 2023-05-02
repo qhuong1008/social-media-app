@@ -28,6 +28,7 @@ import { handleLogout } from "../../../redux/actions/authAction";
 import NewPost from "../../PostForm/PostForm";
 import avatar from "../../../assets/img/avt.jpg";
 import { DarkModeContext } from "../../../context/darkModeContext";
+import SearchModal from "../../SearchModal/SearchModal";
 
 const CommonSidebar = (props) => {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
@@ -60,6 +61,13 @@ const CommonSidebar = (props) => {
   const handleToggleMenu = () => {
     setOpen(!open);
   };
+  const setPopupSearchModal = (content) => {
+    setPopupContentLevel(0, content);
+  };
+  useEffect(() => {
+    setPopupSearchModal(<SearchModal />);
+
+  }, [])
   return (
     <div className="common-sidebar">
       <div className="top">
@@ -82,7 +90,10 @@ const CommonSidebar = (props) => {
             </li>
           </Link>
           <Link>
-            <li className="sidebar-item">
+            <li className="sidebar-item" onClick={() => {
+              setPopupSearchModal(<SearchModal />);
+              togglePopup((p) => !p);
+            }}>
               <div className="icon-container">
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               </div>
@@ -118,7 +129,7 @@ const CommonSidebar = (props) => {
               className="sidebar-item"
               onClick={() => {
                 setPopupcontent(<PostForm onPostCreatedSuccess={() => {
-                  if (typeof(props.onPostCreatedSuccess) === 'function') {
+                  if (typeof (props.onPostCreatedSuccess) === 'function') {
                     props.onPostCreatedSuccess();
                   }
                 }} />);

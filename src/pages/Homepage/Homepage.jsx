@@ -19,7 +19,7 @@ function Homepage() {
     const fetchPosts = async () => {
       const res = await listPosts();
       console.log(res);
-      if (res.data.status === "OK") setPosts(res.data.data.data);
+      if (res.data.status === "OK") setPosts(res.data.data);
     };
     fetchPosts();
     setIsLoading(false)

@@ -23,6 +23,7 @@ import { toggleLike } from "../../api/common/Reaction";
 import { createComment, listComments } from "../../api/common/Comment";
 function UserPost({ post }) {
   const content = JSON.parse(post.content).data;
+  const [commentLoading, setCommentLoading] = useState(false)
   const {
     togglePopupContentLevel,
     setPopupContentLevel,
@@ -45,13 +46,19 @@ function UserPost({ post }) {
     });
   };
   const [comments, setComments] = useState([]);
+  const fetchComment = async () => {
+    setCommentLoading(true)
+    const res = await listComments(post.id);
+    setComments(res.data.data);
+    console.log(res.data.data)
+    console.log(typeof comments)
+    setCommentLoading(false)
+  };
   useEffect(() => {
-    const fetchComment = async () => {
-      const res = await listComments(post.id);
-      setComments(res.data.data);
-    };
     fetchComment();
   }, []);
+
+
 
   function calcTimeAgo(createdAt) {
     var postedAgo = "";
@@ -81,7 +88,9 @@ function UserPost({ post }) {
         parentId: parentComment.id,
       };
       const res = await createComment(comment);
-      if (res.data.status === "OK") setComments(comments.concat(res.data.data));
+      if (res.data.status === "OK") {
+        setComments(comments => [...comments, res.data.data])
+      }
     }
     setCommentContent("");
   };
@@ -93,6 +102,7 @@ function UserPost({ post }) {
   // useEffect(() => {
   //   setPopupcontent(<UserPostModify />);
   // }, []);
+
 
   return (
     <div className="user-post-wrapper">
@@ -155,108 +165,110 @@ function UserPost({ post }) {
               </div>
             </div>
           </div>
-          <div className="comment-list">
-            {comments.map((comment) => {
-              if (comment.parentId === null)
-                return (
-                  <>
-                    <div className="comment-item">
-                      <div className="parent-comment">
-                        <div className="user">
-                          <img
-                            src={
-                              comment.avatar !== undefined
-                                ? comment.avatar
-                                : defaulAvatar
-                            }
-                            alt=""
-                          />
-                        </div>
-                        <div className="comment">
-                          <div className="comment-desc">
-                            <div className="comment-desc-info">
-                              <span>{comment.username}</span> {comment.content}
-                            </div>
-                            <div className="comment-sub">
-                              <div className="time">
-                                {calcTimeAgo(comment.createdAt)}
-                              </div>
-                              <div
-                                className="reply"
-                                onClick={() => replyCommentHandler(comment)}
-                              >
-                                Reply
-                              </div>
-                              <div
-                                className="more-btn"
-                                onClick={() => {
-                                  setPopupContentLevel(
-                                    1,
-                                    <UserCommentModify
-                                      comment={comment}
-                                      onCancel={() => hidePopupContentLevel(1)}
-                                    />
-                                  );
-                                  togglePopupContentLevel(1);
-                                }}
-                              >
-                                <FontAwesomeIcon icon={faEllipsis} />
-                              </div>
-                            </div>
-                          </div>
-                          <FontAwesomeIcon icon={faHeart} className="icon" />
-                        </div>
-                      </div>
+          {commentLoading ? <>loading</> : (<div className="comment-list">
+            {comments.length > 0 ?
+              comments.map((comment) => {
 
-                      {comments.map((childComment) => {
-                        if (childComment.parentId === comment.id)
-                          return (
-                            <>
-                              <div className="child-comment">
-                                <img
-                                  className="turn-arrow"
-                                  src={turnArrow}
-                                  alt=""
-                                />
-                                <div className="user">
+                if (comment.parentId === null)
+                  return (
+                    <>
+                      <div className="comment-item">
+                        <div className="parent-comment">
+                          <div className="user">
+                            <img
+                              src={
+                                comment.avatar !== undefined
+                                  ? comment.avatar
+                                  : defaulAvatar
+                              }
+                              alt=""
+                            />
+                          </div>
+                          <div className="comment">
+                            <div className="comment-desc">
+                              <div className="comment-desc-info">
+                                <span>{comment.username}</span> {comment.content}
+                              </div>
+                              <div className="comment-sub">
+                                <div className="time">
+                                  {calcTimeAgo(comment.createdAt)}
+                                </div>
+                                <div
+                                  className="reply"
+                                  onClick={() => replyCommentHandler(comment)}
+                                >
+                                  Reply
+                                </div>
+                                <div
+                                  className="more-btn"
+                                  onClick={() => {
+                                    setPopupContentLevel(
+                                      1,
+                                      <UserCommentModify
+                                        comment={comment}
+                                        onCancel={() => hidePopupContentLevel(1)}
+                                      />
+                                    );
+                                    togglePopupContentLevel(1);
+                                  }}
+                                >
+                                  <FontAwesomeIcon icon={faEllipsis} />
+                                </div>
+                              </div>
+                            </div>
+                            <FontAwesomeIcon icon={faHeart} className="icon" />
+                          </div>
+                        </div>
+
+                        {comments.map((childComment) => {
+                          if (childComment.parentId === comment.id)
+                            return (
+                              <>
+                                <div className="child-comment">
                                   <img
-                                    src={
-                                      childComment.avatar !== undefined
-                                        ? childComment.avatar
-                                        : defaulAvatar
-                                    }
+                                    className="turn-arrow"
+                                    src={turnArrow}
                                     alt=""
                                   />
-                                </div>
-                                <div className="comment">
-                                  <div className="comment-desc">
-                                    <div className="comment-desc-info">
-                                      <span>{childComment.username}</span>{" "}
-                                      {childComment.content}
-                                    </div>
-                                    <div className="comment-sub">
-                                      <div className="time">
-                                        {calcTimeAgo(childComment.createdAt)}
-                                      </div>
-                                      <div className="more-btn">
-                                        <FontAwesomeIcon icon={faEllipsis} />
-                                      </div>
-                                    </div>
+                                  <div className="user">
+                                    <img
+                                      src={
+                                        childComment.avatar !== undefined
+                                          ? childComment.avatar
+                                          : defaulAvatar
+                                      }
+                                      alt=""
+                                    />
                                   </div>
-                                  <FontAwesomeIcon
-                                    icon={faHeart}
-                                    className="icon"
-                                  />
+                                  <div className="comment">
+                                    <div className="comment-desc">
+                                      <div className="comment-desc-info">
+                                        <span>{childComment.username}</span>{" "}
+                                        {childComment.content}
+                                      </div>
+                                      <div className="comment-sub">
+                                        <div className="time">
+                                          {calcTimeAgo(childComment.createdAt)}
+                                        </div>
+                                        <div className="more-btn">
+                                          <FontAwesomeIcon icon={faEllipsis} />
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <FontAwesomeIcon
+                                      icon={faHeart}
+                                      className="icon"
+                                    />
+                                  </div>
                                 </div>
-                              </div>
-                            </>
-                          );
-                      })}
-                    </div>
-                  </>
-                );
-            })}
-          </div>
+                              </>
+                            );
+                        })}
+                      </div>
+                    </>
+                  );
+              }) : <></>}
+          </div>)}
         </div>
         <div className="post-action-wrapper">
           <div className="post-action-list">

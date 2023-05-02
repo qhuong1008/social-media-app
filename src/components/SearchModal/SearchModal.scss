@@ -1,0 +1,81 @@
+.follower-modal-wrapper {
+  width: 700px !important;
+
+  .follower-modal-header {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    padding: 10px 0;
+  }
+  .follower-list {
+    font-size: 14px;
+    height: 350px;
+    overflow-y: scroll;
+    &::-webkit-scrollbar {
+      width: 5px;
+      background-color: #f5f5f5;
+    }
+    &::-webkit-scrollbar-thumb {
+      background-color: #000000;
+      border-radius: 99px;
+    }
+
+    .follower-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 10px;
+      .follower-left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex-shrink: 0;
+
+        img {
+          flex-shrink: 0;
+          width: 44px;
+          height: 44px;
+          object-fit: cover;
+          border-radius: 99px;
+        }
+        .username {
+          margin-right: 10px;
+          margin-left: 10px;
+        }
+        .follow-btn {
+          cursor: pointer;
+          font-size: 12px;
+
+          &:hover {
+            color: rgb(0, 165, 230);
+          }
+        }
+      }
+      .follower-right {
+        .delete-btn {
+          padding: 7px 10px;
+          background-color: rgb(227, 227, 227);
+          cursor: pointer;
+          border-radius: 5px;
+          &:hover {
+            background-color: rgb(211, 211, 211);
+          }
+        }
+      }
+    }
+  }
+  a {
+    color: black !important;
+  }
+}
+.follower-modal-header-searchbar {
+  width: 100%;
+  padding: 20px 20px;
+  input {
+    border: none;
+    width: 90%;
+    outline: none;
+    font-size: 16px;
+  }
+}

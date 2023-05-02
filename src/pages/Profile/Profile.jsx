@@ -116,7 +116,7 @@ function Profile() {
     if (userView.id == user.id) {
       return CommonPostApi.getMyPosts()
         .then((response) => {
-          const fetchListPosts = response.data.data.data.map((post, index) => {
+          const fetchListPosts = response.data.data.map((post, index) => {
             const temp = { ...post };
             return temp;
           });

@@ -4,6 +4,7 @@ import style from "./MiniSidebar.scss";
 import { Link, useNavigate } from "react-router-dom";
 import Popup from "reactjs-popup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SearchModal from "../../SearchModal/SearchModal";
 import {
   faBars,
   faBookmark,
@@ -54,8 +55,13 @@ function MiniSidebar() {
     dispatch(handleLogout());
     navigate("/login");
   };
+  const setPopupSearchModal = (content) => {
+    setPopupContentLevel(0, content);
+  };
   useEffect(() => {
     setPopupcontent(<PostForm />);
+    setPopupSearchModal(<SearchModal />);
+
   }, []);
 
   return (
@@ -85,7 +91,11 @@ function MiniSidebar() {
                 <FontAwesomeIcon icon={faHouse} className="icon" />
               </Link>
             </div>
-            <div className="sidebar-item">
+            <div className="sidebar-item"
+              onClick={() => {
+                setPopupSearchModal(<SearchModal />);
+                togglePopup((p) => !p);
+              }}>
               <Link>
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               </Link>
