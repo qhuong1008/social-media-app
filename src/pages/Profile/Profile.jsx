@@ -55,6 +55,7 @@ function Profile() {
         navigate("/");
       }
       setUserView(resp.data.data[0]);
+      console.log("Userview:", resp.data.data[0])
       setIsFollowed(resp.data.data[0].followed);
     });
   }, []);

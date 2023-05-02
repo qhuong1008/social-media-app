@@ -77,8 +77,8 @@ const getUserById = async (id) => {
 const getUserByUsername = async (username) => {
   return contextInstance.get(`common/user`, {
     params: {
-      'username.equal': username
-    }
+      "username.equal": username,
+    },
   });
 };
 
@@ -95,8 +95,8 @@ const getUserByUsername = async (username) => {
  * - `gender`: Giới tính
  * - `role`: Vai trò
  */
-const updateUser = async (user) => {
-  return contextInstance.put(`common/user/${user.id}`);
+const updateUser = async (user, id) => {
+  return contextInstance.put(`common/user/${id}/update`, user);
 };
 
 /**
@@ -107,6 +107,17 @@ const deleteUser = async (user) => {
   return contextInstance.delete(`common/user/${user.id}`);
 };
 
+const uploadUserImg = async (image) => {
+  const formData = new FormData();
+  formData.append("avatarFile", image);
+  const config = {
+    headers: {
+      "content-type": "multipart/form-data",
+    },
+  };
+  return contextInstance.post(`common/user/update-avatar`, formData, config);
+};
+
 export {
   createUser,
   updateUser,
@@ -114,5 +125,6 @@ export {
   listUsers,
   deleteUser,
   searchUserForPost,
-  getUserByUsername
+  getUserByUsername,
+  uploadUserImg,
 };
