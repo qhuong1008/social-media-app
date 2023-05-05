@@ -19,16 +19,9 @@ import { SOCKET_REGISTER_URL, SOCKET_USER_TOPIC_PREFIX_URL } from "../../types";
 import { getListMessageWithAnotherPerson } from "../../api/common/Message";
 import { useStompClient, useSubscription } from "react-stomp-hooks";
 import InputEmoji from 'react-input-emoji'
-import EmojiPicker, {
-  EmojiStyle,
-  SkinTones,
-  Theme,
-  Categories,
-  EmojiClickData,
-  Emoji,
-  SuggestionMode,
-  SkinTonePickerLocation
-} from "emoji-picker-react";
+import { uploadImg } from "../../api/common/Storage";
+import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
+
 
 /**
  * Chatbox giữa 2 người với nhau
@@ -150,12 +143,25 @@ function ChatBoxWithUser(props) {
     messagesEndRef.current?.scrollIntoView({ behavior: "auto" });
   };
 
+  const [selectedImage, setSelectedImage] = useState(null);
   /**
    * Khi nào có tin nhắn mới hoặc danh sách tin nhắn thay đổi thì cuộn danh sách tin nhắn
    */
   useEffect(() => {
     scrollToBottom();
   }, [listMessageData]);
+
+  function handleUploadImage(e) {
+    const file = e.target.files[0];
+    uploadImg(file)
+      .then((res) => {
+        setText(res.data.data);
+        console.log(res.data.data)
+        file.previewURL = res.data.data;
+        setSelectedImage(file.previewURL);
+      })
+      .catch((err) => handleErrorResponse(err));
+  }
 
   return (
     <>
@@ -218,7 +224,21 @@ function ChatBoxWithUser(props) {
             />
           ) : null}
         </div> */}
+        <div>
+
+
+          <input
+            style={{ display: "none" }}
+            type="file"
+            id="file-input"
+            name="myImage"
+            onChange={handleUploadImage}
+          />
+        </div>
         <div id="message-input">
+          {/* {selectedImage && (
+            URL.createObjectURL(selectedImage)
+          )} */}
           <InputEmoji
             type={Text}
             onKeyDown={(e) => {
@@ -230,10 +250,12 @@ function ChatBoxWithUser(props) {
             onChange={setText}
             cleanOnEnter
             onEnter={handleOnEnter}
-            placeholder="Type a message"
+          // placeholder="Type a message"
           />
           <i id="images">
-            <FontAwesomeIcon icon={faImage} className="icon" />
+            <label for="file-input">
+              <FontAwesomeIcon icon={faImage} className="icon" />
+            </label>
           </i>
           <i id="like">
             <FontAwesomeIcon icon={faHeart} className="icon" />
