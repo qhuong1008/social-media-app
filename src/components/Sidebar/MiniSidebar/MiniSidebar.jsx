@@ -87,7 +87,7 @@ function MiniSidebar() {
         <div className="center">
           <div className="sidebar-list">
             <div className="sidebar-item">
-              <Link>
+              <Link to="/">
                 <FontAwesomeIcon icon={faHouse} className="icon" />
               </Link>
             </div>
@@ -100,21 +100,21 @@ function MiniSidebar() {
                 <FontAwesomeIcon icon={faMagnifyingGlass} className="icon" />
               </Link>
             </div>
-            <div className="sidebar-item">
+            {/* <div className="sidebar-item">
               <Link>
                 <FontAwesomeIcon icon={faCompass} className="icon" />
               </Link>
-            </div>
+            </div> */}
             <div className="sidebar-item">
               <Link to="/message">
                 <FontAwesomeIcon icon={faMessage} className="icon" />
               </Link>
             </div>
-            <div className="sidebar-item">
+            {/* <div className="sidebar-item">
               <Link>
                 <FontAwesomeIcon icon={faHeart} className="icon" />
               </Link>
-            </div>
+            </div> */}
             <div
               className="sidebar-item"
               onClick={() => {

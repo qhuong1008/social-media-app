@@ -8,7 +8,7 @@ function MessageUser({ user, lastMessage }) {
     <>
       <div className="message-user-home">
         <div className="avatar-box">
-          <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
+          <img src={user.avatar} />
         </div>
         <div className="user">
           <div>{user.username}</div>

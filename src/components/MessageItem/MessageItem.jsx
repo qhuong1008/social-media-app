@@ -39,7 +39,9 @@ function MessageItem({ message, createdAt }) {
         className="message-item-home"
         style={{ marginBottom: 5, marginTop: 5 }}
       >
-        {message}
+        {message.includes("/spring-instagram-bucket") ?
+          <img src={message} alt="" /> :
+          message}
         {selectedEmoji ? <div className="emoji">
           <Emoji
             unified={selectedEmoji}

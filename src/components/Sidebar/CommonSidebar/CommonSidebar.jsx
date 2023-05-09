@@ -100,14 +100,14 @@ const CommonSidebar = (props) => {
               Search
             </li>
           </Link>
-          <Link>
+          {/* <Link>
             <li className="sidebar-item">
               <div className="icon-container">
                 <FontAwesomeIcon icon={faCompass} className="icon" />
               </div>
               Explore
             </li>
-          </Link>
+          </Link> */}
           <Link to="/message">
             <li className="sidebar-item">
               <div className="icon-container">
@@ -116,14 +116,14 @@ const CommonSidebar = (props) => {
               Messages
             </li>
           </Link>
-          <Link>
+          {/* <Link>
             <li className="sidebar-item">
               <div className="icon-container">
                 <FontAwesomeIcon icon={faHeart} className="icon" />
               </div>
               Notifications
             </li>
-          </Link>
+          </Link> */}
           <Link>
             <li
               className="sidebar-item"
