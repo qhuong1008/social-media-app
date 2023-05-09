@@ -134,9 +134,9 @@ function EditProfile() {
             </div>
             <div className="editprofile-flex__right">
               <select name="genders" value={gender} onChange={(e) => setGender(e.target.value)}>
-                <option value="male">MALE</option>
-                <option value="female">FEMALE</option>
-                <option value="none">NONE</option>
+                <option value="MALE">MALE</option>
+                <option value="FEMALE">FEMALE</option>
+                <option value="NONE">NONE</option>
               </select>
             </div>
           </div>
