@@ -23,8 +23,6 @@ import { } from "@fortawesome/free-regular-svg-icons";
 
 
 function EditProfile() {
-
-
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
   const [username, setUsername] = useState(user.username);
   const [displayName, setDisplayName] = useState(user.displayName)
@@ -50,14 +48,12 @@ function EditProfile() {
       localStorage.setItem("USER_INFO", JSON.stringify(resp.data.data[0]))
     })
   }
-  console.log("birthday length:", birthday.length)
-
   const handleUpdateUserProfile = () => {
     console.log("userUpdated:", userUpdated)
     updateUser(userUpdated, user.id).then(resp => {
       handleSuccessResponse(resp);
     })
-      .then(resetUserInfoOnServer())
+      .then(() => resetUserInfoOnServer())
       .catch(err => {
         handleErrorResponse(err);
       })
