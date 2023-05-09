@@ -193,7 +193,7 @@ function ChatBoxWithUser(props) {
               return (
                 <div className="friend-messages" >
 
-                  <img src={currentLoginedUser.avatar} />
+                  <img src={currentLoginedUser.avatar ? currentLoginedUser.avatar : avatar} />
                   <div className="message-list" >
                     <div className="msg-wrapper">
 

@@ -101,7 +101,7 @@ function UserList() {
                         <div className="user-main">
                           <div className="avt">
                             <img
-                              src={user.avatar}
+                              src={user.avatar ? user.avatar : avatar}
                             />
                           </div>
                           <div className="name">

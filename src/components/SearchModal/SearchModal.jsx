@@ -4,6 +4,9 @@ import { CommonFollowerApi } from "../../api/common";
 import { useState } from "react";
 import { CommonUserApi } from "../../api/common";
 import { USER_KEY_NAME } from "../../types";
+import avatar from '../../assets/img/avt.jpg'
+
+
 function SearchModal({ userid }) {
   const [userList, setUserList] = useState([])
   const userIdGetFollower = userid;
@@ -70,7 +73,7 @@ function SearchModal({ userid }) {
                 <div className="follower-left">
                   <img
                     // src="https://i.pinimg.com/474x/ee/2a/71/ee2a7149341c2b23ae2e9c7358ec247d.jpg"
-                    src={userSearchResult[key].avatar}
+                    src={userSearchResult[key].avatar ? userSearchResult[key].avatar : avatar}
 
                     alt=""
                   />
