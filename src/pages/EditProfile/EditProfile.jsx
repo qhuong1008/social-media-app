@@ -60,7 +60,8 @@ function EditProfile() {
       .then((res) => {
         file.previewURL = res.data.data;
         setAvt(file.previewURL);
-        handleSuccessResponse(res)
+        handleSuccessResponse(res);
+        resetUserInfoOnServer()
       })
       .catch((err) => handleErrorResponse(err));
   }
