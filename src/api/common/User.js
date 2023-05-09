@@ -118,6 +118,10 @@ const uploadUserImg = async (image) => {
   return contextInstance.post(`common/user/update-avatar`, formData, config);
 };
 
+const changePassword = async (id, password) => {
+  contextInstance.put(`/common/user/${id}/change-password`, password);
+};
+
 export {
   createUser,
   updateUser,
@@ -127,4 +131,5 @@ export {
   searchUserForPost,
   getUserByUsername,
   uploadUserImg,
+  changePassword,
 };

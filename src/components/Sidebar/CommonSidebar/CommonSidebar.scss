@@ -13,6 +13,9 @@
     border: none;
   }
   .logo-header {
+    &:hover {
+      cursor: pointer;
+    }
     padding: 40px 0;
     img {
       text-align: center;

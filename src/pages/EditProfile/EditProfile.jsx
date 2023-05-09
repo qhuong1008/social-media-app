@@ -20,6 +20,7 @@ import {
 import { uploadImg } from "../../api/common/Storage";
 import { uploadUserImg } from '../../api/common/User'
 import { } from "@fortawesome/free-regular-svg-icons";
+import { Link } from "react-router-dom";
 
 
 function EditProfile() {
@@ -29,7 +30,7 @@ function EditProfile() {
   const [birthday, setBirthday] = useState("")
   const [avt, setAvt] = useState(user.avatar)
   const [profile, setProfile] = useState(user.profile)
-  const [gender, setGender] = useState(user.gender)
+  const [gender, setGender] = useState("")
 
   console.log("user:", user)
   const userUpdated = {
@@ -80,6 +81,12 @@ function EditProfile() {
       })
       .catch((err) => handleErrorResponse(err));
   }
+  useEffect(() => {
+    if (user.gender) {
+      setGender(user.gender)
+    }
+
+  }, [])
 
   return <>
     <div className="editprofile-container">
@@ -160,6 +167,17 @@ function EditProfile() {
                 <option value="none">NONE</option>
               </select>
             </div>
+          </div>
+          <div className="editprofile-flex">
+            <div className="editprofile-flex__left">
+
+            </div>
+            <div className="editprofile-flex__right">
+              <Link to="/profile/security">
+                <div className="changePassword-btn">Change password</div>
+              </Link>
+            </div>
+
           </div>
           <div className="editprofile-flex">
 

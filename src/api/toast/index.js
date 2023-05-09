@@ -31,10 +31,17 @@ const handleErrorResponse = (error) => {
     console.log(error);
   }
 };
-
+const handleErrorFEResponse = (message) => {
+  toast.error(message);
+};
+const handleSuccessFEResponse = (message) => {
+  toast.success(message);
+};
 export {
   handleSuccessResponse,
   handleErrorResponse,
   handleErrorMessage,
   handleSuccessMessage,
+  handleErrorFEResponse,
+  handleSuccessFEResponse,
 };
