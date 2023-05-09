@@ -17,7 +17,6 @@ import { render } from "@testing-library/react";
 
 //TODO:convert to init-style
 function Login(props) {
-
   const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +27,7 @@ function Login(props) {
     dispatch(handleLogin(username, password)).then(() => {
       const user = JSON.parse(localStorage.getItem("USER_INFO"));
       if (user) {
-        navigate("/profile");
+        navigate(`/profile/${user.username}`);
       }
     });
   };

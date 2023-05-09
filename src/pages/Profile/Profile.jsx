@@ -37,18 +37,14 @@ import BottomNavBar from "../../components/Sidebar/BottomNavBar/BottomNavBar";
 
 function Profile() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
-  const uid = user.id;
   const params = useParams();
+  const [username, setUsername] = useState(params.username)
+  console.log(params.username)
   const [userView, setUserView] = useState({});
   const navigate = useNavigate();
   const [isFollowed, setIsFollowed] = useState(false);
 
   useEffect(() => {
-    let { username } = params;
-    if (username == null) {
-      username = user.username;
-      setUserView(user);
-    }
     getUserByUsername(username).then((resp) => {
       if (resp.data.data.length === 0) {
         handleErrorMessage('Không tìm thấy user này');
@@ -92,6 +88,7 @@ function Profile() {
   function fetchListFollowing() {
     CommonFollowerApi.listFollowing(userView.id)
       .then((res) => {
+        console.log("fetchListFollowing", res.data.data)
         const fetchListFollowing = res.data.data.map((following, index) => {
           const temp = { ...following };
           return temp;
@@ -102,7 +99,7 @@ function Profile() {
   }
 
   function fetchListFollowers() {
-
+    console.log("userView.id:", userView.id)
     return CommonFollowerApi.listFollowers(userView.id)
       .then((response) => {
         const fetchListFollowers = response.data.data.map((follower, index) => {
@@ -143,7 +140,6 @@ function Profile() {
   const toggleFollowOnClick = () => {
     toggleFollow(userView.id).then((resp) => {
       setIsFollowed(!isFollowed);
-
       fetchListFollowers();
       fetchListFollowing();
     });
@@ -155,7 +151,7 @@ function Profile() {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const res = await listPostsFromUser(uid);
+      const res = await listPostsFromUser(userView.id);
       setPosts(res.data.data.data);
     };
     fetchPosts();
@@ -180,6 +176,12 @@ function Profile() {
       fetchListPosts();
     }
   }, [userView]);
+
+  useEffect(() => {
+    setUsername(params.username)
+    fetchListFollowers();
+    fetchListFollowing();
+  }, [params]);
 
   return (
     <div className="profile-container">
@@ -305,6 +307,7 @@ function Profile() {
         </div>
       </div>
     </div>
+
   );
 }
 

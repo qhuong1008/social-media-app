@@ -25,7 +25,7 @@ const Notification = (props) => {
      */
     const currentLoginedUser = getCurrentLogedInUser();
 
-    useSubscription('/ws/secured/announce/user-' + currentLoginedUser.id, (message) => {
+    useSubscription('/ws/secured/announce/user-' + currentLoginedUser?.id, (message) => {
         const bodyJson = JSON.parse(message.body);
         handleSuccessMessage(bodyJson.message)
     })
