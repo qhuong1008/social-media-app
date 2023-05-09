@@ -19,7 +19,7 @@ function EditProfile() {
   const [displayName, setDisplayName] = useState(user.displayName)
   const [birthday, setBirthday] = useState("")
   const [avt, setAvt] = useState(user.avatar)
-  const [gender, setGender] = useState("")
+  const [gender, setGender] = useState("NONE")
 
   const userUpdated = {
     username: username,
