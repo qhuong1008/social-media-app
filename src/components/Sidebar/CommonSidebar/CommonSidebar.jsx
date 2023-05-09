@@ -166,21 +166,6 @@ const CommonSidebar = (props) => {
           {open === true && (
             <div className="dropdown">
               <div className="dropdown-top">
-                <div className="dropdown-item">
-                  <Link>
-                    Settings
-                    <FontAwesomeIcon icon={faGear} className="icon" />
-                  </Link>
-                </div>
-                <div className="ruler"></div>
-                <div className="dropdown-item">
-                  <Link>
-                    Saved
-                    <FontAwesomeIcon icon={faBookmark} className="icon" />
-                  </Link>
-                </div>
-                <div className="ruler"></div>
-
                 <div
                   className="dropdown-item"
                   onClick={() => darkModeDispatch({ type: "TOGGLE" })}
@@ -192,31 +177,9 @@ const CommonSidebar = (props) => {
                 </div>
                 <div className="ruler"></div>
 
-                <div className="dropdown-item">
-                  <Link>
-                    Your activity
-                    <FontAwesomeIcon icon={faHourglass} className="icon" />
-                  </Link>
-                </div>
-                <div className="ruler"></div>
-
-                <div className="dropdown-item">
-                  <Link>
-                    Report a problem
-                    <FontAwesomeIcon
-                      icon={faCircleExclamation}
-                      className="icon"
-                    />
-                  </Link>
-                </div>
                 <div className="ruler"></div>
               </div>
               <div className="dropdown-bottom">
-                <div className="dropdown-item">
-                  <Link>Switch accounts</Link>
-                </div>
-                <div className="ruler"></div>
-
                 <div className="dropdown-item" onClick={handleLogoutAccount}>
                   <Link>Log out</Link>
                 </div>

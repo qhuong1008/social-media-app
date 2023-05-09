@@ -45,14 +45,14 @@ function FollowerModal({ userid }) {
                     {/* <div className="username">catlmao1234</div> */}
                     <div className="username">{listFollowers[key].username}</div>
                   </a>
-                  <div className="follow-btn">Follow</div>
+                  {/* <div className="follow-btn">Follow</div> */}
                 </div>
-
+                {/* 
 
 
                 <div className="follower-right">
                   <div className="delete-btn">Remove</div>
-                </div>
+                </div> */}
               </div>
             )
           })}

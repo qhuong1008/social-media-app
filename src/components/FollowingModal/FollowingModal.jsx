@@ -42,12 +42,12 @@ function FollowingModal({ userid }) {
                   <a href={`/profile/${listFollowing[key].username}`}>
                     <div className="username">{listFollowing[key].username}</div>
                   </a>
-                  <div className="follow-btn">Follow</div>
+                  {/* <div className="follow-btn">Follow</div> */}
                 </div>
 
-                <div className="follower-right">
+                {/* <div className="follower-right">
                   <div className="delete-btn">Remove</div>
-                </div>
+                </div> */}
               </div>
 
             )
