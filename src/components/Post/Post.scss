@@ -105,11 +105,19 @@
   .userInfo {
     display: flex;
     flex-direction: row;
+    a {
+      display: flex;
+      align-items: center;
+    }
     .username {
       font-size: 14px;
       font-weight: 500;
     }
     .last-posted {
+      width: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
       padding-left: 10px;
       font-size: 14px;
       font-weight: 500;

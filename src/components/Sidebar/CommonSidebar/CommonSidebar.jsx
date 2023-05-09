@@ -29,6 +29,7 @@ import NewPost from "../../PostForm/PostForm";
 import avatar from "../../../assets/img/avt.jpg";
 import { DarkModeContext } from "../../../context/darkModeContext";
 import SearchModal from "../../SearchModal/SearchModal";
+import logo from '../../../assets/img/logo.png'
 
 const CommonSidebar = (props) => {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
@@ -75,7 +76,8 @@ const CommonSidebar = (props) => {
           onClick={() => (window.location.href = "/")}
           className="logo-header"
         >
-          <div className="logo">Social Media</div>
+          {/* <div className="logo">Social Media</div> */}
+          <img src={logo} className="logo" alt="" />
         </div>
       </div>
 

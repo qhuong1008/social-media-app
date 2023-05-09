@@ -12,12 +12,13 @@
     justify-content: center;
     border: none;
   }
-  .logo {
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: var(--black-color);
-    font-size: 16px;
+  .logo-header {
+    padding: 40px 0;
+    img {
+      text-align: center;
+      width: 150px;
+      margin-top: 20px;
+    }
   }
 }
 .sidebar-title {

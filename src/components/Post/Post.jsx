@@ -13,13 +13,13 @@ import { useState, useEffect, useContext } from "react";
 import PostModify from "../PostModify/PostModify";
 import avatar from "../../assets/img/avt.jpg";
 import UserPost from "../UserPost/UserPost";
-
+import { Link } from 'react-router-dom'
 import { toggleLike } from "../../api/common/Reaction";
 
 function Post({ post }) {
   const [hearted, setHearted] = useState(false);
-  const { togglePopupContentLevel, setPopupContentLevel } =
-    useContext(PopupContext);
+  const [totalLikes, setTotalLikes] = useState(post.totalReact)
+  const { togglePopupContentLevel, setPopupContentLevel } = useContext(PopupContext);
   const content = JSON.parse(post.content);
   let images = content.data.images;
   let contents = content.data.contents;
@@ -70,7 +70,14 @@ function Post({ post }) {
     toggleLike({
       id: post.id,
     });
+    if (like) {
+      setTotalLikes(totalLikes - 1)
+    }
+    else {
+      setTotalLikes(totalLikes + 1)
+    }
   };
+
 
   return (
     <>
@@ -85,7 +92,9 @@ function Post({ post }) {
             </div>
             <div className="info-wrapper">
               <div className="userInfo">
-                <div className="username">{post.username}</div>
+                <Link to={`/profile/${post.username}`}>
+                  <div className="username">{post.username}</div>
+                </Link>
                 <div className="last-posted">• {postedAgo}</div>
               </div>
               <div className="song-src">Original Audio</div>
@@ -149,7 +158,7 @@ function Post({ post }) {
           </div>
           <div className="like-num">
             Liked by
-            <div className="number"> {post.totalReact} </div> users
+            <div className="number"> {totalLikes} </div> users
           </div>
         </div>
         <div className="post-status">
@@ -169,14 +178,14 @@ function Post({ post }) {
               : ""}
           </div>
         </div>
-        <div className="post-new-comment">
+        {/* <div className="post-new-comment">
           <input
             type="textarea"
             name=""
             value=""
             placeholder="Add a comment..."
           />
-        </div>
+        </div> */}
       </div >
     </>
   );
