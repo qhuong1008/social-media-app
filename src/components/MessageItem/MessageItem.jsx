@@ -42,36 +42,9 @@ function MessageItem({ message, createdAt }) {
         {message.includes("/spring-instagram-bucket") ?
           <img src={message} alt="" /> :
           message}
-        {selectedEmoji ? <div className="emoji">
-          <Emoji
-            unified={selectedEmoji}
-            emojiStyle={EmojiStyle.APPLE}
-            size={22}
-          />
-        </div> : <></>}
-      </div>
-      {messageHover ? <div className="icon-list">
-        {/* reaction for message */}
-        {emoji ? <EmojiPicker onEmojiClick={onClick}
-          autoFocusSearch={false} /> : <></>}
-        <FontAwesomeIcon icon={faSmile} className="icon" onClick={() => setEmoji(!emoji)} />
-        <FontAwesomeIcon icon={faShare} className="icon" />
-        <svg
-          aria-label="More options"
-          class="_ab6-"
-          color="rgb(38, 38, 38)"
-          fill="rgb(38, 38, 38)"
-          height="24"
-          role="img"
-          viewBox="0 0 24 24"
-          width="24"
-        >
-          <circle cx="12" cy="12" r="1.5"></circle>
-          <circle cx="6" cy="12" r="1.5"></circle>
-          <circle cx="18" cy="12" r="1.5"></circle>
-        </svg>
 
-      </div> : <></>}
+      </div>
+
     </div>
   );
 }

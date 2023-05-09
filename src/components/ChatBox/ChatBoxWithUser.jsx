@@ -211,23 +211,7 @@ function ChatBoxWithUser(props) {
           })}
           <div ref={messagesEndRef} />
         </div>
-
-        {/* reaction for message */}
-        {/* {emoji ? <EmojiPicker onEmojiClick={onClick}
-          autoFocusSearch={false} /> : <></>}
-        <div className="show-emoji">
-          Your selected Emoji is:
-          {selectedEmoji ? (
-            <Emoji
-              unified={selectedEmoji}
-              emojiStyle={EmojiStyle.APPLE}
-              size={22}
-            />
-          ) : null}
-        </div> */}
         <div>
-
-
           <input
             style={{ display: "none" }}
             type="file"
@@ -253,14 +237,7 @@ function ChatBoxWithUser(props) {
             onEnter={handleOnEnter}
           // placeholder="Type a message"
           />
-          <i id="images">
-            <label for="file-input">
-              <FontAwesomeIcon icon={faImage} className="icon" />
-            </label>
-          </i>
-          <i id="like">
-            <FontAwesomeIcon icon={faHeart} className="icon" />
-          </i>
+
         </div>
 
       </div>

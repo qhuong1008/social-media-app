@@ -8,6 +8,7 @@
     vertical-align: baseline;
     width: fit-content;
     margin-top: 40px;
+
     .editprofile-flex {
       display: flex;
       flex-direction: row;
@@ -58,6 +59,9 @@
     width: fit-content;
     cursor: pointer;
   }
+}
+textarea {
+  font-size: 17px;
 }
 @media screen and (min-width: 1201px) {
   .editprofile {
