@@ -3,6 +3,7 @@ import avatar from "../../assets/img/avt.jpg";
 import { useState, useEffect } from 'react'
 import { CommonUserApi } from "../../api/common";
 import { USER_KEY_NAME } from "../../types";
+import { Link } from "react-router-dom";
 
 function UserList() {
   const user = JSON.parse(localStorage.getItem("USER_INFO"));
@@ -95,26 +96,28 @@ function UserList() {
             userList.map((user, index) => {
               if (index < 3) {
                 return (
-                  <li className="account-item">
-                    <div className="user-account">
-                      <div className="bottom-userlist-container">
-                        <div className="user-main">
-                          <div className="avt">
-                            <img
-                              src={user.avatar ? user.avatar : avatar}
-                            />
+                  <Link to={`/profile/${user.username}`}>
+                    <li className="account-item">
+                      <div className="user-account">
+                        <div className="bottom-userlist-container">
+                          <div className="user-main">
+                            <div className="avt">
+                              <img
+                                src={user.avatar ? user.avatar : avatar}
+                              />
+                            </div>
+                            <div className="name">
+                              <div className="username">{user.username}</div>
+                              <div className="full-name">{user.displayName}</div>
+                            </div>
                           </div>
-                          <div className="name">
-                            <div className="username">{user.username}</div>
-                            <div className="full-name">{user.displayName}</div>
+                          <div className="userlist-action">
+                            <a href={`/profile/${user.username}`}>View Profile</a>
                           </div>
-                        </div>
-                        <div className="userlist-action">
-                          <a href={`/profile/${user.username}`}>View Profile</a>
                         </div>
                       </div>
-                    </div>
-                  </li>
+                    </li>
+                  </Link>
 
                 )
               }
