@@ -21,6 +21,7 @@ import { useStompClient, useSubscription } from "react-stomp-hooks";
 import InputEmoji from 'react-input-emoji'
 import { uploadImg } from "../../api/common/Storage";
 import { handleErrorResponse, handleSuccessResponse } from "../../api/toast";
+import avatar from "../../assets/img/avt.jpg";
 
 
 /**
@@ -167,7 +168,7 @@ function ChatBoxWithUser(props) {
     <>
       <div className="message-box">
         <div id="user">
-          <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
+          <img src={friendUserJsonInfo.avatar ? friendUserJsonInfo.avatar : avatar} />
           <p>{friendUserJsonInfo?.username}</p>
           <i>
             <FontAwesomeIcon icon={faCircleInfo} className="icon" />
@@ -192,7 +193,7 @@ function ChatBoxWithUser(props) {
               return (
                 <div className="friend-messages" >
 
-                  <img src="https://cdn.pixabay.com/photo/2014/03/29/09/17/cat-300572__340.jpg" />
+                  <img src={currentLoginedUser.avatar} />
                   <div className="message-list" >
                     <div className="msg-wrapper">
 
