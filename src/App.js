@@ -5,6 +5,7 @@ import {
   StompSessionProvider
 } from "react-stomp-hooks";
 import { SOCKET_REGISTER_URL } from "./types";
+import Notification from './components/Notification/Notification'
 
 export const PopupContext = createContext();
 
@@ -83,6 +84,7 @@ function App() {
           url={SOCKET_REGISTER_URL}
         >
           <Routes />
+          <Notification/>
         </StompSessionProvider>
       </PopupContext.Provider>
     </>
