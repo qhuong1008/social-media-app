@@ -115,7 +115,7 @@ const uploadUserImg = async (image) => {
       "content-type": "multipart/form-data",
     },
   };
-  return contextInstance.post(`common/user/update-avatar`, formData, config);
+  return contextInstance.put(`common/user/update-avatar`, formData, config);
 };
 
 const changePassword = async (id, password) => {

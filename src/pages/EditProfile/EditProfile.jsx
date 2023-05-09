@@ -94,7 +94,7 @@ function EditProfile() {
                   <input
                     // style={{ display: "none" }}
                     type="file"
-                    onChange={() => handleUploadImage()}
+                    onChange={(e) => handleUploadImage(e)}
                   />
                   {/* <FontAwesomeIcon icon={faArrowsRotate} className="icon" />
                   <span>Change your profile photo</span> */}
